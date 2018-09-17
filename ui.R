@@ -2,6 +2,9 @@ library(shiny)
 library(plotly)
 library(shinythemes)
 
+##################################################################
+########### Set up UI elements for the shiny app here
+##################################################################
 
 ui <- fluidPage(theme = shinytheme("flatly"),
                 
@@ -12,10 +15,14 @@ tags$style(HTML("
           }
           
 ")),
-                
+
+### Title            
 titlePanel("Fungi Screening for Antibiotics"),
     
+### Fluid Row and Column allow to divide the screen into sections (like a grid width flexible width for each cell).
 fluidRow(
+  ### columns within a row have to add up to a width of 12. Here we are using 3 columns with widths of 2, 5 and 5 within this first row. The first column contains
+  ### another 3 rows to split it up into an even finer grid.
   column(2,
     fluidRow(
       column(12,
@@ -69,6 +76,7 @@ fluidRow(
 ),
     
 
+### This second row has only two columns with widths of 7 and 5.
 fluidRow(
     column(7,
            wellPanel(
