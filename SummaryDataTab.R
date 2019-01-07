@@ -1,5 +1,5 @@
 source('Input.R', local = TRUE)
-source('output.R', local = TRUE)
+source('Output.R', local = TRUE)
 
 SummaryDataTab <- tabPanel("Summary Data",
    

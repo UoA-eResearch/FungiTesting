@@ -1,3 +1,4 @@
+
 library(shiny)
 library(plotly)
 library(shinythemes)
@@ -5,7 +6,8 @@ source('SummaryDataTab.R')
 source('IndividualDataTab.R')
 source('MapDataTab.R')
 source('customServer.R')
-
+source('Input.R', local = TRUE)
+source('Output.R')
 
 shinyApp(
   ui = navbarPage("Fungi Interactive Data", theme = shinytheme("flatly"),

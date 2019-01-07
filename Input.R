@@ -1,5 +1,6 @@
+source('Reactive.R', local = TRUE)
 
-ICMP <- selectizeInput("ICMP", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
+ICMP <- selectizeInput("ICMP", choices = sort(datTest$ICMP), h4(tags$b("ICMP")), multiple = TRUE, 
                options = list( placeholder = 'Default (Showing All)' ))
 
 
@@ -37,7 +38,7 @@ TestedAgainst <- wellPanel( h4(tags$b("Tested Against")),
 
 
 
-Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = NULL))
+Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = c("All", as.character(datTest$Media)), selected = "All"))
 
 
 SizePercent <- wellPanel(
