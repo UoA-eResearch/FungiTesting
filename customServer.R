@@ -6,7 +6,7 @@ library(plotly)
 ##################################################################
 
 
-server <- function(input, output) {
+customServer <- function(input, output, session) {
   
   ####################################################################################################
   ############### Load data from files 
@@ -15,6 +15,8 @@ server <- function(input, output) {
   datMeas <- read.csv("FungiMeasurements.csv")
   data <- datTest[order(datTest$DaysOld),]
   
+  updateSelectizeInput(session, 'ICMP', choices = sort(datTest$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'Media', choices = c("All", as.character(datTest$Media)), selected = "All", server = TRUE)
   
   ####################################################################################################
   ############### Subset the data depending on what the user selects (Reactive data)
@@ -94,36 +96,19 @@ server <- function(input, output) {
   })
   
   ####################################################################################################
-  ############### Plot 1 Scatter Chart - Correlation of Fungi Size and Age
+  ############### Plot 1
   ####################################################################################################
   
   ### output$"ElementName" is the UI element that you want the plot to be rendered/drawn to
   output$plot1 <- renderPlotly({
+    
     dataCurrent <- reactiveDataChosen()
     age <- dataCurrent$DaysOld
     size <- dataCurrent$Size
     zoisize <- dataCurrent$ZOISize
     
     ### Create the actual scatter plot as variable p
-    p <- plot_ly(
-      type = 'scatter',
-      ### Use the age and size of the currently selected data as x and y values
-      x = ~age,
-      y = ~size,
-      ### Color the scatter points according to the Condition (L, D)
-      color = ~dataCurrent$Condition,
-      ### Size the scatter points according to the size of the fungi
-      size = ~ size,
-      ### Use different symbols for each group of TestedAgainst (EC, KP)
-      symbol = ~dataCurrent$TestedAgainst,
-      symbols = c('circle','x','o'),
-      mode = 'markers'
-      ) %>%
-      ### Layout defines xaxis and yaxis titles
-      layout(
-        xaxis = list(title = "Age (Days)"),
-        yaxis = list(title = "Size (%)")
-      )
+    p <- plot_ly()
   })
   
   
@@ -136,7 +121,7 @@ server <- function(input, output) {
   
   
   ####################################################################################################
-  ############### Plot 2 Pie Chart - What media produces the largest zones on average
+  ############### Plot 2
   ####################################################################################################
   
   colors <- c('rgb(211,94,96)', 'rgb(128,133,133)', 'rgb(144,103,167)', 'rgb(171,104,87)', 'rgb(114,147,203)', 'rgb(51, 102, 0)')
@@ -161,27 +146,7 @@ server <- function(input, output) {
     
     
     ### Create the actual pie chart as variable p
-    p <- plot_ly(meansData,
-                 ### Use the column names as labels for the chart
-                 labels = ~names(meansData),
-                 ### Use the list of means as values
-                 values = ~meansList,
-                 type = 'pie',
-                 textposition = 'inside',
-                 textinfo = 'label+percent',
-                 ### color of the text is white #FFFFFF (find any color you want with any online hex color picker)
-                 insidetextfont = list(color = '#FFFFFF'),
-                 ### Use variable text as info on hover
-                 hoverinfo = 'text',
-                 ### paste() concatenates several strings into one string value
-                 text = ~paste('Average Size: ', round(meansList, 2), ' mm diameter'),
-                 marker = list(colors = colors,
-                               line = list(color = '#FFFFFF', width = 1)),
-                 pull = 0.05,
-                 showlegend = FALSE) %>%
-      layout(
-             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+    p <- plot_ly()
   })
   
   
@@ -232,9 +197,7 @@ server <- function(input, output) {
             }
           }
           
-          ### Add the calculated growth rate values to the chart pl
-          pl <- add_lines(pl, x=~age, y=c(Percent_Change[[1]], Percent_Change[[2]], Percent_Change[[3]], Percent_Change[[4]], Percent_Change[[5]], Percent_Change[[6]]),  type="scatter", mode="markers+lines")
-        }
+         }
         
         ############ Add all fungi grown in LIGHT CONDITIONS to chart (Same Process as above for the fungi grown in dark conditions) #################
         for(rep in sort(unique(listLight$Replicate))){
@@ -255,20 +218,11 @@ server <- function(input, output) {
               Percent_Change[[as.character(i)]] <- 0
             }
           }
-          
-          
-          pl <- add_lines(pl, x=~age, y=c(Percent_Change[[1]], Percent_Change[[2]], Percent_Change[[3]], Percent_Change[[4]], Percent_Change[[5]], Percent_Change[[6]]),  type="scatter", mode="markers+lines")
-        }
+           }
         
         
       }
     }
-    
-    pl %>%
-      layout(
-        yaxis = list(title = "Growth Rate (%)"),
-        xaxis = list(title = "Age (Days)")
-      )
   })
   
   
