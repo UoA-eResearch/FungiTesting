@@ -55,13 +55,6 @@ customServer <- function(input, output, session) {
   })
   
   
-  ####################################################################################################
-  ############### Output table of data that is currently selected
-  ####################################################################################################
-  output$tab <- renderTable({
-      reactiveDataChosen()
-  })
-  
   
   ####################################################################################################
   ############### Plot 2
@@ -111,8 +104,7 @@ customServer <- function(input, output, session) {
   output$plot3 <- renderPlotly({
     
     current <- as.data.frame(reactiveDataChosen())
-    print("current")
-    print(current)
+    
     pl <- plot_ly()
     
     uniqueVal <- as.array(sort(unique(current$Size)))
@@ -121,7 +113,7 @@ customServer <- function(input, output, session) {
     
     for(entry in uniqueVal){
       
-      ### Get all data with the same Media, but exclude missing values
+      ### Get all data with the same Size, but exclude missing values
       group <- data.frame(na.exclude(current[(current$Size == entry), ]))
       
       if(length(group$ZOISize) == 0){
@@ -159,7 +151,7 @@ customServer <- function(input, output, session) {
     
     for(entry in uniqueVal){
       
-      ### Get all data with the same Media, but exclude missing values
+      ### Get all data with the same Condition, but exclude missing values
       group <- data.frame(na.exclude(current[(current$Condition == entry), ]))
       
       if(length(group$ZOISize) == 0){
@@ -181,6 +173,39 @@ customServer <- function(input, output, session) {
         ))
   })
   
+  
+  
+  ####################################################################################################
+  ############### Plot 5
+  ####################################################################################################
+  
+  output$plot5 <- renderPlotly({
+    
+    current <- as.data.frame(na.exclude(reactiveDataChosen()))
+    #current <- na.exclude(current[(current$ICMP == 15652), ])
+    
+    
+    densityAge <- density(current$DaysOld)
+    
+    pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy') %>%
+            layout(
+              xaxis = list(title = 'Days Old'),
+              yaxis = list(title = 'Zone of Inhibition Size'))
+          
+  })
+  
+  
+  ####################################################################################################
+  ############### Output table of data that is currently selected
+  ####################################################################################################
+
+  output$tableTesting <- renderTable({
+    reactiveDataChosen()
+  })
+  
+  output$tableMeasure <- renderTable({
+    reactiveDataChosenMeas()
+  })
   
   ####################################################################################################
   ############### Calculate growth rates

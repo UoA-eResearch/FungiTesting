@@ -19,8 +19,20 @@ Plot4 <- wellPanel(
               plotlyOutput("plot4")
             )
 
-DataTable <- wellPanel(
-                h4(tags$b(tags$p(class = "centered", "Selected Data (FungiTesting.csv)"))),
-                tableOutput("tab")
+Plot5 <- wellPanel(
+              h4(tags$b(tags$p(class = "centered", "Age vs Zone of Inhibition"))),
+              plotlyOutput("plot5")
+            )
+
+DataTableTesting <- wellPanel(
+              h4(tags$b(tags$p(class = "centered", "Selected Data (FungiTesting.csv)"))),
+              tableOutput("tableTesting")
+            )
+
+DataTableMeasure <- wellPanel(
+                h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+                tableOutput("tableMeasure")
               )
+
+
 

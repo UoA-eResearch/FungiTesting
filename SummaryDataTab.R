@@ -66,15 +66,19 @@ SummaryDataTab <- tabPanel("Summary Data",
                 column(4,
                        Plot4
                 ),
-                column(4
+                column(4,
+                       Plot5
                 )
               )
         )
       ),
   
     fluidRow(
-      column(12,
-             DataTable
+      column(6,
+             DataTableTesting
+      ),
+      column(6,
+             DataTableMeasure
       )
     )
      
