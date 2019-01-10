@@ -2,6 +2,8 @@
 library(shiny)
 library(plotly)
 library(shinythemes)
+library(dplyr)
+library(plyr)
 source('SummaryDataTab.R')
 source('IndividualDataTab.R')
 source('MapDataTab.R')

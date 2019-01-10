@@ -50,23 +50,34 @@ SummaryDataTab <- tabPanel("Summary Data",
      ##############################################################################################################################
      ######################### OUTPUTS
      ##############################################################################################################################
+       column(10,
+              fluidRow(
+                column(6,
+                       Plot1
+                ),
+                column(6,
+                       Plot2
+                )
+              ),
+              fluidRow(
+                column(4,
+                       Plot3
+                ),
+                column(4,
+                       Plot4
+                ),
+                column(4
+                )
+              )
+        )
+      ),
+  
+    fluidRow(
+      column(12,
+             DataTable
+      )
+    )
      
-     column(5,
-            Plot1
-     ),
-     column(5,
-            Plot3
-     )
-   ),
-   
-   
-   ### This second row has only two columns with widths of 7 and 5.
-   fluidRow(
-     column(7,
-            DataTable
-     ),
-     column(5,
-            Plot2
-     )
-   )
+     
 )
+
