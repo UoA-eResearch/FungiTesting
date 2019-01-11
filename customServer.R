@@ -9,10 +9,7 @@ library(plotly)
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
   
-  observe({
-    updateSelectizeInput(session, 'ICMP', choices = sort(reactiveDataChosenMeas()$ICMP), server = TRUE)
-  })
-  
+  updateSelectizeInput(session, 'ICMP', choices = sort(datTest$ICMP), server = TRUE)
   
   
   ####################################################################################################
@@ -190,7 +187,7 @@ customServer <- function(input, output, session) {
     pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy') %>%
             layout(
               xaxis = list(title = 'Days Old'),
-              yaxis = list(title = 'Zone of Inhibition Size'))
+              yaxis = list(title = 'Density'))
           
   })
   

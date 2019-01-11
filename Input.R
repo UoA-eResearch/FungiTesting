@@ -1,6 +1,6 @@
 source('Reactive.R', local = TRUE)
 
-ICMP <- selectizeInput("ICMP", choices = sort(datTest$ICMP), h4(tags$b("ICMP")), multiple = TRUE, 
+ICMP <- selectizeInput("ICMP", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                options = list( placeholder = 'Default (Showing All)' ))
 
 

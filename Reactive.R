@@ -38,6 +38,7 @@ reactiveEC <- reactive({
   else{ ret <- ""}
 })
 
+
 ####################################################################################################
 ############### Reactive data from FungiTesting.csv
 ####################################################################################################
@@ -66,6 +67,12 @@ reactiveDataChosen <- reactive({
   dat <- intersect(union(dataL, dataD), union(dataKP, dataEC))
   dat <- intersect(dat, dataMedia)
   
+  if(!is.null(input$ICMP)){
+    dat <- na.exclude(subset(dat, dat$ICMP %in% input$ICMP))
+  }
+  
+  dat
+  
 })
 
 ####################################################################################################
@@ -85,6 +92,12 @@ reactiveDataChosenMeas <- reactive({
   datMeasure <- union(dataL, dataD)
   
   datMeasure <- intersect(datMeasure, dataM)
+  
+  if(!is.null(input$ICMP)){
+    datMeasure <- na.exclude(subset(datMeasure, datMeasure$ICMP %in% input$ICMP))
+  }
+  
+  datMeasure
   
 })
 
