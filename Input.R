@@ -43,8 +43,8 @@ Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = c("All",
 
 SizePercent <- wellPanel(
                   radioButtons("sizePercent", h4(tags$b("Size")),
-                     choices = list("20 %" = 20, "50 %" = 50, "100%" = 100),
-                     selected = 1, 
+                     choices = list( "All" = "All", "20 %" = 20, "50 %" = 50, "100%" = 100),
+                     selected = "All", 
                      inline = TRUE)
                 )
 

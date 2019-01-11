@@ -71,6 +71,18 @@ reactiveDataChosen <- reactive({
     dat <- na.exclude(subset(dat, dat$ICMP %in% input$ICMP))
   }
   
+  if(input$RemoveZero){
+    dat[dat == 0] <- NA
+  }
+  
+  if(input$ControlAge){
+    
+  }
+  
+  if(input$sizePercent != "All"){
+    dat <- na.exclude(subset(dat, dat$Size %in% input$sizePercent))
+  }
+  
   dat
   
 })
@@ -95,6 +107,18 @@ reactiveDataChosenMeas <- reactive({
   
   if(!is.null(input$ICMP)){
     datMeasure <- na.exclude(subset(datMeasure, datMeasure$ICMP %in% input$ICMP))
+  }
+  
+  if(input$RemoveZero){
+    datMeasure[datMeasure == 0] <- NA
+  }
+  
+  if(input$ControlAge){
+    
+  }
+  
+  if(input$sizePercent != "All"){
+    datMeasure <- na.exclude(subset(datMeasure, datMeasure$Size %in% input$sizePercent))
   }
   
   datMeasure
