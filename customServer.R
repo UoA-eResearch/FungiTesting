@@ -179,16 +179,20 @@ customServer <- function(input, output, session) {
   output$plot5 <- renderPlotly({
     
     current <- as.data.frame(na.exclude(reactiveDataChosen()))
-    #current <- na.exclude(current[(current$ICMP == 15652), ])
+    pl <- plot_ly()
     
+    if(length(current$DaysOld) > 0){
     
-    densityAge <- density(current$DaysOld)
+      densityAge <- density(current$DaysOld)
+      
+      pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy')
+    }
     
-    pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy') %>%
-            layout(
-              xaxis = list(title = 'Days Old'),
-              yaxis = list(title = 'Density'))
-          
+    pl %>%
+      layout(
+        xaxis = list(title = 'Days Old'),
+        yaxis = list(title = 'Density'))
+    
   })
   
   
