@@ -1,4 +1,9 @@
 
+#############################################################################################################################
+############ SUMMARY DATA
+#############################################################################################################################
+
+
 Plot1 <- wellPanel(
               h4(tags$b(tags$p(class = "centered", "ICMP and Zone of Inhibition Size"))),
               plotlyOutput("plot1")
@@ -35,4 +40,36 @@ DataTableMeasure <- wellPanel(
               )
 
 
+#############################################################################################################################
+############ SUMMARY DATA
+#############################################################################################################################
 
+
+PlotGrowthRate <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Growth Rate"))),
+  plotlyOutput("plotGrowthRate")
+)
+
+
+PlotPercentGrowth <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Percent Growth Size"))),
+  plotlyOutput("plotPercentGrowth")
+)
+
+
+PlotMedia <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Media"))),
+  plotlyOutput("plotMedia")
+)
+
+
+PlotLight <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Condition"))),
+  plotlyOutput("plotLight")
+)
+
+
+PlotAge <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Age"))),
+  plotlyOutput("plotAge")
+)
