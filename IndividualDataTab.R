@@ -7,7 +7,9 @@ IndividualDataTab <- tabPanel("Individual Data",
                                 h3("Select a Graph:"),
                                 navlistPanel(
                                   widths = c(3, 9),
+                                  
                                   "Growth Data",
+                                  
                                   tabPanel(
                                     title = div(
                                       img(src="growthrate.png", style = "height: inherit; padding: 0.5em;"),
@@ -20,18 +22,19 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            fluidRow(
                                              column(12,
                                                   wellPanel(
-                                                    ICMP
+                                                    ICMP1,
+                                                    RemoveZero1
                                                   )
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    Condition
+                                                    Condition1
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    Media
+                                                    Media1
                                              )
                                            )
                                            
@@ -49,7 +52,8 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     ),
                                   
                                   fluidRow(
-                                    column(6
+                                    column(6,
+                                           DataTableIndivGrowth
                                     ),
                                     column(6
                                     )
@@ -72,29 +76,29 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            fluidRow(
                                              column(12,
                                                     wellPanel(
-                                                      ICMP,
-                                                      RemoveZero
+                                                      ICMP2,
+                                                      RemoveZero2
                                                     )
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    Condition
+                                                    Condition2
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    Media
+                                                    Media2
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    TestedAgainst
+                                                    TestedAgainst2
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    SizePercent
+                                                    SizePercent2
                                              )
                                            )
                                     ),
@@ -111,7 +115,8 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     ),
                                     
                                     fluidRow(
-                                      column(6
+                                      column(6,
+                                             DataTableIndivPercentGrowth
                                       ),
                                       column(6
                                       )
@@ -131,24 +136,24 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            fluidRow(
                                              column(12,
                                                     wellPanel(
-                                                      ICMP,
-                                                      RemoveZero
+                                                      ICMP3,
+                                                      RemoveZero3
                                                     )
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    Condition
+                                                    Condition3
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    Media
+                                                    Media3
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    TestedAgainst
+                                                    TestedAgainst3
                                              )
                                            )
                                     ),
@@ -165,7 +170,8 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     ),
                                     
                                     fluidRow(
-                                      column(6
+                                      column(6,
+                                             DataTableIndivMedia
                                       ),
                                       column(6
                                       )
@@ -185,14 +191,14 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            fluidRow(
                                              column(12,
                                                     wellPanel(
-                                                      ICMP,
-                                                      RemoveZero
+                                                      ICMP4,
+                                                      RemoveZero4
                                                     )
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    TestedAgainst
+                                                    TestedAgainst4
                                              )
                                            )
                                     ),
@@ -209,7 +215,8 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     ),
                                     
                                     fluidRow(
-                                      column(6
+                                      column(6,
+                                             DataTableIndivLight
                                       ),
                                       column(6
                                       )
@@ -229,14 +236,14 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            fluidRow(
                                              column(12,
                                                     wellPanel(
-                                                      ICMP,
-                                                      RemoveZero
+                                                      ICMP5,
+                                                      RemoveZero5
                                                     )
                                              )
                                            ),
                                            fluidRow(
                                              column(12,
-                                                    TestedAgainst
+                                                    TestedAgainst5
                                              )
                                            )
                                     ),
@@ -253,7 +260,8 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     ),
                                     
                                     fluidRow(
-                                      column(6
+                                      column(6,
+                                             DataTableIndivAge
                                       ),
                                       column(6
                                       )

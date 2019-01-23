@@ -20,7 +20,6 @@ SummaryDataTab <- tabPanel("Summary Data",
               column(12,
                  wellPanel(
                    ICMP,
-                   ControlAge,
                    RemoveZero
                  )
               )

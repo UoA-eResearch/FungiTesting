@@ -41,7 +41,7 @@ DataTableMeasure <- wellPanel(
 
 
 #############################################################################################################################
-############ SUMMARY DATA
+############ INDIVIDUAL DATA
 #############################################################################################################################
 
 
@@ -50,11 +50,24 @@ PlotGrowthRate <- wellPanel(
   plotlyOutput("plotGrowthRate")
 )
 
+DataTableIndivGrowth <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  tableOutput("tableIndivGrowth")
+)
+
+####################################################################################################
 
 PlotPercentGrowth <- wellPanel(
   h4(tags$b(tags$p(class = "centered", "Percent Growth Size"))),
   plotlyOutput("plotPercentGrowth")
 )
+
+DataTableIndivPercentGrowth <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  tableOutput("tableIndivPercentGrowth")
+)
+
+####################################################################################################
 
 
 PlotMedia <- wellPanel(
@@ -62,14 +75,32 @@ PlotMedia <- wellPanel(
   plotlyOutput("plotMedia")
 )
 
+DataTableIndivMedia <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  tableOutput("tableIndivMedia")
+)
+
+####################################################################################################
 
 PlotLight <- wellPanel(
   h4(tags$b(tags$p(class = "centered", "Condition"))),
   plotlyOutput("plotLight")
 )
 
+DataTableIndivLight <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  tableOutput("tableIndivLight")
+)
+
+####################################################################################################
 
 PlotAge <- wellPanel(
   h4(tags$b(tags$p(class = "centered", "Age"))),
   plotlyOutput("plotAge")
 )
+
+DataTableIndivAge <- wellPanel(
+  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  tableOutput("tableIndivAge")
+)
+

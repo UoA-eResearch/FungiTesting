@@ -275,3 +275,56 @@ output$plot3 <- renderPlotly({
       xaxis = list(title = "Age (Days)")
     )
 })
+
+
+
+
+####################################################################################################
+############### Reactive data from FungiTesting.csv
+####################################################################################################
+
+reactiveDataChosen <- reactive({
+  ### The variable data is of type dataframe and contains what we read from the .csv file.
+  ### Calling data$Condition grabs every entry of the column with the name (top row of csv) Condition.
+  ### reactiveL() returns the values according to the reactive variable that we set in the step before this.
+  ### as.character makes sure you get a string value as return.
+  
+  ### The following code retrieves all data where the Condition and the TestedAgainst values match the values you have chosen on the user interface
+  ### (Condition could be L or D or both, TestedAgainst could be KP or EC or both)
+  
+  dataL <- data[(data$Condition == as.character(reactiveL())), ]
+  dataD <- data[(data$Condition == as.character(reactiveD())), ]
+  dataKP <- data[(data$TestedAgainst == as.character(reactiveKP())), ]
+  dataEC <- data[(data$TestedAgainst == as.character(reactiveEC())), ]
+  
+  if(!input$Media == "All"){
+    ### If not all Media are selected, return only the data previously selected if the Media is the same as the user chosen Media
+    dataMedia <- data[(data$Media == as.character(input$Media)), ]
+  }
+  else{dataMedia <- data}
+  ### If all media are selected, just return all of the data previously selected by the user
+  ### Intersect and Union work the same as you would expect with the theory of sets
+  dat <- intersect(union(dataL, dataD), union(dataKP, dataEC))
+  dat <- intersect(dat, dataMedia)
+  
+  if(!is.null(input$ICMP)){
+    dat <- na.exclude(subset(dat, dat$ICMP %in% input$ICMP))
+  }
+  
+  if(input$RemoveZero){
+    dat[dat == 0] <- NA
+  }
+  
+  
+  if(input$sizePercent != "All"){
+    dat <- na.exclude(subset(dat, dat$Size %in% input$sizePercent))
+  }
+  
+  dat
+  
+})
+
+
+
+
+
