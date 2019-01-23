@@ -1,4 +1,4 @@
-ICMP,Phylum,TestedAgainst,Strain,Media,BioRep,Condition,TechRep,DaysOld,Size,ZOISize,Neg _control,
+ICMP,Phylum,TestedAgainst,Strain,Media,BioRep,Condition,TechRep,Age,SizePercent,ZOISize,Neg _control,
 16972,Basidiomycete,KP,70063,PDA,1,L,1,8,,0,,
 16972,Basidiomycete,KP,70063,PDA,1,D,1,8,,7,,
 16972,Basidiomycete,KP,70063,PDA,2,L,1,26,100,0,,

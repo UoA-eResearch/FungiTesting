@@ -9,12 +9,12 @@ library(plotly)
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
   
-  updateSelectizeInput(session, 'ICMP', choices = sort(dataTest$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP1', choices = sort(dataTest$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP2', choices = sort(dataTest$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP3', choices = sort(dataTest$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP4', choices = sort(dataTest$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP5', choices = sort(dataTest$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMP', choices = sort(dataShara$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMP1', choices = sort(dataSharaIndiv$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMP2', choices = sort(dataShara$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMP3', choices = sort(dataShara$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMP4', choices = sort(dataShara$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMP5', choices = sort(dataShara$ICMP), server = TRUE)
   
   
   ####################################################################################################
@@ -109,14 +109,14 @@ customServer <- function(input, output, session) {
     
     pl <- plot_ly()
     
-    uniqueVal <- as.array(sort(unique(current$Size)))
+    uniqueVal <- as.array(sort(unique(current$SizePercent)))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
     
     
     for(entry in uniqueVal){
       
       ### Get all data with the same Size, but exclude missing values
-      group <- data.frame(current[(current$Size == entry), ])
+      group <- data.frame(current[(current$SizePercent == entry), ])
       
       if(length(group$ZOISize) == 0){
         next
@@ -186,9 +186,9 @@ customServer <- function(input, output, session) {
     current <- as.data.frame(reactiveDataSummary())
     pl <- plot_ly()
     
-    if(length(current$DaysOld) > 0){
+    if(length(current$Age) > 0){
       
-      densityAge <- density(na.exclude(current$DaysOld))
+      densityAge <- density(na.exclude(current$Age))
       
       pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy')
     }
@@ -203,89 +203,97 @@ customServer <- function(input, output, session) {
   
   
   ####################################################################################################
-  ############### 
+  ############### plot individual growth rate
   ####################################################################################################
   
-  output$PlotGrowthRate <- renderPlotly({
+  output$plotGrowthRate <- renderPlotly({
+    
+    data <- reactiveDataIndividualGrowth()
     
     ### Create empty chart as variable pl because we want to add several data sets to it in a loop
     pl <-plot_ly()
-    current <- reactiveDataIndividual()
     
-    ### c() creates a list, in this case media is a list of strings
-    media <- c("PDA", "MEA", "WA", "CEA", "REA", "OEA")
-    
-    ### Do something for each entry in the data set sorted by ICMP
-    for(entry in sort(unique(current$ICMP))){
-      
-      ### Get all data with the same ICMP, but exclude missing values
-      group <- na.exclude(current[(current$ICMP == entry), ])
-      
-      ### Do something for every type of media that was defined in the list of strings above
-      for(mediaType in media){
-        listDark <- na.exclude(group[(group$Media == mediaType & group$Condition=="D"), ])
-        listLight <- na.exclude(group[(group$Media == mediaType & group$Condition=="L"), ])
-        
-        ############ Add all fungi grown in DARK CONDITIONS to chart #################
-        for(rep in sort(unique(listDark$Replicate))){
-          timeSeries <- na.exclude(listDark[(listDark$Replicate == rep), ])
-          
-          size <- timeSeries$Size
-          
-          ### Get the growth rate of the fungi and save as variable timeSeries
-          timeSeries <- timeSeries %>%
-            mutate(Change = (size - lag(size, 1))/lag(size, 1), Percent_Change = Change*100)
-          
-          age <- c(4, 8, 16, 32, 64, 128)
-          
-          ### Replace all infinite values and missing values with 0
-          Percent_Change <- do.call(data.frame,lapply(timeSeries$Percent_Change, function(x) replace(x, is.infinite(x), 0)))
-          Percent_Change <- do.call(data.frame,lapply(timeSeries$Percent_Change, function(x) replace(x, is.na(x), 0)))
-          
-          ### All columns must have the same amount of values when adding them to the chart, so fill up with 0 if there are less than 6 values in the column
-          if(ncol(Percent_Change) < 6){
-            for(i in ncol(Percent_Change):5){
-              Percent_Change[[as.character(i)]] <- 0
-            }
-          }
-          
-          ### Add the calculated growth rate values to the chart pl
-          pl <- add_lines(pl, x=~age, y=c(Percent_Change[[1]], Percent_Change[[2]], Percent_Change[[3]], Percent_Change[[4]], Percent_Change[[5]], Percent_Change[[6]]),  type="scatter", mode="markers+lines")
-        }
-        
-        ############ Add all fungi grown in LIGHT CONDITIONS to chart (Same Process as above for the fungi grown in dark conditions) #################
-        for(rep in sort(unique(listLight$Replicate))){
-          timeSeries <- na.exclude(listLight[(listLight$Replicate == rep), ])
-          
-          size <- timeSeries$Size
-          
-          timeSeries <- timeSeries %>%
-            mutate(Change = (size - lag(size, 1))/lag(size, 1), Percent_Change = Change*100)
-          
-          age <- c(4, 8, 16, 32, 64, 128)#do.call(data.frame,lapply(timeSeries$Age, function(x) replace(x, is.infinite(x),NA)))
-          Percent_Change <- do.call(data.frame,lapply(timeSeries$Percent_Change, function(x) replace(x, is.infinite(x), 0)))
-          Percent_Change <- do.call(data.frame,lapply(timeSeries$Percent_Change, function(x) replace(x, is.na(x), 0)))
-          
-          
-          if(ncol(Percent_Change) < 6){
-            for(i in ncol(Percent_Change):5){
-              Percent_Change[[as.character(i)]] <- 0
-            }
-          }
-          
-          
-          pl <- add_lines(pl, x=~age, y=c(Percent_Change[[1]], Percent_Change[[2]], Percent_Change[[3]], Percent_Change[[4]], Percent_Change[[5]], Percent_Change[[6]]),  type="scatter", mode="markers+lines")
-        }
-        
-        
-      }
+    if(input$colourBy == "Condition"){
+      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Condition)
     }
+    else{
+      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Media)
+    }
+    
     
     pl %>%
       layout(
-        yaxis = list(title = "Growth Rate (%)"),
-        xaxis = list(title = "Age (Days)")
-      )
+        xaxis = list(title = 'Age'),
+        yaxis = list(title = 'Size (mm diameter)'))
+    
+  })
+  
+  ####################################################################################################
+  ############### plot individual percent growth
+  ####################################################################################################
+  
+  output$plotPercentGrowth <- renderPlotly({
+    
+    data <- reactiveDataIndividualPercentGrowth()
+    data <- data[order(data$SizePercent),]
+    
+    pl <- plot_ly()
+    
+    uniqueVal <- as.array(sort(unique(data$SizePercent)))
+    uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+    
+    pl <- plot_ly(x = data$SizePercent, y = data$ZOISize, name = "Data", type = "scatter")
+    pl <- add_trace(pl, y = ~median(data$ZOISize, na.rm = TRUE), name = "Median", type = "scatter", mode = 'lines')
+    
+    pl %>%
+      layout(
+        xaxis = list(
+          type = 'category',
+          title = 'Size (Percent)'
+        ),
+        yaxis = list(
+          title = 'Zone of Inhibition Size (mm)'
+        ))
+    
+  })
+  
+  ####################################################################################################
+  ############### plot individual media
+  ####################################################################################################
+  
+  output$plotMedia <- renderPlotly({
+    
+    data <- reactiveDataIndividualMedia()
+    
+    ### Create empty chart as variable pl because we want to add several data sets to it in a loop
+    pl <-plot_ly()
+    
+  })
+  
+  ####################################################################################################
+  ############### plot indvidual light
+  ####################################################################################################
+  
+  output$plotLight <- renderPlotly({
+    
+    data <- reactiveDataIndividualLight()
+    
+    ### Create empty chart as variable pl because we want to add several data sets to it in a loop
+    pl <-plot_ly()
+    
+  })
+  
+  ####################################################################################################
+  ############### plot individual age
+  ####################################################################################################
+  
+  output$plotAge <- renderPlotly({
+    
+    data <- reactiveDataIndividualAge()
+    
+    ### Create empty chart as variable pl because we want to add several data sets to it in a loop
+    pl <-plot_ly()
+    
   })
   
   
@@ -301,7 +309,7 @@ customServer <- function(input, output, session) {
   })
   
   output$tableMeasure <- renderTable({
-    reactiveDataIndividual()
+    #reactiveDataIndividual()
   })
   
   ### Individual

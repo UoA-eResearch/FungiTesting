@@ -60,13 +60,17 @@ Condition1 <- wellPanel(h4(tags$b("Condition")),
                                  checkboxInput("L1","Light", TRUE)
                           ),
                           column(7,
-                                 checkboxInput("D1","Dark", FALSE)
+                                 checkboxInput("D1","Dark", TRUE)
                           )
                         )
 )
 
 Media1 <- wellPanel( selectInput("Media1", h4(tags$b("Media")), choices = c("All", as.character(datTest$Media)), selected = "All"))
 
+ColourBy <- radioButtons("colourBy", h4(tags$b("Colour by:")),
+               choices = list("Condition" = "Condition", "Media" = "Media"),
+               selected = "Condition", 
+               inline = TRUE)
 
 
 #############################################################################################################################
@@ -77,7 +81,7 @@ Media1 <- wellPanel( selectInput("Media1", h4(tags$b("Media")), choices = c("All
 ICMP2 <- selectizeInput("ICMP2", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
 
-RemoveZero2 <- checkboxInput("RemoveZero2","Remove 0 Values", FALSE)
+RemoveZero2 <- checkboxInput("RemoveZero2","Remove 0 Values", TRUE)
 
 Condition2 <- wellPanel( h4(tags$b("Condition")),
                         fluidRow(

@@ -5,10 +5,11 @@
 #########################################################################################################
 
 dataShara <- read.csv("fungi_shara.csv")
+dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
 
 
 ####################################################################################################
-############### Reactive dataShara from FungiTesting.csv
+############### Reactive data Shara
 ####################################################################################################
 
 reactiveDataSummary <- reactive({
@@ -27,7 +28,7 @@ reactiveDataSummary <- reactive({
   
   
   if(!is.null(input$ICMP)){
-    dataShara <- filter(dataShara, ICMP %in% input$ICMP)
+    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP))
     
   }
   
@@ -39,53 +40,17 @@ reactiveDataSummary <- reactive({
   dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
   
   if(input$RemoveZero){
-    dataShara[dataShara == 0] <- NA
+    dataShara <- dataShara %>% dplyr::na_if(0)
   }
   
   if(input$sizePercent != "All"){
-    dataShara <- filter(dataShara, Size %in% input$sizePercent)
+    dataShara <- filter(dataShara, SizePercent %in% as.list(input$sizePercent))
   }
   
   #dataShara <- na.exclude(dataShara)
   
   dataShara
   
-  
-})
-
-####################################################################################################
-############### Reactive dataMeas from FungiMeasurements.csv
-####################################################################################################
-
-reactiveDataIndividual <- reactive({
-  
-  if(input$L){ retL <- "L" }
-  else{retL <- ""}
-  
-  if(input$D){ retD <- "D" }
-  else{retD <- ""}
-  
-  if(!is.null(input$ICMP)){
-    dataShara <- filter(dataShara, ICMP %in% input$ICMP)
-  }
-  
-  if(!input$Media == "All"){
-    dataShara <- filter(dataShara, Media == input$Media)
-  }
-  
-  dataShara <- filter(dataShara, Condition == retL | Condition == retD)
-  
-  if(input$RemoveZero){
-    dataShara[dataShara == 0] <- NA
-  }
-  
-  if(input$sizePercent != "All"){
-    dataShara <- filter(dataShara, Size %in% input$sizePercent)
-  }
-  
-  #dataShara <- na.exclude(dataShara)
-  
-  dataShara
   
 })
 
@@ -103,22 +68,22 @@ reactiveDataIndividualGrowth <- reactive({
   else{retD <- ""}
   
   if(!is.null(input$ICMP1)){
-    dataShara <- filter(dataShara, ICMP %in% input$ICMP1)
+    dataSharaIndiv <- filter(dataSharaIndiv, ICMP %in% as.list(input$ICMP1))
   }
   
   if(!input$Media1 == "All"){
-    dataShara <- filter(dataShara, Media == input$Media1)
+    dataSharaIndiv <- filter(dataSharaIndiv, Media == input$Media1)
   }
   
   if(input$RemoveZero1){
-    dataShara[dataShara == 0] <- NA
+    dataSharaIndiv <- dataSharaIndiv %>% dplyr::na_if(0)
   }
   
-  dataShara <- filter(dataShara, Condition == retL | Condition == retD)
+  dataSharaIndiv <- filter(dataSharaIndiv, Condition == retL | Condition == retD)
   
-  #dataShara <- na.exclude(dataShara)
+  #dataSharaIndiv <- na.exclude(dataSharaIndiv)
   
-  dataShara
+  dataSharaIndiv
   
 })
 
@@ -135,7 +100,7 @@ reactiveDataIndividualPercentGrowth <- reactive({
   else{retD <- ""}
   
   if(!is.null(input$ICMP2)){
-    dataShara <- filter(dataShara, ICMP %in% input$ICMP2)
+    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP2))
   }
   
   if(!input$Media2 == "All"){
@@ -145,7 +110,7 @@ reactiveDataIndividualPercentGrowth <- reactive({
   dataShara <- filter(dataShara, Condition == retL | Condition == retD)
   
   if(input$sizePercent2 != "All"){
-    dataShara <- filter(dataShara, Size %in% input$sizePercent2)
+    dataShara <- filter(dataShara, SizePercent %in% as.list(input$sizePercent2))
   }
   
   if(input$KP2){ retKP <- "KP" }
@@ -157,7 +122,7 @@ reactiveDataIndividualPercentGrowth <- reactive({
   dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
   
   if(input$RemoveZero2){
-    dataShara[dataShara == 0] <- NA
+    dataShara <- dataShara %>% dplyr::na_if(0)
   }
   
   #dataShara <- na.exclude(dataShara)
@@ -179,7 +144,7 @@ reactiveDataIndividualMedia <- reactive({
   else{retD <- ""}
   
   if(!is.null(input$ICMP3)){
-    dataShara <- filter(dataShara, ICMP %in% input$ICMP3)
+    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP3))
   }
   
   if(!input$Media3 == "All"){
@@ -198,7 +163,7 @@ reactiveDataIndividualMedia <- reactive({
   dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
   
   if(input$RemoveZero3){
-    dataShara[dataShara == 0] <- NA
+    dataShara <- dataShara %>% dplyr::na_if(0)
   }
   
   #dataShara <- na.exclude(dataShara)
@@ -215,7 +180,7 @@ reactiveDataIndividualLight <- reactive({
   
   
   if(!is.null(input$ICMP4)){
-    dataShara <- filter(dataShara, ICMP %in% input$ICMP4)
+    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP4))
   }
   
   if(input$KP4){ retKP <- "KP" }
@@ -227,7 +192,7 @@ reactiveDataIndividualLight <- reactive({
   dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
   
   if(input$RemoveZero4){
-    dataShara[dataShara == 0] <- NA
+    dataShara <- dataShara %>% dplyr::na_if(0)
   }
   
   #dataShara <- na.exclude(dataShara)
@@ -243,7 +208,7 @@ reactiveDataIndividualLight <- reactive({
 reactiveDataIndividualAge <- reactive({
   
   if(!is.null(input$ICMP5)){
-    dataShara <- filter(dataShara, ICMP %in% input$ICMP5)
+    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP5))
   }
   
   if(input$KP5){ retKP <- "KP" }
@@ -255,7 +220,7 @@ reactiveDataIndividualAge <- reactive({
   dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
   
   if(input$RemoveZero5){
-    dataShara[dataShara == 0] <- NA
+    dataShara <- dataShara %>% dplyr::na_if(0)
   }
   
   #dataShara <- na.exclude(dataShara)

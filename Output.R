@@ -30,12 +30,12 @@ Plot5 <- wellPanel(
             )
 
 DataTableTesting <- wellPanel(
-              h4(tags$b(tags$p(class = "centered", "Selected Data (FungiTesting.csv)"))),
+              h4(tags$b(tags$p(class = "centered", "Selected Data"))),
               tableOutput("tableTesting")
             )
 
 DataTableMeasure <- wellPanel(
-                h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+                h4(tags$b(tags$p(class = "centered", "Selected Data"))),
                 tableOutput("tableMeasure")
               )
 
@@ -47,11 +47,11 @@ DataTableMeasure <- wellPanel(
 
 PlotGrowthRate <- wellPanel(
   h4(tags$b(tags$p(class = "centered", "Growth Rate"))),
-  plotlyOutput("plotGrowthRate")
+  plotlyOutput("plotGrowthRate", height = "100%")
 )
 
 DataTableIndivGrowth <- wellPanel(
-  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  h4(tags$b(tags$p(class = "centered", "Selected Data"))),
   tableOutput("tableIndivGrowth")
 )
 
@@ -63,7 +63,7 @@ PlotPercentGrowth <- wellPanel(
 )
 
 DataTableIndivPercentGrowth <- wellPanel(
-  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  h4(tags$b(tags$p(class = "centered", "Selected Data"))),
   tableOutput("tableIndivPercentGrowth")
 )
 
@@ -76,7 +76,7 @@ PlotMedia <- wellPanel(
 )
 
 DataTableIndivMedia <- wellPanel(
-  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  h4(tags$b(tags$p(class = "centered", "Selected Data"))),
   tableOutput("tableIndivMedia")
 )
 
@@ -88,7 +88,7 @@ PlotLight <- wellPanel(
 )
 
 DataTableIndivLight <- wellPanel(
-  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  h4(tags$b(tags$p(class = "centered", "Selected Data"))),
   tableOutput("tableIndivLight")
 )
 
@@ -100,7 +100,7 @@ PlotAge <- wellPanel(
 )
 
 DataTableIndivAge <- wellPanel(
-  h4(tags$b(tags$p(class = "centered", "Selected Data (FungiMeasurements.csv)"))),
+  h4(tags$b(tags$p(class = "centered", "Selected Data"))),
   tableOutput("tableIndivAge")
 )
 

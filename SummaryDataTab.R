@@ -73,11 +73,8 @@ SummaryDataTab <- tabPanel("Summary Data",
       ),
   
     fluidRow(
-      column(6,
+      column(12,
              DataTableTesting
-      ),
-      column(6,
-             DataTableMeasure
       )
     )
      
