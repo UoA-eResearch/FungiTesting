@@ -41,7 +41,7 @@ customServer <- function(input, output, session) {
         next
       }
       
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box")
+      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       
     }
     
@@ -83,7 +83,7 @@ customServer <- function(input, output, session) {
         next
       }
       
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box")
+      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       
     }
     
@@ -121,7 +121,7 @@ customServer <- function(input, output, session) {
       if(length(group$ZOISize) == 0){
         next
       }
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box") 
+      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1") 
     }
     
     pl %>%
@@ -160,7 +160,7 @@ customServer <- function(input, output, session) {
         next
       }
       
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box")
+      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       
     }
     
@@ -190,7 +190,7 @@ customServer <- function(input, output, session) {
       
       densityAge <- density(na.exclude(current$Age))
       
-      pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy')
+      pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', colors = "Set1")
     }
     
     pl %>%
@@ -217,7 +217,7 @@ customServer <- function(input, output, session) {
       pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Condition)
     }
     else{
-      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Media)
+      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Media, colors = "Paired")
     }
     
     
@@ -242,8 +242,8 @@ customServer <- function(input, output, session) {
     uniqueVal <- as.array(sort(unique(data$SizePercent)))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
     
-    pl <- plot_ly(x = data$SizePercent, y = data$ZOISize, name = "Data", type = "scatter")
-    pl <- add_trace(pl, y = ~median(data$ZOISize, na.rm = TRUE), name = "Median", type = "scatter", mode = 'lines')
+    pl <- plot_ly(x = data$SizePercent, y = data$ZOISize, name = "Data", type = "scatter", colors = "Set1")
+    pl <- add_trace(pl, y = ~median(data$ZOISize, na.rm = TRUE), name = "Median", type = "scatter", colors = "Set1", mode = 'lines')
     
     pl %>%
       layout(
@@ -263,10 +263,37 @@ customServer <- function(input, output, session) {
   
   output$plotMedia <- renderPlotly({
     
-    data <- reactiveDataIndividualMedia()
+    current <- reactiveDataIndividualMedia()
     
-    ### Create empty chart as variable pl because we want to add several data sets to it in a loop
-    pl <-plot_ly()
+    plight <- plot_ly()
+    pdark <- plot_ly()
+    p <- plot_ly()
+    
+    uniqueVal <- as.array(sort(unique(current$Media)))
+    uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+    
+    light <- filter(current, Condition == "L")
+    dark <- filter(current, Condition == "D")
+    
+    #p <- add_boxplot(p, x = NULL, y = current$ZOISize, name = paste(current$Media, current$Condition, sep = " "), color = current$Condition, type = "box")
+    
+    if(input$L3){
+      p <- add_boxplot(p, x = NULL, y = light$ZOISize, name = paste(light$Media, "Light", sep = " / "), color = light$Condition, colors = "Spectral", type = "box")
+    }
+    if(input$D3){
+      p <- add_boxplot(p, x = NULL, y = dark$ZOISize, name = paste(dark$Media, "Dark", sep = " / "), color = dark$Condition, colors = "Spectral", type = "box")
+    }
+    
+    p
+    p %>%
+      layout(
+        xaxis = list(
+          type = 'category',
+          title = 'Media'
+        ),
+        yaxis = list(
+          title = 'Zone of Inhibition Size (mm)'
+        ))
     
   })
   

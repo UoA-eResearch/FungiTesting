@@ -140,7 +140,7 @@ Condition3 <- wellPanel( h4(tags$b("Condition")),
                                  checkboxInput("L3","Light", TRUE)
                           ),
                           column(7,
-                                 checkboxInput("D3","Dark", FALSE)
+                                 checkboxInput("D3","Dark", TRUE)
                           )
                         )
 )

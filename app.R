@@ -1,9 +1,9 @@
-
 library(shiny)
 library(plotly)
 library(shinythemes)
 library(plyr)
 library(dplyr)
+library(RColorBrewer)
 source('SummaryDataTab.R')
 source('IndividualDataTab.R')
 source('MapDataTab.R')
