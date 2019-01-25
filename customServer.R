@@ -308,7 +308,7 @@ customServer <- function(input, output, session) {
       layout(
         xaxis = list(
           type = 'category',
-          title = 'Media'
+          title = 'Condition'
         ),
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
@@ -326,6 +326,16 @@ customServer <- function(input, output, session) {
     
     ### Create empty chart as variable pl because we want to add several data sets to it in a loop
     pl <-plot_ly()
+    numCol <- length(unique(data$ZOISize))
+    
+    pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = "ZOI Size", color = ~data$ZOISize, type = 'scatter', colors = rev(green2red(numCol)))
+    
+    
+    pl %>%
+      layout(
+        xaxis = list(title = 'Age'),
+        yaxis = list(title = 'Size (mm diameter)')) %>%
+      colorbar(title = "ZOI Size")
     
   })
   
