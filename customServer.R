@@ -263,19 +263,12 @@ customServer <- function(input, output, session) {
   
   output$plotMedia <- renderPlotly({
     
-    current <- reactiveDataIndividualMedia()
+    data <- reactiveDataIndividualMedia()
     
-    plight <- plot_ly()
-    pdark <- plot_ly()
     p <- plot_ly()
     
-    uniqueVal <- as.array(sort(unique(current$Media)))
-    uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
-    
-    light <- filter(current, Condition == "L")
-    dark <- filter(current, Condition == "D")
-    
-    #p <- add_boxplot(p, x = NULL, y = current$ZOISize, name = paste(current$Media, current$Condition, sep = " "), color = current$Condition, type = "box")
+    light <- filter(data, Condition == "L")
+    dark <- filter(data, Condition == "D")
     
     if(input$L3){
       p <- add_boxplot(p, x = NULL, y = light$ZOISize, name = paste(light$Media, "Light", sep = " / "), color = light$Condition, colors = "Spectral", type = "box")
@@ -305,8 +298,21 @@ customServer <- function(input, output, session) {
     
     data <- reactiveDataIndividualLight()
     
-    ### Create empty chart as variable pl because we want to add several data sets to it in a loop
-    pl <-plot_ly()
+    p <- plot_ly()
+    
+    p <- add_boxplot(p, x = NULL, y = data$ZOISize, name = data$Condition, color = data$Condition, colors = "Spectral", type = "box")
+    
+    
+    p
+    p %>%
+      layout(
+        xaxis = list(
+          type = 'category',
+          title = 'Media'
+        ),
+        yaxis = list(
+          title = 'Zone of Inhibition Size (mm)'
+        ))
     
   })
   
