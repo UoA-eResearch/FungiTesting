@@ -6,7 +6,7 @@ IndividualDataTab <- tabPanel("Individual Data",
                               fluidPage(
                                 h3("Select a Graph:"),
                                 navlistPanel(
-                                  widths = c(2, 10),
+                                  widths = c(3, 9),
                                   
                                   "Growth Data",
                                   
