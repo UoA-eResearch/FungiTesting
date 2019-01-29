@@ -209,10 +209,10 @@ customServer <- function(input, output, session) {
   output$plotGrowthRate <- renderPlotly({
     
     data <- reactiveDataIndividualGrowth()
-    
+
     ### Create empty chart as variable pl because we want to add several data sets to it in a loop
     pl <-plot_ly()
-    
+
     if(input$colourBy == "Condition"){
       pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Condition)
     }
@@ -220,11 +220,14 @@ customServer <- function(input, output, session) {
       pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Media, colors = "Paired")
     }
     
-    
+
     pl %>%
+      #add_trace(y = ~growthRate, name = 'Growth Rate', line = list(color = 'rgb(205, 12, 24)', width = 4, dash = 'dot')) %>%
       layout(
         xaxis = list(title = 'Age'),
         yaxis = list(title = 'Size (mm diameter)'))
+
+
     
   })
   

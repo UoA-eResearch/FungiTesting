@@ -6,16 +6,16 @@ IndividualDataTab <- tabPanel("Individual Data",
                               fluidPage(
                                 h3("Select a Graph:"),
                                 navlistPanel(
-                                  widths = c(3, 9),
+                                  widths = c(2, 10),
                                   
                                   "Growth Data",
                                   
                                   tabPanel(
                                     title = div(
-                                      img(src="growthrate.png", style = "height: inherit; padding: 0.5em;"),
+                                      img(src="growthrate.png", style = "height: inherit;"),
                                       h4("Growth Rate", style = "padding: 0.5em;"),
                                       
-                                      style = "display: flex; align-items: center; height: 8em;"),
+                                      style = "display: flex; align-items: center; height: 5.5em;"),
                                     
                                     
                                     column(3,
@@ -62,10 +62,10 @@ IndividualDataTab <- tabPanel("Individual Data",
                                   
                                   tabPanel(
                                     title = div(
-                                        img(src="percentsize.png", style = "height: inherit; padding: 0.5em;"),
+                                        img(src="percentsize.png", style = "height: inherit;"),
                                         h4("Percent Growth Size", style = "padding: 0.5em;"),
                                       
-                                      style = "display: flex; align-items: center; height: 8em;"),
+                                      style = "display: flex; align-items: center; height: 5em;"),
                                     
                                     column(3,
                                            fluidRow(
@@ -119,10 +119,10 @@ IndividualDataTab <- tabPanel("Individual Data",
                                   
                                   tabPanel(
                                     title = div(
-                                      img(src = "media.png", style = "height: inherit; padding: 0.5em;"),
+                                      img(src = "media.png", style = "height: inherit;"),
                                       h4("Media", style = "padding: 0.5em;"),
                                       
-                                      style = "display: flex; align-items: center; height: 8em;"
+                                      style = "display: flex; align-items: center; height: 5em;"
                                     ),
                                     
                                     column(3,
@@ -172,10 +172,10 @@ IndividualDataTab <- tabPanel("Individual Data",
                                   
                                   tabPanel(
                                     title = div(
-                                      img(src = "light.png", style = "height: inherit; padding: 0.5em;"),
+                                      img(src = "light.png", style = "height: inherit;"),
                                       h4("Light", style = "padding: 0.5em;"),
                                       
-                                      style = "display: flex; align-items: center; height: 8em;"
+                                      style = "display: flex; align-items: center; height: 5em;"
                                     ),
                                     
                                     column(3,
@@ -215,10 +215,10 @@ IndividualDataTab <- tabPanel("Individual Data",
                                   
                                   tabPanel(
                                     title = div(
-                                      img(src = "age.png", style = "height: inherit; padding: 0.5em;"),
+                                      img(src = "age.png", style = "height: inherit;"),
                                       h4("Age", style = "padding: 0.5em;"),
                                       
-                                      style = "display: flex; align-items: center; height: 8em;"
+                                      style = "display: flex; align-items: center; height: 5em;"
                                     ),
                                     
                                     column(3,

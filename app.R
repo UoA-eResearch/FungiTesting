@@ -11,6 +11,7 @@ source('customServer.R')
 source('Input.R', local = TRUE)
 source('Output.R')
 library(colorRamps)
+
 shinyApp(
   ui = navbarPage("Fungi Interactive Data", theme = shinytheme("flatly"),
           SummaryDataTab,
