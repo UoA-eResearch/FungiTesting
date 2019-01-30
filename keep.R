@@ -328,3 +328,30 @@
 # 
 # 
 # 
+
+
+
+
+# ,
+# 
+# "Growth Rate",
+# 
+# tabPanel(
+#   title = div(
+#     img(src="growthrate.png", style = "height: -webkit-fill-available;"),
+#     #h4("Growth Rate", style = "padding: 0.5em;"),
+#     
+#     style = "display: flex; align-items: center;"),
+#   
+#   
+#   fluidRow(
+#     column(12,
+#            DataTableTesting
+#     )
+#   )
+# )
+
+
+
+
+

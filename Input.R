@@ -45,6 +45,56 @@ SizePercent <- wellPanel(
 
 
 #############################################################################################################################
+############# Other
+#############################################################################################################################
+
+
+
+ICMPOther <- selectizeInput("ICMPOther", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
+                       options = list( placeholder = 'Default (Showing All)' ))
+
+
+RemoveZeroOther <- checkboxInput("RemoveZeroOther","Remove 0 Values", FALSE)
+
+
+ConditionOther <- wellPanel( h4(tags$b("ConditionOther")),
+                        fluidRow(
+                          column(5,
+                                 checkboxInput("LOther","Light", TRUE)
+                          ),
+                          column(7,
+                                 checkboxInput("DOther","Dark", FALSE)
+                          )
+                        )
+)
+
+
+
+TestedAgainstOther <- wellPanel( h4(tags$b("Tested Against")),
+                            fluidRow(
+                              column(5,
+                                     checkboxInput("ECOther","E. Coli", TRUE)
+                              ),
+                              column(7,
+                                     checkboxInput("KPOther","K. Pneumoniae", TRUE)
+                              )
+                            )
+)
+
+
+
+MediaOther <- wellPanel( selectInput("MediaOther", h4(tags$b("Media")), choices = c("All", as.character(datTest$Media)), selected = "All"))
+
+
+SizePercentOther <- wellPanel(
+  radioButtons("sizePercentOther", h4(tags$b("Size")),
+               choices = list( "All" = "All", "20 %" = 20, "50 %" = 50, "100%" = 100),
+               selected = "All", 
+               inline = TRUE)
+)
+
+
+#############################################################################################################################
 ############# 1
 #############################################################################################################################
 

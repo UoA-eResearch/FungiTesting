@@ -10,6 +10,7 @@ customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
   
   updateSelectizeInput(session, 'ICMP', choices = sort(dataShara$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMPOther', choices = sort(dataShara$ICMP), server = TRUE)
   updateSelectizeInput(session, 'ICMP1', choices = sort(dataSharaIndiv$ICMP), server = TRUE)
   updateSelectizeInput(session, 'ICMP2', choices = sort(dataShara$ICMP), server = TRUE)
   updateSelectizeInput(session, 'ICMP3', choices = sort(dataShara$ICMP), server = TRUE)
@@ -66,7 +67,7 @@ customServer <- function(input, output, session) {
   
   output$plot2 <- renderPlotly({
     
-    current <- as.data.frame(reactiveDataSummary())
+    current <- as.data.frame(reactiveDataSummaryOther())
     
     pl <- plot_ly()
     
@@ -105,7 +106,7 @@ customServer <- function(input, output, session) {
   
   output$plot3 <- renderPlotly({
     
-    current <- as.data.frame(reactiveDataSummary())
+    current <- as.data.frame(reactiveDataSummaryOther())
     
     pl <- plot_ly()
     
@@ -143,7 +144,7 @@ customServer <- function(input, output, session) {
   
   output$plot4 <- renderPlotly({
     
-    current <- as.data.frame(reactiveDataSummary())
+    current <- as.data.frame(reactiveDataSummaryOther())
     
     pl <- plot_ly()
     
@@ -183,7 +184,7 @@ customServer <- function(input, output, session) {
   
   output$plot5 <- renderPlotly({
     
-    current <- as.data.frame(reactiveDataSummary())
+    current <- as.data.frame(reactiveDataSummaryOther())
     pl <- plot_ly()
     
     if(length(current$Age) > 0){

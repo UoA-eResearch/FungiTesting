@@ -56,6 +56,52 @@ reactiveDataSummary <- reactive({
 
 
 ####################################################################################################
+############### Reactive data Shara Other
+####################################################################################################
+
+reactiveDataSummaryOther <- reactive({
+  
+  if(input$LOther){ retL <- "L" }
+  else{retL <- ""}
+  
+  if(input$DOther){ retD <- "D" }
+  else{retD <- ""}
+  
+  if(input$KPOther){ retKP <- "KP" }
+  else{ retKP <- ""}
+  
+  if(input$ECOther){ retEC <- "EC" }
+  else{ retEC <- ""}
+  
+  
+  if(!is.null(input$ICMPOther)){
+    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMPOther))
+  }
+  
+  if(!input$MediaOther == "All"){
+    dataShara <- filter(dataShara, Media == input$MediaOther)
+  }
+  
+  dataShara <- filter(dataShara, Condition == retL | Condition == retD)
+  dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  
+  if(input$RemoveZeroOther){
+    dataShara <- dataShara %>% dplyr::na_if(0)
+  }
+  
+  if(input$sizePercentOther != "All"){
+    dataShara <- filter(dataShara, SizePercent %in% as.list(input$sizePercentOther))
+  }
+  
+  #dataShara <- na.exclude(dataShara)
+  
+  dataShara
+  
+  
+})
+
+
+####################################################################################################
 ############### Reactive data growth
 ####################################################################################################
 
