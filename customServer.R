@@ -17,6 +17,19 @@ customServer <- function(input, output, session) {
   updateSelectizeInput(session, 'ICMP4', choices = sort(dataShara$ICMP), server = TRUE)
   updateSelectizeInput(session, 'ICMP5', choices = sort(dataShara$ICMP), server = TRUE)
   
+  updateSelectizeInput(session, 'TestedAgainst', choices = sort(dataShara$TestedAgainst), 
+                       selected = sort(dataShara$TestedAgainst), server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainstOther', choices = sort(dataShara$TestedAgainst), 
+                       selected = sort(dataShara$TestedAgainst), server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst2', choices = sort(dataShara$TestedAgainst), 
+                       selected = sort(dataShara$TestedAgainst), server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst3', choices = sort(dataShara$TestedAgainst), 
+                       selected = sort(dataShara$TestedAgainst), server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst4', choices = sort(dataShara$TestedAgainst), 
+                       selected = sort(dataShara$TestedAgainst), server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst5', choices = sort(dataShara$TestedAgainst), 
+                       selected = sort(dataShara$TestedAgainst), server = TRUE)
+  
   
   ####################################################################################################
   ############### Plot 1

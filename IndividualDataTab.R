@@ -1,21 +1,13 @@
+source('Input.R', local = TRUE)
+source('Output.R', local = TRUE)
 
-
-
-IndividualDataTab <- tabPanel("Individual Data",
-                              
-                              fluidPage(
-                                h3("Select a Graph:"),
-                                navlistPanel(
-                                  widths = c(2, 10),
-                                  
-                                  "Growth Rate",
+IndividualDataTab <- navbarMenu("Individual Data",
                                   
                                   tabPanel(
-                                    title = div(
-                                      img(src="growthrate.png", style = "width: -webkit-fill-available;"),
-                                      #h4("Growth Rate", style = "padding: 0.5em;"),
-                                      
-                                      style = "display: flex; align-items: center;"),
+                                    
+                                    title = div( h4("Growth Rate", style = "padding: 0.5em;"),
+                                                 img(src="growthrate.png", style = "width: inherit;"),
+                                                 style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
                                     
                                     
                                     column(3,
@@ -58,14 +50,11 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     
                                   ),
                                   
-                                  "Percent Growth Size",
-                                  
                                   tabPanel(
-                                    title = div(
-                                        img(src="percentsize.png", style = "width: -webkit-fill-available;"),
-                                        #h4("Percent Growth Size", style = "padding: 0.5em;"),
-                                      
-                                      style = "display: flex; align-items: center;"),
+                                    
+                                    title = div( h4("Percent Growth Size", style = "padding: 0.5em;"),
+                                                 img(src="percentsize.png", style = "width: inherit;"),
+                                                 style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
                                     
                                     column(3,
                                            fluidRow(
@@ -88,7 +77,9 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            ),
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
-                                                    TestedAgainst2
+                                                    wellPanel(
+                                                      TestedAgainst2
+                                                    )
                                              )
                                            ),
                                            fluidRow(
@@ -117,15 +108,11 @@ IndividualDataTab <- tabPanel("Individual Data",
                                   
                                     ),
                                   
-                                  "Media",
-                                  
                                   tabPanel(
-                                    title = div(
-                                      img(src = "media.png", style = "width: -webkit-fill-available;"),
-                                      #h4("Media", style = "padding: 0.5em;"),
-                                      
-                                      style = "display: flex; align-items: center;"
-                                    ),
+                                    
+                                    title = div( h4("Media", style = "padding: 0.5em;"),
+                                                 img(src="media.png", style = "width: inherit;"),
+                                                 style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
                                     
                                     column(3,
                                            fluidRow(
@@ -148,7 +135,9 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            ),
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
-                                                    TestedAgainst3
+                                                    wellPanel(
+                                                      TestedAgainst3
+                                                    )
                                              )
                                            )
                                     ),
@@ -172,15 +161,11 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     
                                   ),
                                   
-                                  "Light",
-                                  
                                   tabPanel(
-                                    title = div(
-                                      img(src = "light.png", style = "width: -webkit-fill-available;"),
-                                      #h4("Light", style = "padding: 0.5em;"),
-                                      
-                                      style = "display: flex; align-items: center;"
-                                    ),
+                                    
+                                    title = div( h4("Light", style = "padding: 0.5em;"),
+                                                 img(src="light.png", style = "width: inherit;"),
+                                                 style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
                                     
                                     column(3,
                                            fluidRow(
@@ -193,7 +178,9 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            ),
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
-                                                    TestedAgainst4
+                                                    wellPanel(
+                                                      TestedAgainst4
+                                                    )
                                              )
                                            )
                                     ),
@@ -217,15 +204,11 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     
                                   ),
                                   
-                                  "Age",
-                                  
                                   tabPanel(
-                                    title = div(
-                                      img(src = "age.png", style = "width: -webkit-fill-available;"),
-                                      #h4("Age", style = "padding: 0.5em;"),
-                                      
-                                      style = "display: flex; align-items: center;"
-                                    ),
+                                    
+                                    title = div( h4("Age", style = "padding: 0.5em;"),
+                                                 img(src="age.png", style = "width: inherit;"),
+                                                 style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
                                     
                                     column(3,
                                            fluidRow(
@@ -238,7 +221,9 @@ IndividualDataTab <- tabPanel("Individual Data",
                                            ),
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
-                                                    TestedAgainst5
+                                                    wellPanel(
+                                                      TestedAgainst5
+                                                    )
                                              )
                                            )
                                     ),
@@ -261,6 +246,4 @@ IndividualDataTab <- tabPanel("Individual Data",
                                     )
                                     
                                   )
-                                )
-                              )
 )

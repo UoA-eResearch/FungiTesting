@@ -19,18 +19,8 @@ Condition <- wellPanel( h4(tags$b("Condition")),
               )
 
 
-
-TestedAgainst <- wellPanel( h4(tags$b("Tested Against")),
-                    fluidRow(
-                      column(5,
-                             checkboxInput("EC","E. Coli", TRUE)
-                      ),
-                      column(7,
-                             checkboxInput("KP","K. Pneumoniae", TRUE)
-                      )
-                    )
-                  )
-
+TestedAgainst <- selectizeInput("TestedAgainst", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
+                       options = list( placeholder = 'Default (Showing All)' ))
 
 
 Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = c("All", as.character(datTest$Media)), selected = "All"))
@@ -69,18 +59,8 @@ ConditionOther <- wellPanel( h4(tags$b("ConditionOther")),
 )
 
 
-
-TestedAgainstOther <- wellPanel( h4(tags$b("Tested Against")),
-                            fluidRow(
-                              column(5,
-                                     checkboxInput("ECOther","E. Coli", TRUE)
-                              ),
-                              column(7,
-                                     checkboxInput("KPOther","K. Pneumoniae", TRUE)
-                              )
-                            )
-)
-
+TestedAgainstOther <- selectizeInput("TestedAgainstOther", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
+                                options = list( placeholder = 'Default (Showing All)' ))
 
 
 MediaOther <- wellPanel( selectInput("MediaOther", h4(tags$b("Media")), choices = c("All", as.character(datTest$Media)), selected = "All"))
@@ -144,19 +124,8 @@ Condition2 <- wellPanel( h4(tags$b("Condition")),
                         )
 )
 
-
-
-TestedAgainst2 <- wellPanel( h4(tags$b("Tested Against")),
-                            fluidRow(
-                              column(5,
-                                     checkboxInput("EC2","E. Coli", TRUE)
-                              ),
-                              column(7,
-                                     checkboxInput("KP2","K. Pneumoniae", TRUE)
-                              )
-                            )
-)
-
+TestedAgainst2 <- selectizeInput("TestedAgainst2", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
+                                     options = list( placeholder = 'Default (Showing All)' ))
 
 
 Media2 <- wellPanel( selectInput("Media2", h4(tags$b("Media")), choices = c("All", as.character(datTest$Media)), selected = "All"))
@@ -195,19 +164,8 @@ Condition3 <- wellPanel( h4(tags$b("Condition")),
                         )
 )
 
-
-
-TestedAgainst3 <- wellPanel( h4(tags$b("Tested Against")),
-                            fluidRow(
-                              column(5,
-                                     checkboxInput("EC3","E. Coli", TRUE)
-                              ),
-                              column(7,
-                                     checkboxInput("KP3","K. Pneumoniae", TRUE)
-                              )
-                            )
-)
-
+TestedAgainst3 <- selectizeInput("TestedAgainst3", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
+                                 options = list( placeholder = 'Default (Showing All)' ))
 
 
 Media3 <- wellPanel( selectInput("Media3", h4(tags$b("Media")), choices = c("All", as.character(datTest$Media)), selected = "All"))
@@ -224,17 +182,9 @@ ICMP4 <- selectizeInput("ICMP4", choices = NULL, h4(tags$b("ICMP")), multiple = 
 
 RemoveZero4 <- checkboxInput("RemoveZero4","Remove 0 Values", FALSE)
 
-TestedAgainst4 <- wellPanel( h4(tags$b("Tested Against")),
-                            fluidRow(
-                              column(5,
-                                     checkboxInput("EC4","E. Coli", TRUE)
-                              ),
-                              column(7,
-                                     checkboxInput("KP4","K. Pneumoniae", TRUE)
-                              )
-                            )
-)
 
+TestedAgainst4 <- selectizeInput("TestedAgainst4", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
+                                 options = list( placeholder = 'Default (Showing All)' ))
 
 #############################################################################################################################
 ############# 5
@@ -246,15 +196,7 @@ ICMP5 <- selectizeInput("ICMP5", choices = NULL, h4(tags$b("ICMP")), multiple = 
 
 RemoveZero5 <- checkboxInput("RemoveZero5","Remove 0 Values", FALSE)
 
-TestedAgainst5 <- wellPanel( h4(tags$b("Tested Against")),
-                            fluidRow(
-                              column(5,
-                                     checkboxInput("EC5","E. Coli", TRUE)
-                              ),
-                              column(7,
-                                     checkboxInput("KP5","K. Pneumoniae", TRUE)
-                              )
-                            )
-)
 
+TestedAgainst5 <- selectizeInput("TestedAgainst5", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
+                                 options = list( placeholder = 'Default (Showing All)' ))
 

@@ -2,23 +2,14 @@ source('Input.R', local = TRUE)
 source('Output.R', local = TRUE)
 
 SummaryDataTab <- navbarMenu("Summary Data",
-#  tabPanel("Summary Data",
-   
-   
-   
-   #fluidPage(
-     #h3("Select a Graph:"),
-     #navlistPanel(
-       #widths = c(2, 10),
-       
        
        
        tabPanel(
-         tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 25em; background-color: #ecf0f1;}")),
+         tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 18em; background-color: #ecf0f1;}")),
          
          title = div( h4("ICMP & ZOI Size", style = "padding: 0.5em;"),
-           img(src="growthrate.png", style = "width: inherit;"),
-           style = "display: inline-block; align-items: center; width: 20em;  padding-bottom: 0.5em;"),
+           img(src="ICMP.png", style = "width: inherit;"),
+           style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
          
          
      
@@ -44,7 +35,9 @@ SummaryDataTab <- navbarMenu("Summary Data",
             ),
             fluidRow(
               column(12,
-                  TestedAgainst
+                   wellPanel(
+                     TestedAgainst
+                   )
               )
             ),
             fluidRow(
@@ -74,11 +67,10 @@ SummaryDataTab <- navbarMenu("Summary Data",
      
      
      tabPanel(
-         tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 25em; }")),
          
          title = div( h4("Other", style = "padding: 0.5em;"),
-                      img(src="growthrate.png", style = "width: inherit;"),
-                      style = "display: inline-block; align-items: center; width: 20em;  padding-bottom: 0.5em;"),
+                      img(src="Other.png", style = "width: inherit;"),
+                      style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
        
        fluidRow(
          column(3,
@@ -97,7 +89,9 @@ SummaryDataTab <- navbarMenu("Summary Data",
                 ),
                 fluidRow(
                   column(12,
-                         TestedAgainstOther
+                         wellPanel(
+                           TestedAgainstOther
+                         )
                   )
                 ),
                 fluidRow(

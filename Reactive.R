@@ -19,17 +19,14 @@ reactiveDataSummary <- reactive({
   
   if(input$D){ retD <- "D" }
   else{retD <- ""}
-  
-  if(input$KP){ retKP <- "KP" }
-  else{ retKP <- ""}
-  
-  if(input$EC){ retEC <- "EC" }
-  else{ retEC <- ""}
-  
+
   
   if(!is.null(input$ICMP)){
     dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP))
-    
+  }
+  
+  if(!is.null(input$TestedAgainst)){
+    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst))
   }
   
   if(!input$Media == "All"){
@@ -37,7 +34,7 @@ reactiveDataSummary <- reactive({
   }
   
   dataShara <- filter(dataShara, Condition == retL | Condition == retD)
-  dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  #dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
   
   if(input$RemoveZero){
     dataShara <- dataShara %>% dplyr::na_if(0)
@@ -50,7 +47,6 @@ reactiveDataSummary <- reactive({
   #dataShara <- na.exclude(dataShara)
   
   dataShara
-  
   
 })
 
@@ -67,13 +63,6 @@ reactiveDataSummaryOther <- reactive({
   if(input$DOther){ retD <- "D" }
   else{retD <- ""}
   
-  if(input$KPOther){ retKP <- "KP" }
-  else{ retKP <- ""}
-  
-  if(input$ECOther){ retEC <- "EC" }
-  else{ retEC <- ""}
-  
-  
   if(!is.null(input$ICMPOther)){
     dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMPOther))
   }
@@ -83,7 +72,10 @@ reactiveDataSummaryOther <- reactive({
   }
   
   dataShara <- filter(dataShara, Condition == retL | Condition == retD)
-  dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  
+  if(!is.null(input$TestedAgainstOther)){
+    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainstOther))
+  }
   
   if(input$RemoveZeroOther){
     dataShara <- dataShara %>% dplyr::na_if(0)
@@ -159,13 +151,9 @@ reactiveDataIndividualPercentGrowth <- reactive({
     dataShara <- filter(dataShara, SizePercent %in% as.list(input$sizePercent2))
   }
   
-  if(input$KP2){ retKP <- "KP" }
-  else{ retKP <- ""}
-  
-  if(input$EC2){ retEC <- "EC" }
-  else{ retEC <- ""}
-  
-  dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  if(!is.null(input$TestedAgainst2)){
+    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst2))
+  }
   
   if(input$RemoveZero2){
     dataShara <- dataShara %>% dplyr::na_if(0)
@@ -199,14 +187,9 @@ reactiveDataIndividualMedia <- reactive({
   
   dataShara <- filter(dataShara, Condition == retL | Condition == retD)
   
-  
-  if(input$KP3){ retKP <- "KP" }
-  else{ retKP <- ""}
-  
-  if(input$EC3){ retEC <- "EC" }
-  else{ retEC <- ""}
-  
-  dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  if(!is.null(input$TestedAgainst3)){
+    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst3))
+  }
   
   if(input$RemoveZero3){
     dataShara <- dataShara %>% dplyr::na_if(0)
@@ -229,13 +212,9 @@ reactiveDataIndividualLight <- reactive({
     dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP4))
   }
   
-  if(input$KP4){ retKP <- "KP" }
-  else{ retKP <- ""}
-  
-  if(input$EC4){ retEC <- "EC" }
-  else{ retEC <- ""}
-  
-  dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  if(!is.null(input$TestedAgainst4)){
+    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst4))
+  }
   
   if(input$RemoveZero4){
     dataShara <- dataShara %>% dplyr::na_if(0)
@@ -257,13 +236,9 @@ reactiveDataIndividualAge <- reactive({
     dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP5))
   }
   
-  if(input$KP5){ retKP <- "KP" }
-  else{ retKP <- ""}
-  
-  if(input$EC5){ retEC <- "EC" }
-  else{ retEC <- ""}
-  
-  dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  if(!is.null(input$TestedAgainst5)){
+    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst5))
+  }
   
   if(input$RemoveZero5){
     dataShara <- dataShara %>% dplyr::na_if(0)
