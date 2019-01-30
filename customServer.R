@@ -8,27 +8,27 @@ library(plotly)
 
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
+  ICMPDataShara <- sort(unique(dataShara$ICMP))
+  TestedAgainstDataShara <- sort(unique(dataShara$TestedAgainst))
+  TestedAgainstDataAlex <- sort(unique(dataAlex$TestedAgainst))
   
-  updateSelectizeInput(session, 'ICMP', choices = sort(dataShara$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMPOther', choices = sort(dataShara$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP1', choices = sort(dataSharaIndiv$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP2', choices = sort(dataShara$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP3', choices = sort(dataShara$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP4', choices = sort(dataShara$ICMP), server = TRUE)
-  updateSelectizeInput(session, 'ICMP5', choices = sort(dataShara$ICMP), server = TRUE)
+  updateSelectizeInput(session, 'ICMP', choices = ICMPDataShara, server = TRUE)
+  updateSelectizeInput(session, 'ICMPAlex', choices = sort(unique(dataAlex$ICMP)), server = TRUE)
+  updateSelectizeInput(session, 'ICMPOther', choices = ICMPDataShara, server = TRUE)
+  updateSelectizeInput(session, 'ICMP1', choices = sort(unique(dataSharaIndiv$ICMP)), server = TRUE)
+  updateSelectizeInput(session, 'ICMP2', choices = ICMPDataShara, server = TRUE)
+  updateSelectizeInput(session, 'ICMP3', choices = ICMPDataShara, server = TRUE)
+  updateSelectizeInput(session, 'ICMP4', choices = ICMPDataShara, server = TRUE)
+  updateSelectizeInput(session, 'ICMP5', choices = ICMPDataShara, server = TRUE)
   
-  updateSelectizeInput(session, 'TestedAgainst', choices = sort(dataShara$TestedAgainst), 
-                       selected = sort(dataShara$TestedAgainst), server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainstOther', choices = sort(dataShara$TestedAgainst), 
-                       selected = sort(dataShara$TestedAgainst), server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst2', choices = sort(dataShara$TestedAgainst), 
-                       selected = sort(dataShara$TestedAgainst), server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst3', choices = sort(dataShara$TestedAgainst), 
-                       selected = sort(dataShara$TestedAgainst), server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst4', choices = sort(dataShara$TestedAgainst), 
-                       selected = sort(dataShara$TestedAgainst), server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst5', choices = sort(dataShara$TestedAgainst), 
-                       selected = sort(dataShara$TestedAgainst), server = TRUE)
+  
+  updateSelectizeInput(session, 'TestedAgainst', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainstAlex', choices = TestedAgainstDataAlex, selected = TestedAgainstDataAlex[[1]], server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainstOther', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst2', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst3', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst4', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst5', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
   
   
   ####################################################################################################
@@ -38,7 +38,20 @@ customServer <- function(input, output, session) {
   ### output$"ElementName" is the UI element that you want the plot to be rendered/drawn to
   output$plot1 <- renderPlotly({
     
-    current <- as.data.frame(reactiveDataSummary())
+    dataChosen <- input$toggleData
+    
+    if(dataChosen == "Shara"){
+      current <- as.data.frame(reactiveDataSummary())
+      
+      titlex <- 'ICMP'
+      titley <- 'Zone of Inhibition Size (mm)'
+    }
+    else if(dataChosen == "Alex"){
+      current <- as.data.frame(reactiveDataAlex())
+      
+      titlex <- 'ICMP'
+      titley <- 'Luminescence'
+    }
     
     pl <- plot_ly()
     
@@ -51,11 +64,20 @@ customServer <- function(input, output, session) {
       ### Get all data with the same ICMP, but exclude missing values
       group <- data.frame(current[(current$ICMP == entry), ])
       
-      if(length(group$ZOISize) == 0){
-        next
+      if(dataChosen == "Shara"){
+        if(length(group$ZOISize) == 0){
+          next
+        }
+        
+        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       }
-      
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+      else if(dataChosen == "Alex"){
+        if(length(group$Lux) == 0){
+          next
+        }
+        
+        pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
+      }
       
     }
     
@@ -63,10 +85,10 @@ customServer <- function(input, output, session) {
       layout(
         xaxis = list(
           type = 'category',
-          title = 'ICMP'
+          title = titlex
         ),
         yaxis = list(
-          title = 'Zone of Inhibition Size (mm)'
+          title = titley
         ))
   })
   
@@ -365,7 +387,15 @@ customServer <- function(input, output, session) {
   #############################################################
   
   output$tableTesting <- renderTable({
-    reactiveDataSummary()
+    if(input$toggleData == "Shara"){
+      show <- reactiveDataSummary()
+    }
+    else if(input$toggleData == "Alex"){
+      show <- reactiveDataAlex()
+    }
+    
+    show
+    
   })
   
   output$tableMeasure <- renderTable({

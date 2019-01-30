@@ -7,6 +7,37 @@
 dataShara <- read.csv("fungi_shara.csv")
 dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
 
+dataAlex <- read.csv("fungi_alex.csv")
+
+
+####################################################################################################
+############### Reactive data Alex
+####################################################################################################
+
+reactiveDataAlex <- reactive({
+  print(unique(dataAlex$ICMP))
+  
+  if(!is.null(input$ICMPAlex)){
+    dataAlex <- filter(dataAlex, ICMP %in% as.list(input$ICMPAlex))
+  }
+  
+  if(!is.null(input$TestedAgainstAlex)){
+    dataAlex <- filter(dataAlex, TestedAgainst %in% as.list(input$TestedAgainstAlex))
+  }
+  
+  if(!input$Media == "All"){
+    dataAlex <- filter(dataAlex, Media == input$Media)
+  }
+  
+  if(input$RemoveZero){
+    dataAlex <- dataAlex %>% dplyr::na_if(0)
+  }
+  
+  #dataShara <- na.exclude(dataShara)
+  
+  dataAlex
+  
+})
 
 ####################################################################################################
 ############### Reactive data Shara

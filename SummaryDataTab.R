@@ -23,7 +23,15 @@ SummaryDataTab <- navbarMenu("Summary Data",
             fluidRow(
               column(12,
                  wellPanel(
-                   ICMP,
+                   ToggleData,
+                   conditionalPanel(
+                     condition = "input.toggleData == 'Shara'",
+                     ICMP
+                   ),
+                   conditionalPanel(
+                     condition = "input.toggleData == 'Alex'",
+                     ICMPAlex
+                   ),
                    RemoveZero
                  )
               )
@@ -35,14 +43,30 @@ SummaryDataTab <- navbarMenu("Summary Data",
             ),
             fluidRow(
               column(12,
-                   wellPanel(
-                     TestedAgainst
+                   conditionalPanel(
+                     condition = "input.toggleData == 'Shara'",
+                       wellPanel(
+                         TestedAgainst
+                       )
+                   ),
+                   conditionalPanel(
+                     condition = "input.toggleData == 'Alex'",
+                       wellPanel(
+                         TestedAgainstAlex
+                       )
                    )
               )
             ),
             fluidRow(
               column(12,
-                  Media
+                     conditionalPanel(
+                       condition = "input.toggleData == 'Shara'",
+                       Media
+                     ),
+                     conditionalPanel(
+                       condition = "input.toggleData == 'Alex'",
+                       MediaAlex
+                     )
               )
             ),
             fluidRow(
@@ -61,8 +85,14 @@ SummaryDataTab <- navbarMenu("Summary Data",
                        Plot1
                 )
               )
-        )
-      ),
+        ),
+     
+     fluidRow(
+       column(12,
+              DataTableTesting
+       )
+      )
+     ),
      
      
      
@@ -127,13 +157,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
                   )
                 )
          )
-      ),
-       
-       fluidRow(
-         column(12,
-                DataTableTesting
-         )
-       )
+      )
 
      )
 #)
