@@ -5,12 +5,12 @@
 
 
 Plot1 <- wellPanel(
-              h4(tags$b(tags$p(class = "centered", "ICMP and Zone of Inhibition Size"))),
+              h4(tags$b(tags$p(id = "icmpPlot", class = "centered", "ICMP and Zone of Inhibition Size"))),
               plotlyOutput("plot1")
             )
 
 Plot2 <- wellPanel(
-              h4(tags$b(tags$p(class = "centered", "Media Affect on Zone of Inhibition Size"))),
+              h4(tags$b(tags$p(id = "mediaPlot", class = "centered", "Media Affect on Zone of Inhibition Size"))),
               plotlyOutput("plot2")
             )
 

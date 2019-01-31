@@ -30,6 +30,9 @@ customServer <- function(input, output, session) {
   updateSelectizeInput(session, 'TestedAgainst4', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
   updateSelectizeInput(session, 'TestedAgainst5', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
   
+  updateSelectizeInput(session, 'StrainShara', choices = unique(dataShara$Strain), selected = unique(dataShara$Strain), server = TRUE)
+  updateSelectizeInput(session, 'StrainAlex', choices = unique(dataAlex$Strain), selected = unique(dataAlex$Strain), server = TRUE)
+  
   
   ####################################################################################################
   ############### Plot 1
@@ -69,6 +72,7 @@ customServer <- function(input, output, session) {
           next
         }
         
+        html("icmpPlot", "ICMP and Zone of Inhibition Size")
         pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       }
       else if(dataChosen == "Alex"){
@@ -76,6 +80,7 @@ customServer <- function(input, output, session) {
           next
         }
         
+        html("icmpPlot", "ICMP and Luminescence")
         pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
       }
       
@@ -102,25 +107,42 @@ customServer <- function(input, output, session) {
   
   output$plot2 <- renderPlotly({
     
-    current <- as.data.frame(reactiveDataSummaryOther())
+    dataChosen <- input$toggleData
+    
+    if(dataChosen == "Shara"){
+      current <- as.data.frame(reactiveDataSummary())
+      titley <- 'Zone of Inhibition Size (mm)'
+    }
+    else if(dataChosen == "Alex"){
+      current <- as.data.frame(reactiveDataAlex())
+      titley <- 'Luminescence'
+    }
     
     pl <- plot_ly()
     
     uniqueVal <- as.array(sort(unique(current$Media)))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
     
-    
     for(entry in uniqueVal){
       
-      ### Get all data with the same Media, but exclude missing values
       group <- data.frame(current[(current$Media == entry), ])
       
-      if(length(group$ZOISize) == 0){
-        next
+      if(dataChosen == "Shara"){
+        if(length(group$ZOISize) == 0){
+          next
+        }
+        
+        html("mediaPlot", "Media Affect on Zone of Inhibition Size")
+        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       }
-      
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
-      
+      else if(dataChosen == "Alex"){
+        if(length(group$Lux) == 0){
+          next
+        }
+        
+        html("mediaPlot", "Media Affect on Luminescence")
+        pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
+      }
     }
     
     pl %>%
@@ -130,7 +152,7 @@ customServer <- function(input, output, session) {
           title = 'Media'
         ),
         yaxis = list(
-          title = 'Zone of Inhibition Size (mm)'
+          title = titley
         ))
   })
   

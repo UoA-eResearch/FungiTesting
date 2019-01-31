@@ -6,6 +6,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
        
        tabPanel(
          tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 18em; background-color: #ecf0f1;}")),
+         useShinyjs(),
          
          title = div( h4("ICMP & ZOI Size", style = "padding: 0.5em;"),
            img(src="ICMP.png", style = "width: inherit;"),
@@ -32,13 +33,16 @@ SummaryDataTab <- navbarMenu("Summary Data",
                      condition = "input.toggleData == 'Alex'",
                      ICMPAlex
                    ),
-                   RemoveZero
+                  RemoveZero
                  )
               )
             ),
             fluidRow(
               column(12,
-                  Condition
+                     conditionalPanel(
+                       condition = "input.toggleData == 'Shara'",
+                       Condition
+                     )
               )
             ),
             fluidRow(
@@ -46,13 +50,15 @@ SummaryDataTab <- navbarMenu("Summary Data",
                    conditionalPanel(
                      condition = "input.toggleData == 'Shara'",
                        wellPanel(
-                         TestedAgainst
+                         TestedAgainst,
+                         StrainShara
                        )
                    ),
                    conditionalPanel(
                      condition = "input.toggleData == 'Alex'",
                        wellPanel(
-                         TestedAgainstAlex
+                         TestedAgainstAlex,
+                         StrainAlex
                        )
                    )
               )
@@ -71,7 +77,10 @@ SummaryDataTab <- navbarMenu("Summary Data",
             ),
             fluidRow(
               column(12,
-                  SizePercent
+                     conditionalPanel(
+                       condition = "input.toggleData == 'Shara'",
+                       SizePercent
+                     )
               )
             )
      ),
@@ -83,6 +92,11 @@ SummaryDataTab <- navbarMenu("Summary Data",
               fluidRow(
                 column(12,
                        Plot1
+                )
+              ),
+              fluidRow(
+                column(12,
+                       Plot2
                 )
               )
         ),
@@ -142,16 +156,13 @@ SummaryDataTab <- navbarMenu("Summary Data",
          column(9,
                 fluidRow(
                   column(6,
-                         Plot2
+                          Plot3
                   ),
                   column(6,
-                          Plot3
+                         Plot4
                   )
                 ),
                 fluidRow(
-                  column(6,
-                         Plot4
-                  ),
                   column(6,
                          Plot5
                   )

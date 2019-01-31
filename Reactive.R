@@ -15,18 +15,21 @@ dataAlex <- read.csv("fungi_alex.csv")
 ####################################################################################################
 
 reactiveDataAlex <- reactive({
-  print(unique(dataAlex$ICMP))
   
   if(!is.null(input$ICMPAlex)){
     dataAlex <- filter(dataAlex, ICMP %in% as.list(input$ICMPAlex))
+  }
+  
+  if(!is.null(input$StrainAlex)){
+    dataAlex <- filter(dataAlex, Strain %in% as.list(input$StrainAlex))
   }
   
   if(!is.null(input$TestedAgainstAlex)){
     dataAlex <- filter(dataAlex, TestedAgainst %in% as.list(input$TestedAgainstAlex))
   }
   
-  if(!input$Media == "All"){
-    dataAlex <- filter(dataAlex, Media == input$Media)
+  if(!input$MediaAlex == "All"){
+    dataAlex <- filter(dataAlex, Media == input$MediaAlex)
   }
   
   if(input$RemoveZero){
@@ -65,7 +68,10 @@ reactiveDataSummary <- reactive({
   }
   
   dataShara <- filter(dataShara, Condition == retL | Condition == retD)
-  #dataShara <- filter(dataShara, TestedAgainst == retKP| TestedAgainst == retEC)
+  
+  if(!is.null(input$StrainShara)){
+    dataShara <- filter(dataShara, Strain %in% as.list(input$StrainShara))
+  }
   
   if(input$RemoveZero){
     dataShara <- dataShara %>% dplyr::na_if(0)

@@ -4,19 +4,21 @@ library(shinythemes)
 library(plyr)
 library(dplyr)
 library(RColorBrewer)
+library(colorRamps)
+library(shinyjs)
+
 source('SummaryDataTab.R')
 source('IndividualDataTab.R')
 source('MapDataTab.R')
 source('customServer.R')
 source('Input.R', local = TRUE)
 source('Output.R')
-library(colorRamps)
 
 shinyApp(
   ui = navbarPage("Fungi Interactive Data", theme = shinytheme("flatly"),
-          SummaryDataTab,
-          IndividualDataTab,
-          MapDataTab
-        ),
+               SummaryDataTab,
+               IndividualDataTab,
+               MapDataTab
+    ),
   server = customServer
 )

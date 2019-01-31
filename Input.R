@@ -43,6 +43,11 @@ SizePercent <- wellPanel(
                      inline = TRUE)
                 )
 
+StrainShara <- selectizeInput("StrainShara", choices = NULL, h4(tags$b("Strain")), multiple = TRUE, 
+                       options = list( placeholder = 'Default (Showing All)' ))
+
+StrainAlex <- selectizeInput("StrainAlex", choices = NULL, h4(tags$b("Strain")), multiple = TRUE, 
+                           options = list( placeholder = 'Default (Showing All)' ))
 
 #############################################################################################################################
 ############# Other
