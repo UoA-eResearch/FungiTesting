@@ -91,6 +91,7 @@ customServer <- function(input, output, session) {
         
         html("icmpPlot", "ICMP and Luminescence")
         pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
+        pl <- layout(pl, yaxis = list(type = "log"))
       }
       
     }
@@ -151,6 +152,7 @@ customServer <- function(input, output, session) {
         
         html("mediaPlot", "Media Affect on Luminescence")
         pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
+        pl <- layout(pl, yaxis = list(type = "log"))
       }
     }
     
