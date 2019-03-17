@@ -23,7 +23,10 @@ customServer <- function(input, output, session) {
   updateSelectizeInput(session, 'ICMP5', choices = ICMPData, server = TRUE)
   
   researcher <- sort(unique(data$Researcher))
-  updateSelectizeInput(session, 'Researcher', choices = researcher, server = TRUE)
+  updateSelectizeInput(session, 'Researcher', choices = researcher, selected = researcher[[2]], server = TRUE)
+  
+  phylum <- sort(unique(data$Phylum))
+  updateSelectizeInput(session, 'Phylum', choices = phylum, selected = phylum[[1]], server = TRUE)
   
   
   updateSelectizeInput(session, 'TestedAgainst', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)

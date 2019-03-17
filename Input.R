@@ -13,6 +13,8 @@ ICMPAlex <- selectizeInput("ICMPAlex", choices = NULL, h4(tags$b("ICMP")), multi
 
 Researcher <- selectizeInput("Researcher", choices = NULL, h5(tags$b("Researcher")), multiple = TRUE)
 
+Phylum <- selectizeInput("Phylum", choices = NULL, h4(tags$b("Phylum")), multiple = TRUE)
+
 RemoveZero <- checkboxInput("RemoveZero","Remove 0 Values", FALSE)
 
 

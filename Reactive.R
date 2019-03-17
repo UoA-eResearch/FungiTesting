@@ -23,6 +23,10 @@ reactiveDataAlex <- reactive({
     data <- filter(data, Strain %in% as.list(input$StrainAlex))
   }
   
+  if(!is.null(input$Phylum)){
+    data <- filter(data, Phylum %in% as.list(input$Phylum))
+  }
+  
   if(!is.null(input$TestedAgainstAlex)){
     data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainstAlex))
   }
@@ -72,6 +76,10 @@ reactiveDataSummary <- reactive({
   
   if(!is.null(input$StrainShara)){
     data <- filter(data, Strain %in% as.list(input$StrainShara))
+  }
+  
+  if(!is.null(input$Phylum)){
+    data <- filter(data, Phylum %in% as.list(input$Phylum))
   }
   
   if(input$RemoveZero){

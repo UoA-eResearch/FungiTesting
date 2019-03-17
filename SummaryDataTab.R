@@ -61,6 +61,9 @@ SummaryDataTab <- navbarMenu("Summary Data",
                          TestedAgainstAlex,
                          StrainAlex
                        )
+                   ),
+                   wellPanel(
+                     Phylum
                    )
               )
             ),
