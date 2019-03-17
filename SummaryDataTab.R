@@ -75,7 +75,8 @@ SummaryDataTab <- navbarMenu("Summary Data",
                      ),
                      conditionalPanel(
                        condition = "input.toggleData == 'Bioluminescence'",
-                       MediaAlex
+                       MediaAlex,
+                       TimePoint
                      )
               )
             ),

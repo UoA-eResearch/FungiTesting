@@ -40,6 +40,8 @@ Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = c("All",
 
 MediaAlex <- wellPanel( selectInput("MediaAlex", h4(tags$b("Media")), choices = c("All", as.character(unique(dataAlex$Media))), selected = as.character(unique(dataAlex$Media))[1]))
 
+TimePoint <- selectizeInput("TimePoint", choices = NULL, h5(tags$b("Time Point")), multiple = TRUE)
+
 SizePercent <- wellPanel(
                   radioButtons("sizePercent", h4(tags$b("Size")),
                      choices = list( "All" = "All", "20 %" = 20, "50 %" = 50, "100%" = 100),

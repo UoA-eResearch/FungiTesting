@@ -26,8 +26,10 @@ customServer <- function(input, output, session) {
   updateSelectizeInput(session, 'Researcher', choices = researcher, selected = researcher[[2]], server = TRUE)
   
   phylum <- sort(unique(data$Phylum))
-  updateSelectizeInput(session, 'Phylum', choices = phylum, selected = phylum[[1]], server = TRUE)
+  updateSelectizeInput(session, 'Phylum', choices = phylum, server = TRUE)
   
+  timePoints <- sort(unique(data$TimePoint))
+  updateSelectizeInput(session, 'TimePoint', choices = timePoints, selected = 3, server = TRUE)
   
   updateSelectizeInput(session, 'TestedAgainst', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
   updateSelectizeInput(session, 'TestedAgainstAlex', choices = TestedAgainstData, server = TRUE)

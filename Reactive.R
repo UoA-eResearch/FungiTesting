@@ -27,6 +27,10 @@ reactiveDataAlex <- reactive({
     data <- filter(data, Phylum %in% as.list(input$Phylum))
   }
   
+  if(!is.null(input$TimePoint)){
+    data <- filter(data, TimePoint %in% as.list(input$TimePoint))
+  }
+  
   if(!is.null(input$TestedAgainstAlex)){
     data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainstAlex))
   }
