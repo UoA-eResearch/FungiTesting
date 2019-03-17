@@ -1,14 +1,11 @@
 
 
 #########################################################################################################
-########### Load dataShara from .csv files and subset to what user has chosen in UI
+########### Load data from .csv files and subset to what user has chosen in UI
 #########################################################################################################
 
-dataShara <- read.csv("fungi_shara.csv")
-dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
-
-dataAlex <- read.csv("fungi_alex.csv")
-
+data <- read.csv("fungi_combined.csv")
+dataIndiv <- read.csv("fungi_individual_shara.csv")
 
 ####################################################################################################
 ############### Reactive data Alex
@@ -16,29 +13,31 @@ dataAlex <- read.csv("fungi_alex.csv")
 
 reactiveDataAlex <- reactive({
   
+  data <- filter(data, Researcher == input$Researcher)
+  
   if(!is.null(input$ICMPAlex)){
-    dataAlex <- filter(dataAlex, ICMP %in% as.list(input$ICMPAlex))
+    data <- filter(data, ICMP %in% as.list(input$ICMPAlex))
   }
   
   if(!is.null(input$StrainAlex)){
-    dataAlex <- filter(dataAlex, Strain %in% as.list(input$StrainAlex))
+    data <- filter(data, Strain %in% as.list(input$StrainAlex))
   }
   
   if(!is.null(input$TestedAgainstAlex)){
-    dataAlex <- filter(dataAlex, TestedAgainst %in% as.list(input$TestedAgainstAlex))
+    data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainstAlex))
   }
   
   if(!input$MediaAlex == "All"){
-    dataAlex <- filter(dataAlex, Media == input$MediaAlex)
+    data <- filter(data, Media == input$MediaAlex)
   }
   
   if(input$RemoveZero){
-    dataAlex <- dataAlex %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(0)
   }
   
-  #dataShara <- na.exclude(dataShara)
+  #data <- na.exclude(data)
   
-  dataAlex
+  data
   
 })
 
@@ -48,6 +47,8 @@ reactiveDataAlex <- reactive({
 
 reactiveDataSummary <- reactive({
   
+  data <- filter(data, Researcher == input$Researcher)
+  
   if(input$L){ retL <- "L" }
   else{retL <- ""}
   
@@ -56,34 +57,34 @@ reactiveDataSummary <- reactive({
 
   
   if(!is.null(input$ICMP)){
-    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP))
+    data <- filter(data, ICMP %in% as.list(input$ICMP))
   }
   
   if(!is.null(input$TestedAgainst)){
-    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst))
+    data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst))
   }
   
   if(!input$Media == "All"){
-    dataShara <- filter(dataShara, Media == input$Media)
+    data <- filter(data, Media == input$Media)
   }
   
-  dataShara <- filter(dataShara, Condition == retL | Condition == retD)
+  data <- filter(data, Condition == retL | Condition == retD)
   
   if(!is.null(input$StrainShara)){
-    dataShara <- filter(dataShara, Strain %in% as.list(input$StrainShara))
+    data <- filter(data, Strain %in% as.list(input$StrainShara))
   }
   
   if(input$RemoveZero){
-    dataShara <- dataShara %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(0)
   }
   
   if(input$sizePercent != "All"){
-    dataShara <- filter(dataShara, SizePercent %in% as.list(input$sizePercent))
+    data <- filter(data, SizePercent %in% as.list(input$sizePercent))
   }
   
-  #dataShara <- na.exclude(dataShara)
+  #data <- na.exclude(data)
   
-  dataShara
+  data
   
 })
 
@@ -101,30 +102,30 @@ reactiveDataSummaryOther <- reactive({
   else{retD <- ""}
   
   if(!is.null(input$ICMPOther)){
-    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMPOther))
+    data <- filter(data, ICMP %in% as.list(input$ICMPOther))
   }
   
   if(!input$MediaOther == "All"){
-    dataShara <- filter(dataShara, Media == input$MediaOther)
+    data <- filter(data, Media == input$MediaOther)
   }
   
-  dataShara <- filter(dataShara, Condition == retL | Condition == retD)
+  data <- filter(data, Condition == retL | Condition == retD)
   
   if(!is.null(input$TestedAgainstOther)){
-    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainstOther))
+    data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainstOther))
   }
   
   if(input$RemoveZeroOther){
-    dataShara <- dataShara %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(0)
   }
   
   if(input$sizePercentOther != "All"){
-    dataShara <- filter(dataShara, SizePercent %in% as.list(input$sizePercentOther))
+    data <- filter(data, SizePercent %in% as.list(input$sizePercentOther))
   }
   
-  #dataShara <- na.exclude(dataShara)
+  #data <- na.exclude(data)
   
-  dataShara
+  data
   
   
 })
@@ -175,30 +176,30 @@ reactiveDataIndividualPercentGrowth <- reactive({
   else{retD <- ""}
   
   if(!is.null(input$ICMP2)){
-    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP2))
+    data <- filter(data, ICMP %in% as.list(input$ICMP2))
   }
   
   if(!input$Media2 == "All"){
-    dataShara <- filter(dataShara, Media == input$Media2)
+    data <- filter(data, Media == input$Media2)
   }
   
-  dataShara <- filter(dataShara, Condition == retL | Condition == retD)
+  data <- filter(data, Condition == retL | Condition == retD)
   
   if(input$sizePercent2 != "All"){
-    dataShara <- filter(dataShara, SizePercent %in% as.list(input$sizePercent2))
+    data <- filter(data, SizePercent %in% as.list(input$sizePercent2))
   }
   
   if(!is.null(input$TestedAgainst2)){
-    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst2))
+    data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst2))
   }
   
   if(input$RemoveZero2){
-    dataShara <- dataShara %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(0)
   }
   
-  #dataShara <- na.exclude(dataShara)
+  #data <- na.exclude(data)
   
-  dataShara
+  data
   
 })
 
@@ -215,26 +216,26 @@ reactiveDataIndividualMedia <- reactive({
   else{retD <- ""}
   
   if(!is.null(input$ICMP3)){
-    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP3))
+    data <- filter(data, ICMP %in% as.list(input$ICMP3))
   }
   
   if(!input$Media3 == "All"){
-    dataShara <- filter(dataShara, Media == input$Media3)
+    data <- filter(data, Media == input$Media3)
   }
   
-  dataShara <- filter(dataShara, Condition == retL | Condition == retD)
+  data <- filter(data, Condition == retL | Condition == retD)
   
   if(!is.null(input$TestedAgainst3)){
-    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst3))
+    data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst3))
   }
   
   if(input$RemoveZero3){
-    dataShara <- dataShara %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(0)
   }
   
-  #dataShara <- na.exclude(dataShara)
+  #data <- na.exclude(data)
   
-  dataShara
+  data
   
 })
 
@@ -246,20 +247,20 @@ reactiveDataIndividualLight <- reactive({
   
   
   if(!is.null(input$ICMP4)){
-    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP4))
+    data <- filter(data, ICMP %in% as.list(input$ICMP4))
   }
   
   if(!is.null(input$TestedAgainst4)){
-    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst4))
+    data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst4))
   }
   
   if(input$RemoveZero4){
-    dataShara <- dataShara %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(0)
   }
   
-  #dataShara <- na.exclude(dataShara)
+  #data <- na.exclude(data)
   
-  dataShara
+  data
   
 })
 
@@ -270,20 +271,20 @@ reactiveDataIndividualLight <- reactive({
 reactiveDataIndividualAge <- reactive({
   
   if(!is.null(input$ICMP5)){
-    dataShara <- filter(dataShara, ICMP %in% as.list(input$ICMP5))
+    data <- filter(data, ICMP %in% as.list(input$ICMP5))
   }
   
   if(!is.null(input$TestedAgainst5)){
-    dataShara <- filter(dataShara, TestedAgainst %in% as.list(input$TestedAgainst5))
+    data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst5))
   }
   
   if(input$RemoveZero5){
-    dataShara <- dataShara %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(0)
   }
   
-  #dataShara <- na.exclude(dataShara)
+  #data <- na.exclude(data)
   
-  dataShara
+  data
   
 })
 

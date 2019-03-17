@@ -1,8 +1,8 @@
 source('Reactive.R', local = TRUE)
 
 ToggleData <- radioButtons("toggleData", h4(tags$b("Choose Dataset")),
-                           choices = list( "Shara" = "Shara", "Alex" = "Alex"),
-                           selected = "Shara", 
+                           choices = list( "Zone of Inhibition" = "Zone of Inhibition", "Bioluminescence" = "Bioluminescence"),
+                           selected = "Zone of Inhibition", 
                            inline = TRUE)
 
 ICMP <- selectizeInput("ICMP", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
@@ -10,6 +10,8 @@ ICMP <- selectizeInput("ICMP", choices = NULL, h4(tags$b("ICMP")), multiple = TR
 
 ICMPAlex <- selectizeInput("ICMPAlex", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
+
+Researcher <- selectizeInput("Researcher", choices = NULL, h5(tags$b("Researcher")), multiple = TRUE)
 
 RemoveZero <- checkboxInput("RemoveZero","Remove 0 Values", FALSE)
 

@@ -8,30 +8,34 @@ library(plotly)
 
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
-  ICMPDataShara <- sort(unique(dataShara$ICMP))
-  TestedAgainstDataShara <- sort(unique(dataShara$TestedAgainst))
-  TestedAgainstDataAlex <- sort(unique(dataAlex$TestedAgainst))
   
-  updateSelectizeInput(session, 'ICMP', choices = ICMPDataShara, server = TRUE)
-  updateSelectizeInput(session, 'ICMPAlex', choices = sort(unique(dataAlex$ICMP)), server = TRUE)
-  updateSelectizeInput(session, 'ICMPOther', choices = ICMPDataShara, server = TRUE)
+  ICMPData <- sort(unique(data$ICMP))
+  
+  TestedAgainstData <- sort(unique(data$TestedAgainst))
+  
+  updateSelectizeInput(session, 'ICMP', choices = ICMPData, server = TRUE)
+  updateSelectizeInput(session, 'ICMPAlex', choices = sort(unique(data$ICMP)), server = TRUE)
+  updateSelectizeInput(session, 'ICMPOther', choices = ICMPData, server = TRUE)
   updateSelectizeInput(session, 'ICMP1', choices = sort(unique(dataSharaIndiv$ICMP)), server = TRUE)
-  updateSelectizeInput(session, 'ICMP2', choices = ICMPDataShara, server = TRUE)
-  updateSelectizeInput(session, 'ICMP3', choices = ICMPDataShara, server = TRUE)
-  updateSelectizeInput(session, 'ICMP4', choices = ICMPDataShara, server = TRUE)
-  updateSelectizeInput(session, 'ICMP5', choices = ICMPDataShara, server = TRUE)
+  updateSelectizeInput(session, 'ICMP2', choices = ICMPData, server = TRUE)
+  updateSelectizeInput(session, 'ICMP3', choices = ICMPData, server = TRUE)
+  updateSelectizeInput(session, 'ICMP4', choices = ICMPData, server = TRUE)
+  updateSelectizeInput(session, 'ICMP5', choices = ICMPData, server = TRUE)
+  
+  researcher <- sort(unique(data$Researcher))
+  updateSelectizeInput(session, 'Researcher', choices = researcher, server = TRUE)
   
   
-  updateSelectizeInput(session, 'TestedAgainst', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainstAlex', choices = TestedAgainstDataAlex, selected = TestedAgainstDataAlex[[1]], server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainstOther', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst2', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst3', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst4', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst5', choices = TestedAgainstDataShara, selected = TestedAgainstDataShara, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainstAlex', choices = TestedAgainstData, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainstOther', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst2', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst3', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst4', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+  updateSelectizeInput(session, 'TestedAgainst5', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
   
-  updateSelectizeInput(session, 'StrainShara', choices = unique(dataShara$Strain), selected = unique(dataShara$Strain), server = TRUE)
-  updateSelectizeInput(session, 'StrainAlex', choices = unique(dataAlex$Strain), selected = unique(dataAlex$Strain), server = TRUE)
+  updateSelectizeInput(session, 'StrainShara', choices = unique(data$Strain), selected = unique(data$Strain), server = TRUE)
+  updateSelectizeInput(session, 'StrainAlex', choices = unique(data$Strain), selected = unique(data$Strain), server = TRUE)
   
   
   ####################################################################################################
@@ -43,13 +47,13 @@ customServer <- function(input, output, session) {
     
     dataChosen <- input$toggleData
     
-    if(dataChosen == "Shara"){
+    if(dataChosen == "Zone of Inhibition"){
       current <- as.data.frame(reactiveDataSummary())
       
       titlex <- 'ICMP'
       titley <- 'Zone of Inhibition Size (mm)'
     }
-    else if(dataChosen == "Alex"){
+    else if(dataChosen == "Bioluminescence"){
       current <- as.data.frame(reactiveDataAlex())
       
       titlex <- 'ICMP'
@@ -67,7 +71,7 @@ customServer <- function(input, output, session) {
       ### Get all data with the same ICMP, but exclude missing values
       group <- data.frame(current[(current$ICMP == entry), ])
       
-      if(dataChosen == "Shara"){
+      if(dataChosen == "Zone of Inhibition"){
         if(length(group$ZOISize) == 0){
           next
         }
@@ -75,7 +79,7 @@ customServer <- function(input, output, session) {
         html("icmpPlot", "ICMP and Zone of Inhibition Size")
         pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       }
-      else if(dataChosen == "Alex"){
+      else if(dataChosen == "Bioluminescence"){
         if(length(group$Lux) == 0){
           next
         }
@@ -109,11 +113,11 @@ customServer <- function(input, output, session) {
     
     dataChosen <- input$toggleData
     
-    if(dataChosen == "Shara"){
+    if(dataChosen == "Zone of Inhibition"){
       current <- as.data.frame(reactiveDataSummary())
       titley <- 'Zone of Inhibition Size (mm)'
     }
-    else if(dataChosen == "Alex"){
+    else if(dataChosen == "Bioluminescence"){
       current <- as.data.frame(reactiveDataAlex())
       titley <- 'Luminescence'
     }
@@ -127,7 +131,7 @@ customServer <- function(input, output, session) {
       
       group <- data.frame(current[(current$Media == entry), ])
       
-      if(dataChosen == "Shara"){
+      if(dataChosen == "Zone of Inhibition"){
         if(length(group$ZOISize) == 0){
           next
         }
@@ -135,7 +139,7 @@ customServer <- function(input, output, session) {
         html("mediaPlot", "Media Affect on Zone of Inhibition Size")
         pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       }
-      else if(dataChosen == "Alex"){
+      else if(dataChosen == "Bioluminescence"){
         if(length(group$Lux) == 0){
           next
         }
@@ -409,10 +413,10 @@ customServer <- function(input, output, session) {
   #############################################################
   
   output$tableTesting <- renderTable({
-    if(input$toggleData == "Shara"){
+    if(input$toggleData == "Zone of Inhibition"){
       show <- reactiveDataSummary()
     }
-    else if(input$toggleData == "Alex"){
+    else if(input$toggleData == "Bioluminescence"){
       show <- reactiveDataAlex()
     }
     

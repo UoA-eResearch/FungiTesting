@@ -25,12 +25,13 @@ SummaryDataTab <- navbarMenu("Summary Data",
               column(12,
                  wellPanel(
                    ToggleData,
+                   Researcher,
                    conditionalPanel(
-                     condition = "input.toggleData == 'Shara'",
+                     condition = "input.toggleData == 'Zone of Inhibition'",
                      ICMP
                    ),
                    conditionalPanel(
-                     condition = "input.toggleData == 'Alex'",
+                     condition = "input.toggleData == 'Bioluminescence'",
                      ICMPAlex
                    ),
                   RemoveZero
@@ -40,7 +41,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
             fluidRow(
               column(12,
                      conditionalPanel(
-                       condition = "input.toggleData == 'Shara'",
+                       condition = "input.toggleData == 'Zone of Inhibition'",
                        Condition
                      )
               )
@@ -48,14 +49,14 @@ SummaryDataTab <- navbarMenu("Summary Data",
             fluidRow(
               column(12,
                    conditionalPanel(
-                     condition = "input.toggleData == 'Shara'",
+                     condition = "input.toggleData == 'Zone of Inhibition'",
                        wellPanel(
                          TestedAgainst,
                          StrainShara
                        )
                    ),
                    conditionalPanel(
-                     condition = "input.toggleData == 'Alex'",
+                     condition = "input.toggleData == 'Bioluminescence'",
                        wellPanel(
                          TestedAgainstAlex,
                          StrainAlex
@@ -66,11 +67,11 @@ SummaryDataTab <- navbarMenu("Summary Data",
             fluidRow(
               column(12,
                      conditionalPanel(
-                       condition = "input.toggleData == 'Shara'",
+                       condition = "input.toggleData == 'Zone of Inhibition'",
                        Media
                      ),
                      conditionalPanel(
-                       condition = "input.toggleData == 'Alex'",
+                       condition = "input.toggleData == 'Bioluminescence'",
                        MediaAlex
                      )
               )
@@ -78,7 +79,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
             fluidRow(
               column(12,
                      conditionalPanel(
-                       condition = "input.toggleData == 'Shara'",
+                       condition = "input.toggleData == 'Zone of Inhibition'",
                        SizePercent
                      )
               )
