@@ -82,7 +82,8 @@ customServer <- function(input, output, session) {
         }
         
         html("icmpPlot", "ICMP and Zone of Inhibition Size")
-        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+        pl <- add_boxplot(pl, x = entry, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+        
       }
       else if(dataChosen == "Bioluminescence"){
         if(length(group$Lux) == 0){
@@ -95,6 +96,8 @@ customServer <- function(input, output, session) {
       }
       
     }
+    #pl %>% geom_abline(intercept = 6)
+    
     
     pl %>%
       layout(
@@ -178,20 +181,15 @@ customServer <- function(input, output, session) {
     
     pl <- plot_ly()
     
-    uniqueVal <- as.array(sort(unique(current$SizePercent)))
-    uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
     
+    twenty <- data.frame(current[(current$SizePercent == 20), ])
+    fifty <- data.frame(current[(current$SizePercent == 50), ])
+    hundred <- data.frame(current[(current$SizePercent == 100), ])
     
-    for(entry in uniqueVal){
-      
-      ### Get all data with the same Size, but exclude missing values
-      group <- data.frame(current[(current$SizePercent == entry), ])
-      
-      if(length(group$ZOISize) == 0){
-        next
-      }
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1") 
-    }
+    pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", colors = "Set1") 
+    pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", colors = "Set1") 
+    pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", colors = "Set1") 
+
     
     pl %>%
       layout(
