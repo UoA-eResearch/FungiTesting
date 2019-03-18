@@ -329,10 +329,10 @@ customServer <- function(input, output, session) {
     pl <-plot_ly()
 
     if(input$colourBy == "Condition"){
-      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Condition)
+      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter',symbol = ~data$Media, color = ~data$Condition)
     }
     else{
-      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', color = ~data$Media, colors = "Paired")
+      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', symbol = ~data$Condition, color = ~data$Media, colors = "Paired")
     }
     
 
