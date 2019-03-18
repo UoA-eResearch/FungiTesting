@@ -15,7 +15,6 @@ IndividualDataTab <- navbarMenu("Individual Data",
                                              column(12, offset = 0, style='padding:0px;',
                                                   wellPanel(
                                                     ICMP1,
-                                                    RemoveZero1,
                                                     ColourBy
                                                   )
                                              )

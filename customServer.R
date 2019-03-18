@@ -186,10 +186,18 @@ customServer <- function(input, output, session) {
     fifty <- data.frame(current[(current$SizePercent == 50), ])
     hundred <- data.frame(current[(current$SizePercent == 100), ])
     
-    pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", colors = "Set1") 
-    pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", colors = "Set1") 
-    pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", colors = "Set1") 
-
+    
+    if(input$sizePercentOther == 20 || input$sizePercentOther == "All"){
+      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", colors = "Set1")
+    }
+    if(input$sizePercentOther == 50 || input$sizePercentOther == "All"){
+      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", colors = "Set1")
+    }
+    if(input$sizePercentOther == 100 || input$sizePercentOther == "All"){
+      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", colors = "Set1")
+    }
+    
+    
     
     pl %>%
       layout(
@@ -327,12 +335,34 @@ customServer <- function(input, output, session) {
 
     ### Create empty chart as variable pl because we want to add several data sets to it in a loop
     pl <-plot_ly()
+    
+    
 
     if(input$colourBy == "Condition"){
-      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter',symbol = ~data$Media, color = ~data$Condition)
+      pl <- plot_ly(x = data$Age, y = data$SizeMM, mode = 'lines', type = 'scatter', transforms = list(
+        list(
+          type = 'aggregate',
+          groups = data$Age,
+          aggregations = list(
+            list(
+              target = 'y', func = 'median', enabled = T
+            )
+          )
+        )
+      ), symbol = data$Media, color = data$Condition)
     }
     else{
-      pl <- plot_ly(x = ~data$Age, y = ~data$SizeMM, type = 'scatter', symbol = ~data$Condition, color = ~data$Media, colors = "Paired")
+      pl <- plot_ly(x = data$Age, y = data$SizeMM, mode = 'lines', type = 'scatter',transforms = list(
+        list(
+          type = 'aggregate',
+          groups = data$Age,
+          aggregations = list(
+            list(
+              target = 'y', func = 'median', enabled = T
+            )
+          )
+        )
+      ), symbol = data$Condition, color = data$Media, colors = "Paired")
     }
     
 
@@ -352,16 +382,45 @@ customServer <- function(input, output, session) {
   
   output$plotPercentGrowth <- renderPlotly({
     
-    data <- reactiveDataIndividualPercentGrowth()
-    data <- data[order(data$SizePercent),]
+    current <- reactiveDataIndividualPercentGrowth()
     
     pl <- plot_ly()
     
-    uniqueVal <- as.array(sort(unique(data$SizePercent)))
-    uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+    # uniqueVal <- as.array(sort(unique(data$SizePercent)))
+    # uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+    # 
+    # pl <- plot_ly(x = data$SizePercent, y = data$ZOISize, name = "Data", type = "scatter", colors = "Set1")
+    # pl <- add_trace(pl, y = ~median(data$ZOISize, na.rm = TRUE), name = "Median", type = "scatter", colors = "Set1", mode = 'lines')
+    # 
+    # pl %>%
+    #   layout(
+    #     xaxis = list(
+    #       type = 'category',
+    #       title = 'Size (Percent)'
+    #     ),
+    #     yaxis = list(
+    #       title = 'Zone of Inhibition Size (mm)'
+    #     ))
+    # 
+    # 
+    # pl <- plot_ly()
     
-    pl <- plot_ly(x = data$SizePercent, y = data$ZOISize, name = "Data", type = "scatter", colors = "Set1")
-    pl <- add_trace(pl, y = ~median(data$ZOISize, na.rm = TRUE), name = "Median", type = "scatter", colors = "Set1", mode = 'lines')
+    
+    twenty <- data.frame(current[(current$SizePercent == 20), ])
+    fifty <- data.frame(current[(current$SizePercent == 50), ])
+    hundred <- data.frame(current[(current$SizePercent == 100), ])
+    
+    if(input$sizePercent2 == 20 || input$sizePercent2 == "All"){
+      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", colors = "Set1") 
+    }
+    if(input$sizePercent2 == 50 || input$sizePercent2 == "All"){
+      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", colors = "Set1")
+    }
+    if(input$sizePercent2 == 100 || input$sizePercent2 == "All"){
+      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", colors = "Set1")
+    }
+    
+    
     
     pl %>%
       layout(

@@ -37,9 +37,9 @@ TestedAgainst <- selectizeInput("TestedAgainst", choices = NULL, h4(tags$b("Test
 TestedAgainstAlex <- selectizeInput("TestedAgainstAlex", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
                                 options = list( placeholder = 'Default (Showing All)' ))
 
-Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = c("All", as.character(unique(dataShara$Media))), selected = "All"))
+Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
 
-MediaAlex <- wellPanel( selectInput("MediaAlex", h4(tags$b("Media")), choices = c("All", as.character(unique(dataAlex$Media))), selected = as.character(unique(dataAlex$Media))[1]))
+MediaAlex <- wellPanel( selectInput("MediaAlex", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = as.character(unique(data$Media))[1]))
 
 TimePoint <- selectizeInput("TimePoint", choices = NULL, h5(tags$b("Time Point")), multiple = TRUE)
 
@@ -86,7 +86,7 @@ TestedAgainstOther <- selectizeInput("TestedAgainstOther", choices = NULL, h4(ta
                                 options = list( placeholder = 'Default (Showing All)' ))
 
 
-MediaOther <- wellPanel( selectInput("MediaOther", h4(tags$b("Media")), choices = c("All", as.character(unique(dataShara$Media))), selected = "All"))
+MediaOther <- wellPanel( selectInput("MediaOther", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
 
 
 SizePercentOther <- wellPanel(
@@ -118,7 +118,7 @@ Condition1 <- wellPanel(h4(tags$b("Condition")),
                         )
 )
 
-Media1 <- wellPanel( selectInput("Media1", h4(tags$b("Media")), choices = c("All", as.character(unique(dataShara$Media))), selected = "All"))
+Media1 <- wellPanel( selectInput("Media1", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
 
 ColourBy <- radioButtons("colourBy", h4(tags$b("Colour by:")),
                choices = list("Condition" = "Condition", "Media" = "Media"),
@@ -151,7 +151,7 @@ TestedAgainst2 <- selectizeInput("TestedAgainst2", choices = NULL, h4(tags$b("Te
                                      options = list( placeholder = 'Default (Showing All)' ))
 
 
-Media2 <- wellPanel( selectInput("Media2", h4(tags$b("Media")), choices = c("All", as.character(unique(dataShara$Media))), selected = "All"))
+Media2 <- wellPanel( selectInput("Media2", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
 
 
 SizePercent2 <- wellPanel(
@@ -191,7 +191,7 @@ TestedAgainst3 <- selectizeInput("TestedAgainst3", choices = NULL, h4(tags$b("Te
                                  options = list( placeholder = 'Default (Showing All)' ))
 
 
-Media3 <- wellPanel( selectInput("Media3", h4(tags$b("Media")), choices = c("All", as.character(unique(dataShara$Media))), selected = "All"))
+Media3 <- wellPanel( selectInput("Media3", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
 
 
 

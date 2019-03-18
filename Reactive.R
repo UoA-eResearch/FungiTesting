@@ -5,7 +5,7 @@
 #########################################################################################################
 
 data <- read.csv("fungi_combined.csv")
-dataIndiv <- read.csv("fungi_individual_shara.csv")
+dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
 
 ####################################################################################################
 ############### Reactive data Alex
@@ -137,10 +137,6 @@ reactiveDataSummaryOther <- reactive({
     data[data$Lux == 0, "Lux"] <- 1
   }
   
-  if(input$sizePercentOther != "All"){
-    data <- filter(data, SizePercent %in% as.list(input$sizePercentOther))
-  }
-  
   #data <- na.exclude(data)
   
   data
@@ -171,9 +167,9 @@ reactiveDataIndividualGrowth <- reactive({
     dataSharaIndiv <- filter(dataSharaIndiv, Media == input$Media1)
   }
   
-  if(input$RemoveZero1){
-    dataSharaIndiv <- dataSharaIndiv %>% dplyr::na_if(0)
-  }
+  #if(input$RemoveZero1){
+  #  dataSharaIndiv <- dataSharaIndiv %>% dplyr::na_if(0)
+  #}
   
   dataSharaIndiv <- filter(dataSharaIndiv, Condition == retL | Condition == retD)
   
@@ -207,9 +203,9 @@ reactiveDataIndividualPercentGrowth <- reactive({
   
   data <- filter(data, Condition == retL | Condition == retD)
   
-  if(input$sizePercent2 != "All"){
-    data <- filter(data, SizePercent %in% as.list(input$sizePercent2))
-  }
+  #if(input$sizePercent2 != "All"){
+  #  data <- filter(data, SizePercent %in% as.list(input$sizePercent2))
+  #}
   
   if(!is.null(input$TestedAgainst2)){
     data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst2))
