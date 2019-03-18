@@ -128,7 +128,14 @@ SummaryDataTab <- navbarMenu("Summary Data",
                   column(12,
                          wellPanel(
                            ICMPOther,
-                           RemoveZeroOther
+                           conditionalPanel(
+                             condition = "input.toggleData == 'Zone of Inhibition'",
+                             RemoveZeroOther
+                           ),
+                           conditionalPanel(
+                             condition = "input.toggleData == 'Bioluminescence'",
+                             ZeroToOneOther
+                           )
                          )
                   )
                 ),
@@ -171,6 +178,9 @@ SummaryDataTab <- navbarMenu("Summary Data",
                 fluidRow(
                   column(6,
                          Plot5
+                  ),
+                  column(6,
+                         PlotAdditional
                   )
                 )
          )

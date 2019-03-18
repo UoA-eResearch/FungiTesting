@@ -24,6 +24,11 @@ Plot4 <- wellPanel(
               plotlyOutput("plot4")
             )
 
+PlotAdditional <- wellPanel(
+              h4(tags$b(tags$p(class = "centered", "Tested Against vs Zone of Inhibition"))),
+              plotlyOutput("plotAdditional")
+)
+
 Plot5 <- wellPanel(
               h4(tags$b(tags$p(class = "centered", "Age vs Zone of Inhibition"))),
               plotlyOutput("plot5")

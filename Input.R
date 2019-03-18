@@ -68,6 +68,7 @@ ICMPOther <- selectizeInput("ICMPOther", choices = NULL, h4(tags$b("ICMP")), mul
 
 RemoveZeroOther <- checkboxInput("RemoveZeroOther","Remove 0 Values", FALSE)
 
+ZeroToOneOther <- checkboxInput("ZeroToOneOther","Exchange 0 Values for 1", FALSE)
 
 ConditionOther <- wellPanel( h4(tags$b("ConditionOther")),
                         fluidRow(

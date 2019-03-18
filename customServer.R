@@ -245,6 +245,54 @@ customServer <- function(input, output, session) {
   
   
   ####################################################################################################
+  ############### Plot Additional - Tested Against
+  ####################################################################################################
+  
+  output$plotAdditional <- renderPlotly({
+    
+    dataChosen <- input$toggleData
+    current <- as.data.frame(reactiveDataSummaryOther())
+    
+    pl <- plot_ly()
+    
+    uniqueVal <- as.array(sort(unique(current$TestedAgainst)))
+    uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+    
+    
+    for(entry in uniqueVal){
+      
+      group <- data.frame(current[(current$TestedAgainst == entry), ])
+      
+      if(dataChosen == "Zone of Inhibition"){
+        if(length(group$ZOISize) == 0){
+          next
+        }
+        
+        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+      }
+      else if(dataChosen == "Bioluminescence"){
+        if(length(group$Lux) == 0){
+          next
+        }
+          
+        pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
+      }
+    }
+    
+    pl %>%
+      layout(
+        xaxis = list(
+          type = 'category',
+          title = 'Tested Against'
+        ),
+        yaxis = list(
+          title = 'Zone of Inhibition Size (mm)'
+        ))
+  })
+  
+  
+  
+  ####################################################################################################
   ############### Plot 5
   ####################################################################################################
   

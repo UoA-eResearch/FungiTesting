@@ -40,8 +40,6 @@ reactiveDataAlex <- reactive({
   }
   
   if(input$ZeroToOne){
-    #data <- data %>% dplyr::na_if(0)
-    #data <- data[data$Lux == 0] <- 1
     data[data$Lux == 0, "Lux"] <- 1
   }
   
@@ -109,6 +107,8 @@ reactiveDataSummary <- reactive({
 
 reactiveDataSummaryOther <- reactive({
   
+  data <- filter(data, Researcher == input$Researcher)
+  
   if(input$LOther){ retL <- "L" }
   else{retL <- ""}
   
@@ -133,6 +133,10 @@ reactiveDataSummaryOther <- reactive({
     data <- data %>% dplyr::na_if(0)
   }
   
+  if(input$ZeroToOneOther){
+    data[data$Lux == 0, "Lux"] <- 1
+  }
+  
   if(input$sizePercentOther != "All"){
     data <- filter(data, SizePercent %in% as.list(input$sizePercentOther))
   }
@@ -150,6 +154,8 @@ reactiveDataSummaryOther <- reactive({
 ####################################################################################################
 
 reactiveDataIndividualGrowth <- reactive({
+  
+  data <- filter(data, Researcher == input$Researcher)
   
   if(input$L1){ retL <- "L" }
   else{retL <- ""}
@@ -182,6 +188,8 @@ reactiveDataIndividualGrowth <- reactive({
 ####################################################################################################
 
 reactiveDataIndividualPercentGrowth <- reactive({
+  
+  data <- filter(data, Researcher == input$Researcher)
   
   if(input$L2){ retL <- "L" }
   else{retL <- ""}
@@ -223,6 +231,8 @@ reactiveDataIndividualPercentGrowth <- reactive({
 
 reactiveDataIndividualMedia <- reactive({
   
+  data <- filter(data, Researcher == input$Researcher)
+  
   if(input$L3){ retL <- "L" }
   else{retL <- ""}
   
@@ -259,6 +269,8 @@ reactiveDataIndividualMedia <- reactive({
 
 reactiveDataIndividualLight <- reactive({
   
+  data <- filter(data, Researcher == input$Researcher)
+  
   
   if(!is.null(input$ICMP4)){
     data <- filter(data, ICMP %in% as.list(input$ICMP4))
@@ -283,6 +295,8 @@ reactiveDataIndividualLight <- reactive({
 ####################################################################################################
 
 reactiveDataIndividualAge <- reactive({
+  
+  data <- filter(data, Researcher == input$Researcher)
   
   if(!is.null(input$ICMP5)){
     data <- filter(data, ICMP %in% as.list(input$ICMP5))
