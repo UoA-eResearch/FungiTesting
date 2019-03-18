@@ -17,6 +17,7 @@ Phylum <- selectizeInput("Phylum", choices = NULL, h4(tags$b("Phylum")), multipl
 
 RemoveZero <- checkboxInput("RemoveZero","Remove 0 Values", FALSE)
 
+ZeroToOne <- checkboxInput("ZeroToOne","Exchange 0 Values for 1", FALSE)
 
 Condition <- wellPanel( h4(tags$b("Condition")),
                 fluidRow(

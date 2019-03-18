@@ -28,13 +28,14 @@ SummaryDataTab <- navbarMenu("Summary Data",
                    Researcher,
                    conditionalPanel(
                      condition = "input.toggleData == 'Zone of Inhibition'",
-                     ICMP
+                     ICMP,
+                     RemoveZero
                    ),
                    conditionalPanel(
                      condition = "input.toggleData == 'Bioluminescence'",
-                     ICMPAlex
-                   ),
-                  RemoveZero
+                     ICMPAlex,
+                     ZeroToOne
+                   )
                  )
               )
             ),

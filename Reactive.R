@@ -39,8 +39,10 @@ reactiveDataAlex <- reactive({
     data <- filter(data, Media == input$MediaAlex)
   }
   
-  if(input$RemoveZero){
-    data <- data %>% dplyr::na_if(0)
+  if(input$ZeroToOne){
+    #data <- data %>% dplyr::na_if(0)
+    #data <- data[data$Lux == 0] <- 1
+    data[data$Lux == 0, "Lux"] <- 1
   }
   
   #data <- na.exclude(data)
