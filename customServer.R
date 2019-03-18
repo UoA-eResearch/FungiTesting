@@ -505,14 +505,13 @@ customServer <- function(input, output, session) {
     pl <-plot_ly()
     numCol <- length(unique(data$ZOISize))
     
-    pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = "ZOI Size", color = ~data$ZOISize, type = 'scatter', colors = rev(green2red(numCol)))
+    pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = rev(green2red(numCol)))
     
     
     pl %>%
       layout(
         xaxis = list(title = 'Age'),
-        yaxis = list(title = 'Size (mm diameter)')) %>%
-      colorbar(title = "ZOI Size")
+        yaxis = list(title = 'Size (mm diameter)'))
     
   })
   
