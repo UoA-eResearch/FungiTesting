@@ -9,38 +9,106 @@ library(plotly)
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
   
-  ICMPData <- sort(unique(data$ICMP))
-  
-  TestedAgainstData <- sort(unique(data$TestedAgainst))
-  
-  updateSelectizeInput(session, 'ICMP', choices = ICMPData, server = TRUE)
-  updateSelectizeInput(session, 'ICMPAlex', choices = sort(unique(data$ICMP)), server = TRUE)
-  updateSelectizeInput(session, 'ICMPOther', choices = ICMPData, server = TRUE)
-  updateSelectizeInput(session, 'ICMP1', choices = sort(unique(dataSharaIndiv$ICMP)), server = TRUE)
-  updateSelectizeInput(session, 'ICMP2', choices = ICMPData, server = TRUE)
-  updateSelectizeInput(session, 'ICMP3', choices = ICMPData, server = TRUE)
-  updateSelectizeInput(session, 'ICMP4', choices = ICMPData, server = TRUE)
-  updateSelectizeInput(session, 'ICMP5', choices = ICMPData, server = TRUE)
-  
-  researcher <- sort(unique(data$Researcher))
+  researcher <- sort(unique(data_combined$Researcher))
   updateSelectizeInput(session, 'Researcher', choices = researcher, selected = researcher[[2]], server = TRUE)
   
-  phylum <- sort(unique(data$Phylum))
-  updateSelectizeInput(session, 'Phylum', choices = phylum, server = TRUE)
+  observeEvent(input$Researcher, {
+    selData <- filter(data_combined, Researcher == input$Researcher)
+    
+    ICMPData <- sort(unique(selData$ICMP))
+    updateSelectizeInput(session, 'ICMP', choices = ICMPData, server = TRUE)
+    updateSelectizeInput(session, 'ICMPAlex', choices = ICMPData, server = TRUE)
+    updateSelectizeInput(session, 'ICMPOther', choices = ICMPData, server = TRUE)
+    updateSelectizeInput(session, 'ICMP1', choices = sort(unique(dataSharaIndiv$ICMP)), server = TRUE)
+    updateSelectizeInput(session, 'ICMP2', choices = ICMPData, server = TRUE)
+    updateSelectizeInput(session, 'ICMP3', choices = ICMPData, server = TRUE)
+    updateSelectizeInput(session, 'ICMP4', choices = ICMPData, server = TRUE)
+    updateSelectizeInput(session, 'ICMP5', choices = ICMPData, server = TRUE)
+    
+    PhylumData <- sort(unique(selData$Phylum))
+    updateSelectizeInput(session, 'Phylum', choices = PhylumData, selected = PhylumData, server = TRUE)
+    
+    TimePointsData <- sort(unique(selData$TimePoint))
+    updateSelectizeInput(session, 'TimePoint', choices = TimePointsData, selected = 3, server = TRUE)
+    
+    TestedAgainstData <- sort(unique(selData$TestedAgainst))
+    updateSelectizeInput(session, 'TestedAgainst', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+    updateSelectizeInput(session, 'TestedAgainstAlex', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+    updateSelectizeInput(session, 'TestedAgainstOther', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+    updateSelectizeInput(session, 'TestedAgainst2', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+    updateSelectizeInput(session, 'TestedAgainst3', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+    updateSelectizeInput(session, 'TestedAgainst4', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+    updateSelectizeInput(session, 'TestedAgainst5', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
+    
+     StrainData <- sort(unique(selData$Strain))
+     updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
+     updateSelectizeInput(session, 'StrainAlex', choices = StrainData, selected = StrainData, server = TRUE)
+    
+    MediaData <- sort(unique(selData$Media))
+    MediaDataIndiv <- sort(unique(dataSharaIndiv$Media))
+    updateSelectizeInput(session, 'Media', choices = MediaData, selected = MediaData, server = TRUE)
+    updateSelectizeInput(session, 'MediaAlex', choices = MediaData, selected = MediaData, server = TRUE)
+    updateSelectizeInput(session, 'MediaOther', choices = MediaData, selected = MediaData, server = TRUE)
+    updateSelectizeInput(session, 'Media1', choices = MediaDataIndiv, selected = MediaDataIndiv, server = TRUE)
+    updateSelectizeInput(session, 'Media2', choices = MediaData, selected = MediaData, server = TRUE)
+    updateSelectizeInput(session, 'Media3', choices = MediaData, selected = MediaData, server = TRUE)
+    
+  })
   
-  timePoints <- sort(unique(data$TimePoint))
-  updateSelectizeInput(session, 'TimePoint', choices = timePoints, selected = 3, server = TRUE)
-  
-  updateSelectizeInput(session, 'TestedAgainst', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainstAlex', choices = TestedAgainstData, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainstOther', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst2', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst3', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst4', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
-  updateSelectizeInput(session, 'TestedAgainst5', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
-  
-  updateSelectizeInput(session, 'StrainShara', choices = unique(data$Strain), selected = unique(data$Strain), server = TRUE)
-  updateSelectizeInput(session, 'StrainAlex', choices = unique(data$Strain), selected = unique(data$Strain), server = TRUE)
+  # observeEvent(input$TestedAgainst, {
+  #   current <- data_combined  #as.data.frame(reactiveDataSummary())
+  #   inpT <- input$TestedAgainst
+  #   print(inpT)
+  #   current <- filter(current, TestedAgainst == inpT)
+  #   
+  #   output$uiStrain <- renderUI({
+  #     if(!is.null(input$TestedAgainst)){
+  #       selectizeInput("StrainShara", choices = current$Strain, selected = current$Strain, h5(tags$b("Strain")), multiple = TRUE)
+  #     }
+  #   })
+    
+    #b <- filter(current, TestedAgainst %in% as.list(input$TestedAgainst))
+    #s <- sort(unique(current$Strain))
+    #print(s)
+    #updateSelectizeInput(session, 'StrainShara', choices = NULL, selected=NULL, server = TRUE)
+    #updateSelectizeInput(session, 'StrainShara', choices = s, selected = s, server = TRUE)
+  #})
+  # 
+  # observeEvent(input$TestedAgainstAlex, {
+  #   selData <- filter(data_combined, Researcher == input$Researcher)
+  #   StrainData <- sort(unique(selData$Strain))
+  #   updateSelectizeInput(session, 'StrainAlex', choices = StrainData, selected = StrainData, server = TRUE)
+  # })
+  # 
+  # observeEvent(input$TestedAgainstOther, {
+  #   selData <- filter(data_combined, Researcher == input$Researcher)
+  #   StrainData <- sort(unique(selData$Strain))
+  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
+  # })
+  # 
+  # observeEvent(input$TestedAgainst2, {
+  #   selData <- filter(data_combined, Researcher == input$Researcher)
+  #   StrainData <- sort(unique(selData$Strain))
+  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
+  # })
+  # 
+  # observeEvent(input$TestedAgainst3, {
+  #   selData <- filter(data_combined, Researcher == input$Researcher)
+  #   StrainData <- sort(unique(selData$Strain))
+  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
+  # })
+  # 
+  # observeEvent(input$TestedAgainst4, {
+  #   selData <- filter(data_combined, Researcher == input$Researcher)
+  #   StrainData <- sort(unique(selData$Strain))
+  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
+  # })
+  # 
+  # observeEvent(input$TestedAgainst5, {
+  #   selData <- filter(data_combined, Researcher == input$Researcher)
+  #   StrainData <- sort(unique(selData$Strain))
+  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
+  # })
   
   
   ####################################################################################################
@@ -54,6 +122,7 @@ customServer <- function(input, output, session) {
     
     if(dataChosen == "Zone of Inhibition"){
       current <- as.data.frame(reactiveDataSummary())
+      
       
       titlex <- 'ICMP'
       titley <- 'Zone of Inhibition Size (mm)'

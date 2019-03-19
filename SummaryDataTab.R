@@ -25,17 +25,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
               column(12,
                  wellPanel(
                    ToggleData,
-                   Researcher,
-                   conditionalPanel(
-                     condition = "input.toggleData == 'Zone of Inhibition'",
-                     ICMP,
-                     RemoveZero
-                   ),
-                   conditionalPanel(
-                     condition = "input.toggleData == 'Bioluminescence'",
-                     ICMPAlex,
-                     ZeroToOne
-                   )
+                   Researcher
                  )
               )
             ),
@@ -43,50 +33,31 @@ SummaryDataTab <- navbarMenu("Summary Data",
               column(12,
                      conditionalPanel(
                        condition = "input.toggleData == 'Zone of Inhibition'",
-                       Condition
-                     )
-              )
-            ),
-            fluidRow(
-              column(12,
-                   conditionalPanel(
-                     condition = "input.toggleData == 'Zone of Inhibition'",
-                       wellPanel(
-                         TestedAgainst,
-                         StrainShara
-                       )
-                   ),
-                   conditionalPanel(
-                     condition = "input.toggleData == 'Bioluminescence'",
-                       wellPanel(
-                         TestedAgainstAlex,
-                         StrainAlex
-                       )
-                   ),
-                   wellPanel(
-                     Phylum
-                   )
-              )
-            ),
-            fluidRow(
-              column(12,
-                     conditionalPanel(
-                       condition = "input.toggleData == 'Zone of Inhibition'",
-                       Media
+                       wellPanel(ICMP,
+                                 RemoveZero,
+                                 h5(tags$b("Condition")),
+                                 Condition,
+                                 TestedAgainst,
+                                 StrainShara,
+                                 Media,
+                                 SizePercent)
                      ),
                      conditionalPanel(
                        condition = "input.toggleData == 'Bioluminescence'",
-                       MediaAlex,
-                       TimePoint
+                       wellPanel(ICMPAlex,
+                                 ZeroToOne,
+                                 TestedAgainstAlex,
+                                 StrainAlex,
+                                 MediaAlex,
+                                 TimePoint)
                      )
               )
             ),
             fluidRow(
               column(12,
-                     conditionalPanel(
-                       condition = "input.toggleData == 'Zone of Inhibition'",
-                       SizePercent
-                     )
+                   wellPanel(
+                     Phylum
+                   )
               )
             )
      ),
@@ -147,13 +118,9 @@ SummaryDataTab <- navbarMenu("Summary Data",
                 fluidRow(
                   column(12,
                          wellPanel(
-                           TestedAgainstOther
+                           TestedAgainstOther,
+                           MediaOther
                          )
-                  )
-                ),
-                fluidRow(
-                  column(12,
-                         MediaOther
                   )
                 ),
                 fluidRow(

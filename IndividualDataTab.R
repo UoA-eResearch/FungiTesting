@@ -26,7 +26,9 @@ IndividualDataTab <- navbarMenu("Individual Data",
                                            ),
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
-                                                    Media1
+                                                    wellPanel(
+                                                      Media1
+                                                    )
                                              )
                                            )
                                            
@@ -71,12 +73,8 @@ IndividualDataTab <- navbarMenu("Individual Data",
                                            ),
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
-                                                    Media2
-                                             )
-                                           ),
-                                           fluidRow(
-                                             column(12, offset = 0, style='padding:0px;',
                                                     wellPanel(
+                                                      Media2,
                                                       TestedAgainst2
                                                     )
                                              )
@@ -129,12 +127,8 @@ IndividualDataTab <- navbarMenu("Individual Data",
                                            ),
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
-                                                    Media3
-                                             )
-                                           ),
-                                           fluidRow(
-                                             column(12, offset = 0, style='padding:0px;',
                                                     wellPanel(
+                                                      Media3,
                                                       TestedAgainst3
                                                     )
                                              )

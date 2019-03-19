@@ -4,8 +4,14 @@
 ########### Load data from .csv files and subset to what user has chosen in UI
 #########################################################################################################
 
-data <- read.csv("fungi_combined.csv")
+data_combined <- read.csv("fungi_combined.csv")
 dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
+
+data_filtered <- reactive({
+  d <- filter(data_combined, Researcher == input$Researcher)
+})
+
+
 
 ####################################################################################################
 ############### Reactive data Alex
@@ -13,7 +19,7 @@ dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
 
 reactiveDataAlex <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
+  data <- data_filtered()
   
   if(!is.null(input$ICMPAlex)){
     data <- filter(data, ICMP %in% as.list(input$ICMPAlex))
@@ -35,9 +41,11 @@ reactiveDataAlex <- reactive({
     data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainstAlex))
   }
   
-  if(!input$MediaAlex == "All"){
-    data <- filter(data, Media == input$MediaAlex)
+  
+  if(!is.null(input$MediaAlex)){
+    data <- filter(data, Media %in% as.list(input$MediaAlex))
   }
+  
   
   if(input$ZeroToOne){
     data[data$Lux == 0, "Lux"] <- 1
@@ -55,7 +63,7 @@ reactiveDataAlex <- reactive({
 
 reactiveDataSummary <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
+  data <- data_filtered()
   
   if(input$L){ retL <- "L" }
   else{retL <- ""}
@@ -72,8 +80,8 @@ reactiveDataSummary <- reactive({
     data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst))
   }
   
-  if(!input$Media == "All"){
-    data <- filter(data, Media == input$Media)
+  if(!is.null(input$Media)){
+    data <- filter(data, Media %in% as.list(input$Media))
   }
   
   data <- filter(data, Condition == retL | Condition == retD)
@@ -107,7 +115,7 @@ reactiveDataSummary <- reactive({
 
 reactiveDataSummaryOther <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
+  data <- data_filtered()
   
   if(input$LOther){ retL <- "L" }
   else{retL <- ""}
@@ -119,8 +127,8 @@ reactiveDataSummaryOther <- reactive({
     data <- filter(data, ICMP %in% as.list(input$ICMPOther))
   }
   
-  if(!input$MediaOther == "All"){
-    data <- filter(data, Media == input$MediaOther)
+  if(!is.null(input$MediaOther)){
+    data <- filter(data, Media %in% as.list(input$MediaOther))
   }
   
   data <- filter(data, Condition == retL | Condition == retD)
@@ -151,8 +159,6 @@ reactiveDataSummaryOther <- reactive({
 
 reactiveDataIndividualGrowth <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
-  
   if(input$L1){ retL <- "L" }
   else{retL <- ""}
   
@@ -163,9 +169,10 @@ reactiveDataIndividualGrowth <- reactive({
     dataSharaIndiv <- filter(dataSharaIndiv, ICMP %in% as.list(input$ICMP1))
   }
   
-  if(!input$Media1 == "All"){
-    dataSharaIndiv <- filter(dataSharaIndiv, Media == input$Media1)
+  if(!is.null(input$Media1)){
+    dataSharaIndiv <- filter(dataSharaIndiv, Media %in% as.list(input$Media1))
   }
+  
   
   #if(input$RemoveZero1){
   #  dataSharaIndiv <- dataSharaIndiv %>% dplyr::na_if(0)
@@ -185,7 +192,7 @@ reactiveDataIndividualGrowth <- reactive({
 
 reactiveDataIndividualPercentGrowth <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
+  data <- data_filtered()
   
   if(input$L2){ retL <- "L" }
   else{retL <- ""}
@@ -197,8 +204,8 @@ reactiveDataIndividualPercentGrowth <- reactive({
     data <- filter(data, ICMP %in% as.list(input$ICMP2))
   }
   
-  if(!input$Media2 == "All"){
-    data <- filter(data, Media == input$Media2)
+  if(!is.null(input$Media2)){
+    data <- filter(data, Media %in% as.list(input$Media2))
   }
   
   data <- filter(data, Condition == retL | Condition == retD)
@@ -227,7 +234,7 @@ reactiveDataIndividualPercentGrowth <- reactive({
 
 reactiveDataIndividualMedia <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
+  data <- data_filtered()
   
   if(input$L3){ retL <- "L" }
   else{retL <- ""}
@@ -239,9 +246,10 @@ reactiveDataIndividualMedia <- reactive({
     data <- filter(data, ICMP %in% as.list(input$ICMP3))
   }
   
-  if(!input$Media3 == "All"){
-    data <- filter(data, Media == input$Media3)
+  if(!is.null(input$Media3)){
+    data <- filter(data, Media %in% as.list(input$Media3))
   }
+  
   
   data <- filter(data, Condition == retL | Condition == retD)
   
@@ -265,7 +273,7 @@ reactiveDataIndividualMedia <- reactive({
 
 reactiveDataIndividualLight <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
+  data <- data_filtered()
   
   
   if(!is.null(input$ICMP4)){
@@ -292,7 +300,7 @@ reactiveDataIndividualLight <- reactive({
 
 reactiveDataIndividualAge <- reactive({
   
-  data <- filter(data, Researcher == input$Researcher)
+  data <- data_filtered()
   
   if(!is.null(input$ICMP5)){
     data <- filter(data, ICMP %in% as.list(input$ICMP5))

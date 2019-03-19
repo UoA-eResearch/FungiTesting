@@ -13,47 +13,38 @@ ICMPAlex <- selectizeInput("ICMPAlex", choices = NULL, h4(tags$b("ICMP")), multi
 
 Researcher <- selectizeInput("Researcher", choices = NULL, h5(tags$b("Researcher")), multiple = TRUE)
 
-Phylum <- selectizeInput("Phylum", choices = NULL, h4(tags$b("Phylum")), multiple = TRUE)
+Phylum <- selectizeInput("Phylum", choices = NULL, h5(tags$b("Phylum")), multiple = TRUE)
 
 RemoveZero <- checkboxInput("RemoveZero","Remove 0 Values", FALSE)
 
 ZeroToOne <- checkboxInput("ZeroToOne","Exchange 0 Values for 1", FALSE)
 
-Condition <- wellPanel( h4(tags$b("Condition")),
-                fluidRow(
-                  column(5,
-                         checkboxInput("L","Light", TRUE)
-                  ),
-                  column(7,
-                         checkboxInput("D","Dark", FALSE)
-                  )
-                )
+Condition <- fluidRow(column(5,
+                             checkboxInput("L","Light", TRUE)
+                      ),
+                      column(7,
+                             checkboxInput("D","Dark", FALSE)
+                      )
               )
 
+TestedAgainst <- selectizeInput("TestedAgainst", choices = NULL, h5(tags$b("Tested Against")), multiple = TRUE)
 
-TestedAgainst <- selectizeInput("TestedAgainst", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
-                       options = list( placeholder = 'Default (Showing All)' ))
+TestedAgainstAlex <- selectizeInput("TestedAgainstAlex", choices = NULL, h5(tags$b("Tested Against")), multiple = TRUE)
 
-TestedAgainstAlex <- selectizeInput("TestedAgainstAlex", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
-                                options = list( placeholder = 'Default (Showing All)' ))
+Media <- selectizeInput("Media", h5(tags$b("Media")), choices = NULL, multiple = TRUE)
 
-Media <- wellPanel( selectInput("Media", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
-
-MediaAlex <- wellPanel( selectInput("MediaAlex", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = as.character(unique(data$Media))[1]))
+MediaAlex <- selectizeInput("MediaAlex", h5(tags$b("Media")), choices = NULL, multiple = TRUE)
 
 TimePoint <- selectizeInput("TimePoint", choices = NULL, h5(tags$b("Time Point")), multiple = TRUE)
 
-SizePercent <- wellPanel(
-                  radioButtons("sizePercent", h4(tags$b("Size")),
-                     choices = list( "All" = "All", "20 %" = 20, "50 %" = 50, "100%" = 100),
-                     selected = "All", 
-                     inline = TRUE)
-                )
+SizePercent <- radioButtons("sizePercent", h5(tags$b("Size")),
+                            choices = list( "All" = "All", "20 %" = 20, "50 %" = 50, "100%" = 100),
+                            selected = "All", 
+                            inline = TRUE)
 
-StrainShara <- selectizeInput("StrainShara", choices = NULL, h4(tags$b("Strain")), multiple = TRUE, 
-                       options = list( placeholder = 'Default (Showing All)' ))
+StrainShara <- selectizeInput("StrainShara", choices = NULL, h5(tags$b("Strain")), multiple = TRUE) #uiOutput("uiStrain")
 
-StrainAlex <- selectizeInput("StrainAlex", choices = NULL, h4(tags$b("Strain")), multiple = TRUE, 
+StrainAlex <- selectizeInput("StrainAlex", choices = NULL, h5(tags$b("Strain")), multiple = TRUE, 
                            options = list( placeholder = 'Default (Showing All)' ))
 
 #############################################################################################################################
@@ -82,11 +73,10 @@ ConditionOther <- wellPanel( h4(tags$b("ConditionOther")),
 )
 
 
-TestedAgainstOther <- selectizeInput("TestedAgainstOther", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
-                                options = list( placeholder = 'Default (Showing All)' ))
+TestedAgainstOther <- selectizeInput("TestedAgainstOther", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE)
 
 
-MediaOther <- wellPanel( selectInput("MediaOther", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
+MediaOther <- selectizeInput("MediaOther", h4(tags$b("Media")), choices = NULL, multiple = TRUE)
 
 
 SizePercentOther <- wellPanel(
@@ -118,7 +108,7 @@ Condition1 <- wellPanel(h4(tags$b("Condition")),
                         )
 )
 
-Media1 <- wellPanel( selectInput("Media1", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
+Media1 <- selectizeInput("Media1", h4(tags$b("Media")), choices = NULL, multiple = TRUE)
 
 ColourBy <- radioButtons("colourBy", h4(tags$b("Colour by:")),
                choices = list("Condition" = "Condition", "Media" = "Media"),
@@ -147,11 +137,10 @@ Condition2 <- wellPanel( h4(tags$b("Condition")),
                         )
 )
 
-TestedAgainst2 <- selectizeInput("TestedAgainst2", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
-                                     options = list( placeholder = 'Default (Showing All)' ))
+TestedAgainst2 <- selectizeInput("TestedAgainst2", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE)
 
 
-Media2 <- wellPanel( selectInput("Media2", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
+Media2 <- selectizeInput("Media2", h4(tags$b("Media")), choices = NULL, multiple = TRUE)
 
 
 SizePercent2 <- wellPanel(
@@ -187,11 +176,10 @@ Condition3 <- wellPanel( h4(tags$b("Condition")),
                         )
 )
 
-TestedAgainst3 <- selectizeInput("TestedAgainst3", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
-                                 options = list( placeholder = 'Default (Showing All)' ))
+TestedAgainst3 <- selectizeInput("TestedAgainst3", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE)
 
 
-Media3 <- wellPanel( selectInput("Media3", h4(tags$b("Media")), choices = c("All", as.character(unique(data$Media))), selected = "All"))
+Media3 <- selectizeInput("Media3", h4(tags$b("Media")), choices = NULL, multiple = TRUE)
 
 
 
@@ -206,8 +194,7 @@ ICMP4 <- selectizeInput("ICMP4", choices = NULL, h4(tags$b("ICMP")), multiple = 
 RemoveZero4 <- checkboxInput("RemoveZero4","Remove 0 Values", FALSE)
 
 
-TestedAgainst4 <- selectizeInput("TestedAgainst4", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
-                                 options = list( placeholder = 'Default (Showing All)' ))
+TestedAgainst4 <- selectizeInput("TestedAgainst4", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE)
 
 #############################################################################################################################
 ############# 5
