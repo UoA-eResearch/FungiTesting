@@ -6,7 +6,7 @@
 
 Plot1 <- wellPanel(
               h4(tags$b(tags$p(id = "icmpPlot", class = "centered", "ICMP and Zone of Inhibition Size"))),
-              plotlyOutput("plot1")
+              plotlyOutput("plot1", height = "100%")
             )
 
 Plot2 <- wellPanel(

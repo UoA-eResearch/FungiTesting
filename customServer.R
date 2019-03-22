@@ -167,16 +167,23 @@ customServer <- function(input, output, session) {
     }
     #pl %>% geom_abline(intercept = 6)
     
+    m <- list(
+      l = 100,
+      r = 100,
+      b = -15,
+      t = 10,
+      pad = 0
+    )
     
-    pl %>%
-      layout(
-        xaxis = list(
-          type = 'category',
-          title = titlex
-        ),
-        yaxis = list(
-          title = titley
-        ))
+    pl %>% layout(
+      xaxis = list(
+        type = 'category',
+        title = titlex
+      ),
+      yaxis = list(
+        title = titley
+      ),
+      autosize = F, width = 1000, height = 900)
   })
   
   
