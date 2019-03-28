@@ -12,7 +12,6 @@ data_filtered <- reactive({
 })
 
 
-
 ####################################################################################################
 ############### Reactive data Alex
 ####################################################################################################
@@ -48,7 +47,7 @@ reactiveDataAlex <- reactive({
   
   
   if(input$ZeroToOne){
-    data[data$Lux == 0, "Lux"] <- 1
+    data[data$LogInhibition == 0, "LogInhibition"] <- 1
   }
   
   #data <- na.exclude(data)
@@ -142,7 +141,7 @@ reactiveDataSummaryOther <- reactive({
   }
   
   if(input$ZeroToOneOther){
-    data[data$Lux == 0, "Lux"] <- 1
+    data[data$LogInhibition == 0, "LogInhibition"] <- 1
   }
   
   #data <- na.exclude(data)

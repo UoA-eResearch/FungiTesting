@@ -25,7 +25,8 @@ SummaryDataTab <- navbarMenu("Summary Data",
               column(12,
                  wellPanel(
                    ToggleData,
-                   Researcher
+                   Researcher#,
+                   #ChooseColor
                  )
               )
             ),

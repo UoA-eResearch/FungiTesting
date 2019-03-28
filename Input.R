@@ -1,5 +1,7 @@
 source('Reactive.R', local = TRUE)
 
+ChooseColor <- actionButton("chooseColor", "Choose color")
+
 ToggleData <- radioButtons("toggleData", h4(tags$b("Choose Dataset")),
                            choices = list( "Zone of Inhibition" = "Zone of Inhibition", "Bioluminescence" = "Bioluminescence"),
                            selected = "Zone of Inhibition", 

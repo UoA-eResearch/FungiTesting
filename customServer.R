@@ -40,9 +40,9 @@ customServer <- function(input, output, session) {
     updateSelectizeInput(session, 'TestedAgainst4', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
     updateSelectizeInput(session, 'TestedAgainst5', choices = TestedAgainstData, selected = TestedAgainstData, server = TRUE)
     
-     StrainData <- sort(unique(selData$Strain))
-     updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
-     updateSelectizeInput(session, 'StrainAlex', choices = StrainData, selected = StrainData, server = TRUE)
+    StrainData <- sort(unique(selData$Strain))
+    updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
+    updateSelectizeInput(session, 'StrainAlex', choices = StrainData, selected = StrainData, server = TRUE)
     
     MediaData <- sort(unique(selData$Media))
     MediaDataIndiv <- sort(unique(dataSharaIndiv$Media))
@@ -66,12 +66,12 @@ customServer <- function(input, output, session) {
   #       selectizeInput("StrainShara", choices = current$Strain, selected = current$Strain, h5(tags$b("Strain")), multiple = TRUE)
   #     }
   #   })
-    
-    #b <- filter(current, TestedAgainst %in% as.list(input$TestedAgainst))
-    #s <- sort(unique(current$Strain))
-    #print(s)
-    #updateSelectizeInput(session, 'StrainShara', choices = NULL, selected=NULL, server = TRUE)
-    #updateSelectizeInput(session, 'StrainShara', choices = s, selected = s, server = TRUE)
+  
+  #b <- filter(current, TestedAgainst %in% as.list(input$TestedAgainst))
+  #s <- sort(unique(current$Strain))
+  #print(s)
+  #updateSelectizeInput(session, 'StrainShara', choices = NULL, selected=NULL, server = TRUE)
+  #updateSelectizeInput(session, 'StrainShara', choices = s, selected = s, server = TRUE)
   #})
   # 
   # observeEvent(input$TestedAgainstAlex, {
@@ -131,7 +131,7 @@ customServer <- function(input, output, session) {
       current <- as.data.frame(reactiveDataAlex())
       
       titlex <- 'ICMP'
-      titley <- 'Luminescence'
+      titley <- 'Log Inhibition'
     }
     
     pl <- plot_ly()
@@ -155,13 +155,13 @@ customServer <- function(input, output, session) {
         
       }
       else if(dataChosen == "Bioluminescence"){
-        if(length(group$Lux) == 0){
+        if(length(group$LogInhibition) == 0){
           next
         }
         
         html("icmpPlot", "ICMP and Luminescence")
-        pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
-        pl <- layout(pl, yaxis = list(type = "log"))
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", colors = "Set1")
+        #pl <- layout(pl, yaxis = list(type = "log"))
       }
       
     }
@@ -204,7 +204,7 @@ customServer <- function(input, output, session) {
     }
     else if(dataChosen == "Bioluminescence"){
       current <- as.data.frame(reactiveDataAlex())
-      titley <- 'Luminescence'
+      titley <- 'Log Inhibition'
     }
     
     pl <- plot_ly()
@@ -225,13 +225,13 @@ customServer <- function(input, output, session) {
         pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       }
       else if(dataChosen == "Bioluminescence"){
-        if(length(group$Lux) == 0){
+        if(length(group$LogInhibition) == 0){
           next
         }
         
         html("mediaPlot", "Media Affect on Luminescence")
-        pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
-        pl <- layout(pl, yaxis = list(type = "log"))
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", colors = "Set1")
+        #pl <- layout(pl, yaxis = list(type = "log"))
       }
     }
     
@@ -355,11 +355,11 @@ customServer <- function(input, output, session) {
         pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
       }
       else if(dataChosen == "Bioluminescence"){
-        if(length(group$Lux) == 0){
+        if(length(group$LogInhibition) == 0){
           next
         }
-          
-        pl <- add_boxplot(pl, x = NULL, y = group$Lux, name = entry, type = "box", colors = "Set1")
+        
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", colors = "Set1")
       }
     }
     
@@ -408,12 +408,12 @@ customServer <- function(input, output, session) {
   output$plotGrowthRate <- renderPlotly({
     
     data <- reactiveDataIndividualGrowth()
-
+    
     ### Create empty chart as variable pl because we want to add several data sets to it in a loop
     pl <-plot_ly()
     
     
-
+    
     if(input$colourBy == "Condition"){
       pl <- plot_ly(x = data$Age, y = data$SizeMM, mode = 'lines', type = 'scatter', transforms = list(
         list(
@@ -441,14 +441,14 @@ customServer <- function(input, output, session) {
       ), symbol = data$Condition, color = data$Media, colors = "Paired")
     }
     
-
+    
     pl %>%
       #add_trace(y = ~growthRate, name = 'Growth Rate', line = list(color = 'rgb(205, 12, 24)', width = 4, dash = 'dot')) %>%
       layout(
         xaxis = list(title = 'Age'),
         yaxis = list(title = 'Size (mm diameter)'))
-
-
+    
+    
     
   })
   
@@ -595,7 +595,7 @@ customServer <- function(input, output, session) {
   ####################################################################################################
   ############### Output table of data that is currently selected
   ####################################################################################################
-
+  
   ### Summary
   #############################################################
   
@@ -645,5 +645,5 @@ customServer <- function(input, output, session) {
   calculateGrowth <- function(past, present){
     ((present - past) / past) * 100
   }
-
+  
 }

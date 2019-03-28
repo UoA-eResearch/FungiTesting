@@ -6,6 +6,7 @@ library(dplyr)
 library(RColorBrewer)
 library(colorRamps)
 library(shinyjs)
+library(colorspace)
 
 source('SummaryDataTab.R')
 source('IndividualDataTab.R')
