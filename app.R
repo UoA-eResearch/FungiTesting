@@ -7,6 +7,10 @@ library(RColorBrewer)
 library(colorRamps)
 library(shinyjs)
 library(colorspace)
+library(doParallel)
+library(foreach)
+library(profvis)
+
 
 source('SummaryDataTab.R')
 source('IndividualDataTab.R')

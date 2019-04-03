@@ -355,3 +355,127 @@
 
 
 
+# 
+# n_cores <- detectCores() - 1
+# 
+# ####################################################################################################
+# ############### Plot 1
+# ####################################################################################################
+# 
+# 
+# ### output$"ElementName" is the UI element that you want the plot to be rendered/drawn to
+# output$plot1 <- renderPlotly({
+#   runtime1 <- system.time({
+#     dataChosen <- input$toggleData
+#     
+#     #brrrb <- colo()
+#     
+#     pl <- plot_ly()#colors = brrrb)
+#     
+#     
+#     if(dataChosen == "Zone of Inhibition"){
+#       
+#       current <- as.data.frame(reactiveDataSummary())
+#       
+#       titlex <- 'ICMP'
+#       titley <- 'Zone of Inhibition Size (mm)'
+#     }
+#     else if(dataChosen == "Bioluminescence"){
+#       current <- as.data.frame(reactiveDataAlex())
+#       #html("icmpPlot", "ICMP and Luminescence")
+#       
+#       titlex <- 'ICMP'
+#       titley <- 'Log Inhibition'
+#     }
+#     
+#     uniqueVal <- as.array(sort(unique(current$ICMP)))
+#     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+#     
+#     
+#     cl <- makeCluster(1)
+#     registerDoParallel(cl)
+#     numEntries <- length(uniqueVal)
+#     print(numEntries)
+#     
+#     ### Do something for each entry in the data set sorted by ICMP
+#     res <- foreach(i = 1:numEntries,
+#                    .packages = 'plotly')%do%{
+#                      entry <- uniqueVal[i]
+#                      #print(entry)
+#                      
+#                      ### Get all data with the same ICMP, but exclude missing values
+#                      group <- data.frame(current[(current$ICMP == entry), ])
+#                      
+#                      if(dataChosen == "Zone of Inhibition"){
+#                        if(length(group$ZOISize) != 0){
+#                          
+#                          
+#                          pl<- add_boxplot(pl, y = group$ZOISize, name = entry, type = "box")
+#                          
+#                          if(i == numEntries){
+#                            return(pl)
+#                          }
+#                          
+#                        }
+#                        #p <- c(data.frame(group))
+#                        #p <- add_boxplot(pl, x = entry, y = group$ZOISize, name = entry, type = "box", color = group$ICMP)
+#                        
+#                      }
+#                      else if(dataChosen == "Bioluminescence"){
+#                        if(length(group$LogInhibition) != 0){
+#                          
+#                          p <- add_boxplot(pl, y = group$LogInhibition, name = entry, type = "box")
+#                          
+#                          if(i == numEntries){
+#                            return(pl)
+#                          }
+#                          
+#                        }
+#                        
+#                        #p <- add_boxplot(pl, y = group$LogInhibition, name = entry, type = "box")
+#                        #return(p)
+#                        #pl <- layout(pl, yaxis = list(type = "log"))
+#                      }
+#                    }
+#     
+#     
+#     #pl %>% geom_abline(intercept = 6)
+#     #print(res)
+#     #p <- res
+#     stopCluster(cl)
+#     
+#   })
+#   
+#   print(runtime1)
+#   
+#   m <- list(
+#     l = 100,
+#     r = 100,
+#     b = -15,
+#     t = 10,
+#     pad = 0
+#   )
+#   
+#   f <- res[[length(res)]]
+#   
+#   f %>% layout(
+#     xaxis = list(
+#       type = 'category',
+#       title = titlex
+#     ),
+#     yaxis = list(
+#       title = titley
+#     ),
+#     autosize = F, width = 1000, height = 900)
+#   
+#   #pl <- #subplot(res, shareX = TRUE, shareY = TRUE, which_layout = "merge")
+#   #html("icmpPlot", "ICMP and Zone of Inhibition Size")
+#   #pl <- add_boxplot(p = pl, x = res$ICMP, y = res$ZOISize, name = res$ICMP, type = "box")#, color = p[3])
+#   
+#   
+# })
+
+
+
+
+

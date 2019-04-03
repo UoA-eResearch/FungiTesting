@@ -4,10 +4,12 @@
 ########### Load data from .csv files and subset to what user has chosen in UI
 #########################################################################################################
 
-data_combined <- read.csv("fungi_combined.csv")
-dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
+#profvis({
+
+
 
 data_filtered <- reactive({
+  
   d <- filter(data_combined, Researcher == input$Researcher)
 })
 
@@ -100,9 +102,7 @@ reactiveDataSummary <- reactive({
   if(input$sizePercent != "All"){
     data <- filter(data, SizePercent %in% as.list(input$sizePercent))
   }
-  
   #data <- na.exclude(data)
-  
   data
   
 })
@@ -320,5 +320,5 @@ reactiveDataIndividualAge <- reactive({
 })
 
 
-
+#})
 

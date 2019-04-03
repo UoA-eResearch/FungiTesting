@@ -5,6 +5,8 @@ library(plotly)
 ########### Set up functionality for the shiny app here
 ##################################################################
 
+data_combined <- read.csv("fungi_combined.csv")
+dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
 
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
@@ -110,6 +112,12 @@ customServer <- function(input, output, session) {
   #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
   # })
   
+  #colo <- reactiveVal()
+  
+  #observeEvent(input$chooseColor, {
+  #  c <- choose_palette()
+  #  colo <- c(7)
+  #})
   
   ####################################################################################################
   ############### Plot 1
@@ -122,7 +130,6 @@ customServer <- function(input, output, session) {
     
     if(dataChosen == "Zone of Inhibition"){
       current <- as.data.frame(reactiveDataSummary())
-      
       
       titlex <- 'ICMP'
       titley <- 'Zone of Inhibition Size (mm)'
@@ -186,8 +193,6 @@ customServer <- function(input, output, session) {
       autosize = F, width = 1000, height = 900)
   })
   
-  
-  
   ####################################################################################################
   ############### Plot 2
   ####################################################################################################
@@ -195,7 +200,6 @@ customServer <- function(input, output, session) {
   #colors <- c('rgb(211,94,96)', 'rgb(128,133,133)', 'rgb(144,103,167)', 'rgb(171,104,87)', 'rgb(114,147,203)', 'rgb(51, 102, 0)')
   
   output$plot2 <- renderPlotly({
-    
     dataChosen <- input$toggleData
     
     if(dataChosen == "Zone of Inhibition"){
@@ -212,7 +216,9 @@ customServer <- function(input, output, session) {
     uniqueVal <- as.array(sort(unique(current$Media)))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
     
-    for(entry in uniqueVal){
+    #registerDoParallel(n_cores)
+    
+    for(entry in uniqueVal){#%dopar%{
       
       group <- data.frame(current[(current$Media == entry), ])
       
@@ -600,14 +606,14 @@ customServer <- function(input, output, session) {
   #############################################################
   
   output$tableTesting <- renderTable({
+    
     if(input$toggleData == "Zone of Inhibition"){
       show <- reactiveDataSummary()
     }
     else if(input$toggleData == "Bioluminescence"){
       show <- reactiveDataAlex()
     }
-    
-    show
+    show <- show[1:10,]
     
   })
   
@@ -619,31 +625,28 @@ customServer <- function(input, output, session) {
   ##############################################################
   
   output$tableIndivGrowth <- renderTable({
-    reactiveDataIndividualGrowth()
+    show <- reactiveDataIndividualGrowth()
+    show <- show[1:10,]
   })
   
   output$tableIndivPercentGrowth <- renderTable({
-    reactiveDataIndividualPercentGrowth()
+    show <- reactiveDataIndividualPercentGrowth()
+    show <- show[1:10,]
   })
   
   output$tableIndivMedia <- renderTable({
-    reactiveDataIndividualMedia()
+    show <- reactiveDataIndividualMedia()
+    show <- show[1:10,]
   })
   
   output$tableIndivLight <- renderTable({
-    reactiveDataIndividualLight()
+    show <- reactiveDataIndividualLight()
+    show <- show[1:10,]
   })
   
   output$tableIndivAge <- renderTable({
-    reactiveDataIndividualAge()
+    show <- reactiveDataIndividualAge()
+    show <- show[1:10,]
   })
-  
-  ####################################################################################################
-  ############### Calculate growth rates
-  ####################################################################################################
-  
-  calculateGrowth <- function(past, present){
-    ((present - past) / past) * 100
-  }
   
 }
