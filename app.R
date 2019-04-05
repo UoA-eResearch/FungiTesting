@@ -9,7 +9,7 @@ library(shinyjs)
 library(colorspace)
 library(doParallel)
 library(foreach)
-library(profvis)
+library(shinyalert)
 
 
 source('SummaryDataTab.R')

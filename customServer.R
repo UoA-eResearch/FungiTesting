@@ -11,11 +11,17 @@ dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
   
-  researcher <- sort(unique(data_combined$Researcher))
-  updateSelectizeInput(session, 'Researcher', choices = researcher, selected = researcher[[2]], server = TRUE)
+  
+  
+  observeEvent(input$toggleData, {
+    researcher <- sort(unique(data_combined$Researcher))
+    updateSelectizeInput(session, 'Researcher', choices = researcher, selected = NULL, server = TRUE)
+  })
+  
   
   observeEvent(input$Researcher, {
-    selData <- filter(data_combined, Researcher == input$Researcher)
+    
+    selData <- data_filtered()#filter(data_combined, Researcher == input$Researcher)
     
     ICMPData <- sort(unique(selData$ICMP))
     updateSelectizeInput(session, 'ICMP', choices = ICMPData, server = TRUE)
@@ -55,69 +61,15 @@ customServer <- function(input, output, session) {
     updateSelectizeInput(session, 'Media2', choices = MediaData, selected = MediaData, server = TRUE)
     updateSelectizeInput(session, 'Media3', choices = MediaData, selected = MediaData, server = TRUE)
     
+  }, ignoreInit = TRUE, ignoreNULL = TRUE)
+  
+  output$message <- renderText({
+    HTML(
+      '<h2 style="text-align: center;"><span style="color: #993366;"><strong><img src="./info.svg" alt="" width="101" height="102"/></strong></span></h2>
+        <h3 style="text-align: center;"><span style="color: #008080;"><strong>No data chosen!</strong></span></h3>
+        <h3 style="text-align: center;"><span style="color: #008080;"><strong>Please select from the list of researchers on the left.</strong></span></h3>'
+    )
   })
-  
-  # observeEvent(input$TestedAgainst, {
-  #   current <- data_combined  #as.data.frame(reactiveDataSummary())
-  #   inpT <- input$TestedAgainst
-  #   print(inpT)
-  #   current <- filter(current, TestedAgainst == inpT)
-  #   
-  #   output$uiStrain <- renderUI({
-  #     if(!is.null(input$TestedAgainst)){
-  #       selectizeInput("StrainShara", choices = current$Strain, selected = current$Strain, h5(tags$b("Strain")), multiple = TRUE)
-  #     }
-  #   })
-  
-  #b <- filter(current, TestedAgainst %in% as.list(input$TestedAgainst))
-  #s <- sort(unique(current$Strain))
-  #print(s)
-  #updateSelectizeInput(session, 'StrainShara', choices = NULL, selected=NULL, server = TRUE)
-  #updateSelectizeInput(session, 'StrainShara', choices = s, selected = s, server = TRUE)
-  #})
-  # 
-  # observeEvent(input$TestedAgainstAlex, {
-  #   selData <- filter(data_combined, Researcher == input$Researcher)
-  #   StrainData <- sort(unique(selData$Strain))
-  #   updateSelectizeInput(session, 'StrainAlex', choices = StrainData, selected = StrainData, server = TRUE)
-  # })
-  # 
-  # observeEvent(input$TestedAgainstOther, {
-  #   selData <- filter(data_combined, Researcher == input$Researcher)
-  #   StrainData <- sort(unique(selData$Strain))
-  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
-  # })
-  # 
-  # observeEvent(input$TestedAgainst2, {
-  #   selData <- filter(data_combined, Researcher == input$Researcher)
-  #   StrainData <- sort(unique(selData$Strain))
-  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
-  # })
-  # 
-  # observeEvent(input$TestedAgainst3, {
-  #   selData <- filter(data_combined, Researcher == input$Researcher)
-  #   StrainData <- sort(unique(selData$Strain))
-  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
-  # })
-  # 
-  # observeEvent(input$TestedAgainst4, {
-  #   selData <- filter(data_combined, Researcher == input$Researcher)
-  #   StrainData <- sort(unique(selData$Strain))
-  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
-  # })
-  # 
-  # observeEvent(input$TestedAgainst5, {
-  #   selData <- filter(data_combined, Researcher == input$Researcher)
-  #   StrainData <- sort(unique(selData$Strain))
-  #   updateSelectizeInput(session, 'StrainShara', choices = StrainData, selected = StrainData, server = TRUE)
-  # })
-  
-  #colo <- reactiveVal()
-  
-  #observeEvent(input$chooseColor, {
-  #  c <- choose_palette()
-  #  colo <- c(7)
-  #})
   
   ####################################################################################################
   ############### Plot 1
@@ -125,6 +77,7 @@ customServer <- function(input, output, session) {
   
   ### output$"ElementName" is the UI element that you want the plot to be rendered/drawn to
   output$plot1 <- renderPlotly({
+    tryCatch({
     
     dataChosen <- input$toggleData
     
@@ -141,7 +94,7 @@ customServer <- function(input, output, session) {
       titley <- 'Log Inhibition'
     }
     
-    pl <- plot_ly()
+    pl <- plot_ly(autosize = F, width = 1000, height = 900)
     
     uniqueVal <- as.array(sort(unique(current$ICMP)))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
@@ -189,8 +142,13 @@ customServer <- function(input, output, session) {
       ),
       yaxis = list(
         title = titley
-      ),
-      autosize = F, width = 1000, height = 900)
+      ))
+ 
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   ####################################################################################################
@@ -200,6 +158,9 @@ customServer <- function(input, output, session) {
   #colors <- c('rgb(211,94,96)', 'rgb(128,133,133)', 'rgb(144,103,167)', 'rgb(171,104,87)', 'rgb(114,147,203)', 'rgb(51, 102, 0)')
   
   output$plot2 <- renderPlotly({
+    
+  tryCatch({
+    
     dataChosen <- input$toggleData
     
     if(dataChosen == "Zone of Inhibition"){
@@ -250,6 +211,12 @@ customServer <- function(input, output, session) {
         yaxis = list(
           title = titley
         ))
+    
+  },error = function(e) {
+    
+  }, finally = {
+    
+  })
   })
   
   
@@ -258,6 +225,8 @@ customServer <- function(input, output, session) {
   ####################################################################################################
   
   output$plot3 <- renderPlotly({
+    
+    tryCatch({
     
     current <- as.data.frame(reactiveDataSummaryOther())
     
@@ -290,6 +259,12 @@ customServer <- function(input, output, session) {
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
         ))
+    
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   
@@ -299,6 +274,8 @@ customServer <- function(input, output, session) {
   ####################################################################################################
   
   output$plot4 <- renderPlotly({
+    
+    tryCatch({
     
     current <- as.data.frame(reactiveDataSummaryOther())
     
@@ -330,6 +307,12 @@ customServer <- function(input, output, session) {
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
         ))
+    
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   
@@ -339,6 +322,8 @@ customServer <- function(input, output, session) {
   ####################################################################################################
   
   output$plotAdditional <- renderPlotly({
+    
+    tryCatch({
     
     dataChosen <- input$toggleData
     current <- as.data.frame(reactiveDataSummaryOther())
@@ -378,6 +363,12 @@ customServer <- function(input, output, session) {
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
         ))
+    
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   
@@ -388,21 +379,33 @@ customServer <- function(input, output, session) {
   
   output$plot5 <- renderPlotly({
     
+    tryCatch({
+    
     current <- as.data.frame(reactiveDataSummaryOther())
+    
     pl <- plot_ly()
     
-    if(length(current$Age) > 0){
+    if(length(current$ZOISize) > 0){
       
-      densityAge <- density(na.exclude(current$Age))
+      ZOISize <- current$ZOISize
+      Age <- current$Age
       
-      pl <- plot_ly(x = ~densityAge$x, y = ~densityAge$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', colors = "Set1")
+      a <- data.frame(ZOISize, Age)
+      #print(a)
+      
+      densityZOI <- density(na.exclude(a$ZOISize))
+      print(densityZOI)
+      
+      pl <- plot_ly(x = ~densityZOI$x, y = ~densityZOI$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', colors = "Set1")
+      #pl <- plot_ly(x = ~current$Age, type = 'histogram', colors = "Set1")
     }
     
-    pl %>%
-      layout(
-        xaxis = list(title = 'Days Old'),
-        yaxis = list(title = 'Density'))
-    
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
+  
   })
   
   
@@ -412,6 +415,8 @@ customServer <- function(input, output, session) {
   ####################################################################################################
   
   output$plotGrowthRate <- renderPlotly({
+    
+    tryCatch({
     
     data <- reactiveDataIndividualGrowth()
     
@@ -454,7 +459,11 @@ customServer <- function(input, output, session) {
         xaxis = list(title = 'Age'),
         yaxis = list(title = 'Size (mm diameter)'))
     
-    
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
     
   })
   
@@ -464,28 +473,11 @@ customServer <- function(input, output, session) {
   
   output$plotPercentGrowth <- renderPlotly({
     
+    tryCatch({
+    
     current <- reactiveDataIndividualPercentGrowth()
     
     pl <- plot_ly()
-    
-    # uniqueVal <- as.array(sort(unique(data$SizePercent)))
-    # uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
-    # 
-    # pl <- plot_ly(x = data$SizePercent, y = data$ZOISize, name = "Data", type = "scatter", colors = "Set1")
-    # pl <- add_trace(pl, y = ~median(data$ZOISize, na.rm = TRUE), name = "Median", type = "scatter", colors = "Set1", mode = 'lines')
-    # 
-    # pl %>%
-    #   layout(
-    #     xaxis = list(
-    #       type = 'category',
-    #       title = 'Size (Percent)'
-    #     ),
-    #     yaxis = list(
-    #       title = 'Zone of Inhibition Size (mm)'
-    #     ))
-    # 
-    # 
-    # pl <- plot_ly()
     
     
     twenty <- data.frame(current[(current$SizePercent == 20), ])
@@ -514,6 +506,11 @@ customServer <- function(input, output, session) {
           title = 'Zone of Inhibition Size (mm)'
         ))
     
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   ####################################################################################################
@@ -521,6 +518,8 @@ customServer <- function(input, output, session) {
   ####################################################################################################
   
   output$plotMedia <- renderPlotly({
+    
+    tryCatch({
     
     data <- reactiveDataIndividualMedia()
     
@@ -547,6 +546,11 @@ customServer <- function(input, output, session) {
           title = 'Zone of Inhibition Size (mm)'
         ))
     
+    },  error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   ####################################################################################################
@@ -555,14 +559,14 @@ customServer <- function(input, output, session) {
   
   output$plotLight <- renderPlotly({
     
+    tryCatch({
+    
     data <- reactiveDataIndividualLight()
     
     p <- plot_ly()
     
     p <- add_boxplot(p, x = NULL, y = data$ZOISize, name = data$Condition, color = data$Condition, colors = "Spectral", type = "box")
     
-    
-    p
     p %>%
       layout(
         xaxis = list(
@@ -573,6 +577,11 @@ customServer <- function(input, output, session) {
           title = 'Zone of Inhibition Size (mm)'
         ))
     
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   ####################################################################################################
@@ -580,6 +589,8 @@ customServer <- function(input, output, session) {
   ####################################################################################################
   
   output$plotAge <- renderPlotly({
+    
+    tryCatch({
     
     data <- reactiveDataIndividualAge()
     
@@ -595,6 +606,11 @@ customServer <- function(input, output, session) {
         xaxis = list(title = 'Age'),
         yaxis = list(title = 'Size (mm diameter)'))
     
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   
@@ -606,15 +622,21 @@ customServer <- function(input, output, session) {
   #############################################################
   
   output$tableTesting <- renderTable({
+    tryCatch({
     
-    if(input$toggleData == "Zone of Inhibition"){
-      show <- reactiveDataSummary()
-    }
-    else if(input$toggleData == "Bioluminescence"){
-      show <- reactiveDataAlex()
-    }
-    show <- show[1:10,]
+      if(input$toggleData == "Zone of Inhibition"){
+        show <- reactiveDataSummary()
+      }
+      else if(input$toggleData == "Bioluminescence"){
+        show <- reactiveDataAlex()
+      }
+      show <- show[1:10,]
     
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   output$tableMeasure <- renderTable({
@@ -625,28 +647,58 @@ customServer <- function(input, output, session) {
   ##############################################################
   
   output$tableIndivGrowth <- renderTable({
-    show <- reactiveDataIndividualGrowth()
-    show <- show[1:10,]
+    tryCatch({
+      show <- reactiveDataIndividualGrowth()
+      show <- show[1:10,]
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   output$tableIndivPercentGrowth <- renderTable({
-    show <- reactiveDataIndividualPercentGrowth()
-    show <- show[1:10,]
+    tryCatch({
+      show <- reactiveDataIndividualPercentGrowth()
+      show <- show[1:10,]
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   output$tableIndivMedia <- renderTable({
-    show <- reactiveDataIndividualMedia()
-    show <- show[1:10,]
+    tryCatch({
+      show <- reactiveDataIndividualMedia()
+      show <- show[1:10,]
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   output$tableIndivLight <- renderTable({
-    show <- reactiveDataIndividualLight()
-    show <- show[1:10,]
+    tryCatch({
+      show <- reactiveDataIndividualLight()
+      show <- show[1:10,]
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
   output$tableIndivAge <- renderTable({
-    show <- reactiveDataIndividualAge()
-    show <- show[1:10,]
+    tryCatch({
+      show <- reactiveDataIndividualAge()
+      show <- show[1:10,]
+    }, error = function(e) {
+      
+    }, finally = {
+      
+    })
   })
   
 }

@@ -9,7 +9,6 @@
 
 
 data_filtered <- reactive({
-  
   d <- filter(data_combined, Researcher == input$Researcher)
 })
 

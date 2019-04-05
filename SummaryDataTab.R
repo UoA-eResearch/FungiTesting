@@ -7,6 +7,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
        tabPanel(
          tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 18em; background-color: #ecf0f1;}")),
          useShinyjs(),
+         useShinyalert(),
          
          title = div( h4("ICMP & ZOI Size", style = "padding: 0.5em;"),
            img(src="ICMP.png", style = "width: inherit;"),
@@ -25,15 +26,15 @@ SummaryDataTab <- navbarMenu("Summary Data",
               column(12,
                  wellPanel(
                    ToggleData,
-                   Researcher,
-                   ChooseColor
+                   Researcher#,
+                   #ChooseColor
                  )
               )
             ),
             fluidRow(
               column(12,
                      conditionalPanel(
-                       condition = "input.toggleData == 'Zone of Inhibition'",
+                       condition = "input.toggleData == 'Zone of Inhibition' && input.Researcher",
                        wellPanel(ICMP,
                                  RemoveZero,
                                  h5(tags$b("Condition")),
@@ -44,7 +45,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
                                  SizePercent)
                      ),
                      conditionalPanel(
-                       condition = "input.toggleData == 'Bioluminescence'",
+                       condition = "input.toggleData == 'Bioluminescence' && input.Researcher",
                        wellPanel(ICMPAlex,
                                  ZeroToOne,
                                  TestedAgainstAlex,
@@ -56,9 +57,12 @@ SummaryDataTab <- navbarMenu("Summary Data",
             ),
             fluidRow(
               column(12,
-                   wellPanel(
-                     Phylum
-                   )
+                     conditionalPanel(
+                       condition = "input.Researcher",
+                       wellPanel(
+                         Phylum
+                       )
+                     )
               )
             )
      ),
@@ -69,19 +73,32 @@ SummaryDataTab <- navbarMenu("Summary Data",
        column(9,
               fluidRow(
                 column(12,
-                       Plot1
+                       conditionalPanel(
+                         condition = "input.Researcher",
+                         Plot1
+                       ),
+                       conditionalPanel(
+                         condition = "!input.Researcher",
+                         NoData
+                       )
                 )
               ),
               fluidRow(
                 column(12,
-                       Plot2
+                       conditionalPanel(
+                         condition = "input.Researcher",
+                         Plot2
+                       )
                 )
               )
         ),
      
      fluidRow(
        column(12,
-              DataTableTesting
+              conditionalPanel(
+                condition = "input.Researcher",
+                DataTableTesting
+              )
        )
       )
      ),
@@ -101,11 +118,11 @@ SummaryDataTab <- navbarMenu("Summary Data",
                          wellPanel(
                            ICMPOther,
                            conditionalPanel(
-                             condition = "input.toggleData == 'Zone of Inhibition'",
+                             condition = "input.toggleData == 'Zone of Inhibition' input.Researcher",
                              RemoveZeroOther
                            ),
                            conditionalPanel(
-                             condition = "input.toggleData == 'Bioluminescence'",
+                             condition = "input.toggleData == 'Bioluminescence' input.Researcher",
                              ZeroToOneOther
                            )
                          )
@@ -113,20 +130,29 @@ SummaryDataTab <- navbarMenu("Summary Data",
                 ),
                 fluidRow(
                   column(12,
-                         ConditionOther
-                  )
-                ),
-                fluidRow(
-                  column(12,
-                         wellPanel(
-                           TestedAgainstOther,
-                           MediaOther
+                         conditionalPanel(
+                           condition = "input.Researcher",
+                           ConditionOther
                          )
                   )
                 ),
                 fluidRow(
                   column(12,
-                         SizePercentOther
+                         conditionalPanel(
+                           condition = "input.Researcher",
+                           wellPanel(
+                             TestedAgainstOther,
+                             MediaOther
+                           )
+                         )
+                  )
+                ),
+                fluidRow(
+                  column(12,
+                         conditionalPanel(
+                           condition = "input.Researcher",
+                           SizePercentOther
+                         )
                   )
                 )
          ),
@@ -137,18 +163,30 @@ SummaryDataTab <- navbarMenu("Summary Data",
          column(9,
                 fluidRow(
                   column(6,
-                          Plot3
+                         conditionalPanel(
+                           condition = "input.Researcher",
+                           Plot3
+                         )
                   ),
                   column(6,
-                         Plot4
+                         conditionalPanel(
+                           condition = "input.Researcher",
+                           Plot4
+                         )
                   )
                 ),
                 fluidRow(
                   column(6,
-                         Plot5
+                         conditionalPanel(
+                           condition = "input.Researcher",
+                           Plot5
+                         )
                   ),
                   column(6,
-                         PlotAdditional
+                         conditionalPanel(
+                           condition = "input.Researcher",
+                           PlotAdditional
+                         )
                   )
                 )
          )

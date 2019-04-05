@@ -3,6 +3,7 @@
 ############ SUMMARY DATA
 #############################################################################################################################
 
+NoData <- htmlOutput("message")
 
 Plot1 <- wellPanel(
               h4(tags$b(tags$p(id = "icmpPlot", class = "centered", "ICMP and Zone of Inhibition Size"))),

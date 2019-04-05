@@ -13,7 +13,7 @@ ICMP <- selectizeInput("ICMP", choices = NULL, h4(tags$b("ICMP")), multiple = TR
 ICMPAlex <- selectizeInput("ICMPAlex", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
 
-Researcher <- selectizeInput("Researcher", choices = NULL, h5(tags$b("Researcher")), multiple = TRUE)
+Researcher <- selectizeInput("Researcher", choices = sort(unique(data_combined$Researcher)), h5(tags$b("Researcher")), multiple = TRUE)
 
 Phylum <- selectizeInput("Phylum", choices = NULL, h5(tags$b("Phylum")), multiple = TRUE)
 
