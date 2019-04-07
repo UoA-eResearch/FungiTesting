@@ -9,7 +9,6 @@ library(shinyjs)
 library(colorspace)
 library(doParallel)
 library(foreach)
-library(shinyalert)
 
 
 source('SummaryDataTab.R')

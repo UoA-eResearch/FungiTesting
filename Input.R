@@ -1,4 +1,5 @@
 source('Reactive.R', local = TRUE)
+source('customServer.R', local = TRUE)
 
 ChooseColor <- actionButton("chooseColor", "Choose color")
 

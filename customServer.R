@@ -12,7 +12,6 @@ customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
   
   
-  
   observeEvent(input$toggleData, {
     researcher <- sort(unique(data_combined$Researcher))
     updateSelectizeInput(session, 'Researcher', choices = researcher, selected = NULL, server = TRUE)
