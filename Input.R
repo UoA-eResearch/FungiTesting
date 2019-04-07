@@ -1,7 +1,10 @@
 source('Reactive.R', local = TRUE)
 source('customServer.R', local = TRUE)
 
-ChooseColor <- actionButton("chooseColor", "Choose color")
+ColorPalette <- radioButtons("colorPalette", h5(tags$b("Colour Palette")),
+                            choices = list( "High Contrast" = "Set1", "Colourblind Friendly" = "PuRd"),
+                            selected = "Set1", 
+                            inline = TRUE)
 
 ToggleData <- radioButtons("toggleData", h4(tags$b("Choose Dataset")),
                            choices = list( "Zone of Inhibition" = "Zone of Inhibition", "Bioluminescence" = "Bioluminescence"),

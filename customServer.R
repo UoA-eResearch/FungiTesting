@@ -70,6 +70,8 @@ customServer <- function(input, output, session) {
     )
   })
   
+  
+  
   ####################################################################################################
   ############### Plot 1
   ####################################################################################################
@@ -110,7 +112,7 @@ customServer <- function(input, output, session) {
         }
         
         html("icmpPlot", "ICMP and Zone of Inhibition Size")
-        pl <- add_boxplot(pl, x = entry, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+        pl <- add_boxplot(pl, x = entry, y = group$ZOISize, name = entry, type = "box", color = group$ICMP, colors = input$colorPalette)
         
       }
       else if(dataChosen == "Bioluminescence"){
@@ -119,7 +121,7 @@ customServer <- function(input, output, session) {
         }
         
         html("icmpPlot", "ICMP and Luminescence")
-        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", colors = "Set1")
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$ICMP, colors = input$colorPalette)
         #pl <- layout(pl, yaxis = list(type = "log"))
       }
       
@@ -141,7 +143,7 @@ customServer <- function(input, output, session) {
       ),
       yaxis = list(
         title = titley
-      ))
+      )) %>% hide_colorbar()
  
     }, error = function(e) {
       
@@ -188,7 +190,7 @@ customServer <- function(input, output, session) {
         }
         
         html("mediaPlot", "Media Affect on Zone of Inhibition Size")
-        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", color = group$Media, colors = input$colorPalette)
       }
       else if(dataChosen == "Bioluminescence"){
         if(length(group$LogInhibition) == 0){
@@ -196,7 +198,7 @@ customServer <- function(input, output, session) {
         }
         
         html("mediaPlot", "Media Affect on Luminescence")
-        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", colors = "Set1")
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$Media, colors = input$colorPalette)
         #pl <- layout(pl, yaxis = list(type = "log"))
       }
     }
@@ -238,13 +240,13 @@ customServer <- function(input, output, session) {
     
     
     if(input$sizePercentOther == 20 || input$sizePercentOther == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", colors = "Set1")
+      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", color = twenty$SizePercent, colors = input$colorPalette)
     }
     if(input$sizePercentOther == 50 || input$sizePercentOther == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", colors = "Set1")
+      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", color = fifty$SizePercent, colors = input$colorPalette)
     }
     if(input$sizePercentOther == 100 || input$sizePercentOther == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", colors = "Set1")
+      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", color = hundred$SizePercent, colors = input$colorPalette)
     }
     
     
@@ -293,7 +295,7 @@ customServer <- function(input, output, session) {
         next
       }
       
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", color = group$Condition, colors = input$colorPalette)
       
     }
     
@@ -342,14 +344,14 @@ customServer <- function(input, output, session) {
           next
         }
         
-        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", colors = "Set1")
+        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", color = group$TestedAgainst, colors = input$colorPalette)
       }
       else if(dataChosen == "Bioluminescence"){
         if(length(group$LogInhibition) == 0){
           next
         }
         
-        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", colors = "Set1")
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$TestedAgainst, colors = input$colorPalette)
       }
     }
     
@@ -484,13 +486,13 @@ customServer <- function(input, output, session) {
     hundred <- data.frame(current[(current$SizePercent == 100), ])
     
     if(input$sizePercent2 == 20 || input$sizePercent2 == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", colors = "Set1") 
+      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", color = twenty$SizePercent, colors = input$colorPalette) 
     }
     if(input$sizePercent2 == 50 || input$sizePercent2 == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", colors = "Set1")
+      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", color = fifty$SizePercent, colors = input$colorPalette)
     }
     if(input$sizePercent2 == 100 || input$sizePercent2 == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", colors = "Set1")
+      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", color = hundred$SizePercent, colors = input$colorPalette)
     }
     
     
@@ -528,10 +530,10 @@ customServer <- function(input, output, session) {
     dark <- filter(data, Condition == "D")
     
     if(input$L3){
-      p <- add_boxplot(p, x = NULL, y = light$ZOISize, name = paste(light$Media, "Light", sep = " / "), color = light$Condition, colors = "Spectral", type = "box")
+      p <- add_boxplot(p, x = NULL, y = light$ZOISize, name = paste(light$Media, "Light", sep = " / "), color = light$Condition, colors = input$colorPalette, type = "box")
     }
     if(input$D3){
-      p <- add_boxplot(p, x = NULL, y = dark$ZOISize, name = paste(dark$Media, "Dark", sep = " / "), color = dark$Condition, colors = "Spectral", type = "box")
+      p <- add_boxplot(p, x = NULL, y = dark$ZOISize, name = paste(dark$Media, "Dark", sep = " / "), color = dark$Condition, colors = input$colorPalette, type = "box")
     }
     
     p
@@ -564,7 +566,7 @@ customServer <- function(input, output, session) {
     
     p <- plot_ly()
     
-    p <- add_boxplot(p, x = NULL, y = data$ZOISize, name = data$Condition, color = data$Condition, colors = "Spectral", type = "box")
+    p <- add_boxplot(p, x = NULL, y = data$ZOISize, name = data$Condition, color = data$Condition, colors = input$colorPalette, type = "box")
     
     p %>%
       layout(
@@ -597,7 +599,7 @@ customServer <- function(input, output, session) {
     pl <-plot_ly()
     numCol <- length(unique(data$ZOISize))
     
-    pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = rev(green2red(numCol)))
+    pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = input$colorPalette)
     
     
     pl %>%
