@@ -219,7 +219,6 @@ customServer <- function(input, output, session) {
           pl <- add_boxplot(pl, x = NULL, y = en$LogInhibition, name = paste0(entry, "/", abbr$Short), type = "box", color = en$Media, colors = input$colorPalette)
           #pl <- layout(pl, yaxis = list(type = "log"))
         }
-        
       }
     }
     
@@ -337,18 +336,27 @@ customServer <- function(input, output, session) {
     uniqueVal <- as.array(sort(unique(current$Condition)))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
     
+    uniqueValTA <- sort(unique(current$TestedAgainst))
+    uniqueValTA <- as.list(uniqueValTA[uniqueValTA != ""])
     
     for(entry in uniqueVal){
       
       ### Get all data with the same Condition, but exclude missing values
       group <- data.frame(current[(current$Condition == entry), ])
+      groupTA <- sort(unique(group$TestedAgainst))
+      groupTA <- as.list(groupTA[groupTA != ""])
       
-      if(length(group$ZOISize) == 0){
-        next
+      for(testAg in groupTA){
+      
+        en <- data.frame(group[(group$TestedAgainst == testAg), ])
+        if(length(group$ZOISize) == 0){
+          next
+        }
+        
+        abbr <- data.frame(ta[(ta$Long == as.character(testAg)), ])
+      
+      pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$TestedAgainst, colors = input$colorPalette)
       }
-      
-      pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", color = group$Condition, colors = input$colorPalette)
-      
     }
     
     pl %>%
