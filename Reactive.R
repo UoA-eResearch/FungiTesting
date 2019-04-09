@@ -4,9 +4,6 @@ source('customServer.R', local = TRUE)
 ########### Load data from .csv files and subset to what user has chosen in UI
 #########################################################################################################
 
-#profvis({
-
-
 
 data_filtered <- reactive({
   d <- filter(data_combined, Researcher == input$Researcher)
@@ -317,7 +314,3 @@ reactiveDataIndividualAge <- reactive({
   data
   
 })
-
-
-#})
-

@@ -7,7 +7,6 @@ SummaryDataTab <- navbarMenu("Summary Data",
                              tabPanel(
                                tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 18em; background-color: #ecf0f1;}")),
                                useShinyjs(),
-                               useShinyalert(),
                                
                                title = div( h4("ICMP & ZOI Size", style = "padding: 0.5em;"),
                                             img(src="ICMP.png", style = "width: inherit;"),

@@ -479,3 +479,34 @@
 
 
 
+
+
+# 
+# tryCatch({
+#   
+#   current <- as.data.frame(reactiveDataSummaryOther())
+#   
+#   pl <- plot_ly()
+#   
+#   if(length(current$ZOISize) > 0){
+#     
+#     ZOISize <- current$ZOISize
+#     Age <- current$Age
+#     
+#     a <- data.frame(ZOISize, Age)
+#     #print(a)
+#     
+#     densityZOI <- density(na.exclude(a$ZOISize))
+#     print(densityZOI)
+#     
+#     pl <- plot_ly(x = ~densityZOI$x, y = ~densityZOI$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', colors = "Set1")
+#     #pl <- plot_ly(x = ~current$Age, type = 'histogram', colors = "Set1")
+#   }
+#   
+# }, error = function(e) {
+#   
+# }, finally = {
+#   
+# })
+
+

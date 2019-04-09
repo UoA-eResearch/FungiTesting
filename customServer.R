@@ -5,8 +5,9 @@ library(plotly)
 ########### Set up functionality for the shiny app here
 ##################################################################
 
-data_combined <- read.csv("fungi_combined.csv")
-dataSharaIndiv <- read.csv("fungi_individual_shara.csv")
+data_combined <- read.csv("fungi_combined.csv", header = TRUE)
+dataSharaIndiv <- read.csv("fungi_individual_shara.csv", header = TRUE)
+ta <- read.csv("TA.csv", header = TRUE)
 
 customServer <- function(input, output, session) {
   source('Reactive.R', local = TRUE)
@@ -16,7 +17,6 @@ customServer <- function(input, output, session) {
     researcher <- sort(unique(data_combined$Researcher))
     updateSelectizeInput(session, 'Researcher', choices = researcher, selected = NULL, server = TRUE)
   })
-  
   
   observeEvent(input$Researcher, {
     
@@ -95,7 +95,7 @@ customServer <- function(input, output, session) {
       titley <- 'Log Inhibition'
     }
     
-    pl <- plot_ly(autosize = F, width = 1000, height = 900)
+    pl <- plot_ly(width = 1000, height = 900)
     
     uniqueVal <- as.array(sort(unique(current$ICMP)))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
@@ -175,31 +175,51 @@ customServer <- function(input, output, session) {
     
     pl <- plot_ly()
     
-    uniqueVal <- as.array(sort(unique(current$Media)))
+    uniqueVal <- sort(unique(current$Media))
     uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
     
-    #registerDoParallel(n_cores)
+    uniqueValTA <- sort(unique(current$TestedAgainst))
+    uniqueValTA <- as.list(uniqueValTA[uniqueValTA != ""])
     
-    for(entry in uniqueVal){#%dopar%{
+    for(entry in uniqueVal){
       
       group <- data.frame(current[(current$Media == entry), ])
+      groupTA <- sort(unique(group$TestedAgainst))
+      groupTA <- as.list(groupTA[groupTA != ""])
       
       if(dataChosen == "Zone of Inhibition"){
-        if(length(group$ZOISize) == 0){
-          next
-        }
         
         html("mediaPlot", "Media Affect on Zone of Inhibition Size")
-        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", color = group$Media, colors = input$colorPalette)
+        
+        for(testAg in groupTA){
+          
+          en <- data.frame(group[(group$TestedAgainst == testAg), ])
+          if(length(en$ZOISize) == 0){
+            next
+          }
+          
+          abbr <- data.frame(ta[(ta$Long == as.character(testAg)), ])
+          
+          pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$Media, colors = input$colorPalette)
+        }
       }
       else if(dataChosen == "Bioluminescence"){
-        if(length(group$LogInhibition) == 0){
-          next
-        }
         
         html("mediaPlot", "Media Affect on Luminescence")
-        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$Media, colors = input$colorPalette)
-        #pl <- layout(pl, yaxis = list(type = "log"))
+        
+        for(testAg in groupTA){
+          
+          en <- data.frame(group[(group$TestedAgainst == testAg), ])
+          if(length(en$LogInhibition) == 0){
+            next
+          }
+          
+          abbr <- data.frame(ta[(ta$Long == as.character(testAg)), ])
+          
+          pl <- add_boxplot(pl, x = NULL, y = en$LogInhibition, name = paste0(entry, "/", abbr$Short), type = "box", color = en$Media, colors = input$colorPalette)
+          #pl <- layout(pl, yaxis = list(type = "log"))
+        }
+        
       }
     }
     
@@ -240,15 +260,47 @@ customServer <- function(input, output, session) {
     
     
     if(input$sizePercentOther == 20 || input$sizePercentOther == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", color = twenty$SizePercent, colors = input$colorPalette)
-    }
-    if(input$sizePercentOther == 50 || input$sizePercentOther == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", color = fifty$SizePercent, colors = input$colorPalette)
-    }
-    if(input$sizePercentOther == 100 || input$sizePercentOther == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", color = hundred$SizePercent, colors = input$colorPalette)
+      
+      uniqueVal <- as.array(sort(unique(twenty$TestedAgainst)))
+      uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+      
+      
+      for(entry in uniqueVal){
+        abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
+        
+        testAg <- twenty[(twenty$TestedAgainst == entry), ]
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("20% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+      
+      }
     }
     
+    if(input$sizePercentOther == 50 || input$sizePercentOther == "All"){
+      
+      uniqueVal <- as.array(sort(unique(fifty$TestedAgainst)))
+      uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+      
+      for(entry in uniqueVal){
+        abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
+        
+        testAg <- fifty[(fifty$TestedAgainst == entry), ]
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("50% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        
+      }
+      
+    }
+    if(input$sizePercentOther == 100 || input$sizePercentOther == "All"){
+      
+      uniqueVal <- as.array(sort(unique(hundred$TestedAgainst)))
+      uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+      
+      for(entry in uniqueVal){
+        abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
+        
+        testAg <- hundred[(hundred$TestedAgainst == entry), ]
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("100% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+      }
+      
+    }
     
     
     pl %>%
@@ -380,27 +432,23 @@ customServer <- function(input, output, session) {
   
   output$plot5 <- renderPlotly({
     
+    
     tryCatch({
-    
-    current <- as.data.frame(reactiveDataSummaryOther())
-    
-    pl <- plot_ly()
-    
-    if(length(current$ZOISize) > 0){
       
-      ZOISize <- current$ZOISize
-      Age <- current$Age
+      data <- reactiveDataSummaryOther()
       
-      a <- data.frame(ZOISize, Age)
-      #print(a)
+      ### Create empty chart as variable pl because we want to add several data sets to it in a loop
+      pl <-plot_ly()
+      numCol <- length(unique(data$ZOISize))
       
-      densityZOI <- density(na.exclude(a$ZOISize))
-      print(densityZOI)
+      pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = input$colorPalette)
       
-      pl <- plot_ly(x = ~densityZOI$x, y = ~densityZOI$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', colors = "Set1")
-      #pl <- plot_ly(x = ~current$Age, type = 'histogram', colors = "Set1")
-    }
-    
+      
+      pl %>%
+        layout(
+          xaxis = list(title = 'Age'),
+          yaxis = list(title = 'Size (mm diameter)'))
+      
     }, error = function(e) {
       
     }, finally = {
