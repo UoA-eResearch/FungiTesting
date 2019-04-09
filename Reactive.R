@@ -205,9 +205,9 @@ reactiveDataIndividualPercentGrowth <- reactive({
   
   data <- filter(data, Condition == retL | Condition == retD)
   
-  #if(input$sizePercent2 != "All"){
-  #  data <- filter(data, SizePercent %in% as.list(input$sizePercent2))
-  #}
+  if(input$sizePercent2 != "All"){
+    data <- filter(data, SizePercent %in% as.list(input$sizePercent2))
+  }
   
   if(!is.null(input$TestedAgainst2)){
     data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst2))

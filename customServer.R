@@ -355,7 +355,7 @@ customServer <- function(input, output, session) {
         
         abbr <- data.frame(ta[(ta$Long == as.character(testAg)), ])
       
-      pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$TestedAgainst, colors = input$colorPalette)
       }
     }
     
@@ -541,17 +541,48 @@ customServer <- function(input, output, session) {
     fifty <- data.frame(current[(current$SizePercent == 50), ])
     hundred <- data.frame(current[(current$SizePercent == 100), ])
     
-    if(input$sizePercent2 == 20 || input$sizePercent2 == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = twenty$ZOISize, name = "20%", type = "box", color = twenty$SizePercent, colors = input$colorPalette) 
-    }
-    if(input$sizePercent2 == 50 || input$sizePercent2 == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = fifty$ZOISize, name = "50%", type = "box", color = fifty$SizePercent, colors = input$colorPalette)
-    }
-    if(input$sizePercent2 == 100 || input$sizePercent2 == "All"){
-      pl <- add_boxplot(pl, x = NULL, y = hundred$ZOISize, name = "100%", type = "box", color = hundred$SizePercent, colors = input$colorPalette)
+    if(input$sizePercentOther == 20 || input$sizePercentOther == "All"){
+      
+      uniqueVal <- as.array(sort(unique(twenty$TestedAgainst)))
+      uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+      
+      for(entry in uniqueVal){
+        abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
+        
+        testAg <- twenty[(twenty$TestedAgainst == entry), ]
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("20% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        
+      }
     }
     
+    if(input$sizePercentOther == 50 || input$sizePercentOther == "All"){
+      
+      uniqueVal <- as.array(sort(unique(fifty$TestedAgainst)))
+      uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+      
+      for(entry in uniqueVal){
+        abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
+        
+        testAg <- fifty[(fifty$TestedAgainst == entry), ]
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("50% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        
+      }
+      
+    }
     
+    if(input$sizePercentOther == 100 || input$sizePercentOther == "All"){
+      
+      uniqueVal <- as.array(sort(unique(hundred$TestedAgainst)))
+      uniqueVal <- as.list(uniqueVal[uniqueVal != ""])
+      
+      for(entry in uniqueVal){
+        abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
+        
+        testAg <- hundred[(hundred$TestedAgainst == entry), ]
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("100% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+      }
+      
+    }
     
     pl %>%
       layout(
