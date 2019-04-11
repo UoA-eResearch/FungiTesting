@@ -1,23 +1,28 @@
 source('Reactive.R', local = TRUE)
 source('customServer.R', local = TRUE)
 
+
 ColorPalette <- radioButtons("colorPalette", h5(tags$b("Colour Palette")),
-                            choices = list( "High Contrast" = "Set1", "Colourblind Friendly" = "PuRd"),
-                            selected = "Set1", 
+                            choices = list( "High Contrast" = "Dark2", "Shara's Palette" = "Sharas"),
+                            selected = "Dark2", 
                             inline = TRUE)
 
 ToggleData <- radioButtons("toggleData", h4(tags$b("Choose Dataset")),
                            choices = list( "Zone of Inhibition" = "Zone of Inhibition", "Bioluminescence" = "Bioluminescence"),
-                           selected = "Zone of Inhibition", 
+                           selected = "Zone of Inhibition",
                            inline = TRUE)
 
-ICMP <- selectizeInput("ICMP", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
-               options = list( placeholder = 'Default (Showing All)' ))
+ICMP <- selectizeInput("ICMP", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE,
+               options = list( placeholder = 'Default (Showing All)'))
 
 ICMPAlex <- selectizeInput("ICMPAlex", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
-                       options = list( placeholder = 'Default (Showing All)' ))
+                       options = list( placeholder = 'Default (Showing All)'))
 
 Researcher <- selectizeInput("Researcher", choices = sort(unique(data_combined$Researcher)), h5(tags$b("Researcher")), multiple = TRUE)
+
+TT <- popover(title = "?", content = "This could be any help text or information.", class ="btn btn-info", trigger = "hover")
+
+#TT2 <- tooltip("tt2", "This is a text input field", placement = "right", trigger = "hover")
 
 Phylum <- selectizeInput("Phylum", choices = NULL, h5(tags$b("Phylum")), multiple = TRUE)
 
@@ -59,7 +64,7 @@ StrainAlex <- selectizeInput("StrainAlex", choices = NULL, h5(tags$b("Strain")),
 
 
 
-ICMPOther <- selectizeInput("ICMPOther", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
+ICMPOther <- selectizeInput("ICMPOther", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE,
                        options = list( placeholder = 'Default (Showing All)' ))
 
 

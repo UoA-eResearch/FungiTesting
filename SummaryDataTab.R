@@ -5,9 +5,8 @@ SummaryDataTab <- navbarMenu("Summary Data",
                              
                              
                              tabPanel(
-                               tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 18em; background-color: #ecf0f1;}")),
+                               tags$style(tags$html(".centered { text-align: center;} .dropdown-menu { width: 18em; background-color: #ecf0f1;} .btn-info { background-color: #077a9ad1; border-style: none; font-weight: bold; float: right; margin-left: 100%;} .btn-info:hover { background-color: #077a9ad1; border-style: solid;}")),
                                useShinyjs(),
-                               
                                title = div( h4("ICMP & ZOI Size", style = "padding: 0.5em;"),
                                             img(src="ICMP.png", style = "width: inherit;"),
                                             style = "display: inline-block; align-items: center; width: 15em;  padding-bottom: 0.5em;"),
@@ -24,6 +23,7 @@ SummaryDataTab <- navbarMenu("Summary Data",
                                       fluidRow(
                                         column(12,
                                                wellPanel(
+                                                 TT,
                                                  ToggleData,
                                                  Researcher,
                                                  ColorPalette

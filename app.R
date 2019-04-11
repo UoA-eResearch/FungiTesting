@@ -9,6 +9,8 @@ library(shinyjs)
 library(colorspace)
 library(doParallel)
 library(foreach)
+library(ggplot2)
+library(RLumShiny)
 
 
 source('SummaryDataTab.R')

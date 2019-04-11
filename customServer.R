@@ -7,6 +7,7 @@ library(plotly)
 
 data_combined <- read.csv("fungi_combined.csv", header = TRUE)
 dataSharaIndiv <- read.csv("fungi_individual_shara.csv", header = TRUE)
+
 ta <- read.csv("TA.csv", header = TRUE)
 
 customServer <- function(input, output, session) {
@@ -17,6 +18,20 @@ customServer <- function(input, output, session) {
     researcher <- sort(unique(data_combined$Researcher))
     updateSelectizeInput(session, 'Researcher', choices = researcher, selected = NULL, server = TRUE)
   })
+  
+  colorChosen <- reactive({
+    
+    chosen <- input$colorPalette
+    
+    if(chosen == "Sharas"){
+      co <- c("#8C30EA", "#D0CD2C", "#009205", "#016C9E", "#A0318D", "#C7631C", "#B70303")
+    }
+    if(chosen == "Dark2"){
+      co <- brewer.pal(7, as.character(chosen))
+    }
+    
+    co
+  }) 
   
   observeEvent(input$Researcher, {
     
@@ -79,7 +94,7 @@ customServer <- function(input, output, session) {
   ### output$"ElementName" is the UI element that you want the plot to be rendered/drawn to
   output$plot1 <- renderPlotly({
     tryCatch({
-    
+      
     dataChosen <- input$toggleData
     
     if(dataChosen == "Zone of Inhibition"){
@@ -112,7 +127,7 @@ customServer <- function(input, output, session) {
         }
         
         html("icmpPlot", "ICMP and Zone of Inhibition Size")
-        pl <- add_boxplot(pl, x = entry, y = group$ZOISize, name = entry, type = "box", color = group$ICMP, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = entry, y = group$ZOISize, name = entry, type = "box", color = group$ICMP, colors = colorChosen())
         
       }
       else if(dataChosen == "Bioluminescence"){
@@ -121,7 +136,7 @@ customServer <- function(input, output, session) {
         }
         
         html("icmpPlot", "ICMP and Luminescence")
-        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$ICMP, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$ICMP, colors = colorChosen())
         #pl <- layout(pl, yaxis = list(type = "log"))
       }
       
@@ -159,7 +174,7 @@ customServer <- function(input, output, session) {
   #colors <- c('rgb(211,94,96)', 'rgb(128,133,133)', 'rgb(144,103,167)', 'rgb(171,104,87)', 'rgb(114,147,203)', 'rgb(51, 102, 0)')
   
   output$plot2 <- renderPlotly({
-    
+  
   tryCatch({
     
     dataChosen <- input$toggleData
@@ -200,7 +215,7 @@ customServer <- function(input, output, session) {
           
           abbr <- data.frame(ta[(ta$Long == as.character(testAg)), ])
           
-          pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$Media, colors = input$colorPalette)
+          pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$Media, colors = colorChosen())
         }
       }
       else if(dataChosen == "Bioluminescence"){
@@ -216,7 +231,7 @@ customServer <- function(input, output, session) {
           
           abbr <- data.frame(ta[(ta$Long == as.character(testAg)), ])
           
-          pl <- add_boxplot(pl, x = NULL, y = en$LogInhibition, name = paste0(entry, "/", abbr$Short), type = "box", color = en$Media, colors = input$colorPalette)
+          pl <- add_boxplot(pl, x = NULL, y = en$LogInhibition, name = paste0(entry, "/", abbr$Short), type = "box", color = en$Media, colors = colorChosen())
           #pl <- layout(pl, yaxis = list(type = "log"))
         }
       }
@@ -268,7 +283,7 @@ customServer <- function(input, output, session) {
         abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
         
         testAg <- twenty[(twenty$TestedAgainst == entry), ]
-        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("20% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("20% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = colorChosen())
       
       }
     }
@@ -282,7 +297,7 @@ customServer <- function(input, output, session) {
         abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
         
         testAg <- fifty[(fifty$TestedAgainst == entry), ]
-        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("50% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("50% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = colorChosen())
         
       }
       
@@ -296,7 +311,7 @@ customServer <- function(input, output, session) {
         abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
         
         testAg <- hundred[(hundred$TestedAgainst == entry), ]
-        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("100% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("100% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = colorChosen())
       }
       
     }
@@ -355,7 +370,7 @@ customServer <- function(input, output, session) {
         
         abbr <- data.frame(ta[(ta$Long == as.character(testAg)), ])
       
-        pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = en$ZOISize, name = paste0(entry, "/", abbr$Short), type = "box", color = en$TestedAgainst, colors = colorChosen())
       }
     }
     
@@ -404,14 +419,14 @@ customServer <- function(input, output, session) {
           next
         }
         
-        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", color = group$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = group$ZOISize, name = entry, type = "box", color = group$TestedAgainst, colors = colorChosen())
       }
       else if(dataChosen == "Bioluminescence"){
         if(length(group$LogInhibition) == 0){
           next
         }
         
-        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = group$LogInhibition, name = entry, type = "box", color = group$TestedAgainst, colors = colorChosen())
       }
     }
     
@@ -449,7 +464,7 @@ customServer <- function(input, output, session) {
       pl <-plot_ly()
       numCol <- length(unique(data$ZOISize))
       
-      pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = input$colorPalette)
+      pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = colorChosen())
       
       
       pl %>%
@@ -477,44 +492,22 @@ customServer <- function(input, output, session) {
     
     data <- reactiveDataIndividualGrowth()
     
-    ### Create empty chart as variable pl because we want to add several data sets to it in a loop
-    pl <-plot_ly()
+    aggregated_output = aggregate(SizeMM ~ ICMP * Media * Condition * Age,
+                                  data=data, FUN=median)
     
     
-    
-    if(input$colourBy == "Condition"){
-      pl <- plot_ly(x = data$Age, y = data$SizeMM, mode = 'lines', type = 'scatter', transforms = list(
-        list(
-          type = 'aggregate',
-          groups = data$Age,
-          aggregations = list(
-            list(
-              target = 'y', func = 'median', enabled = T
-            )
-          )
-        )
-      ), symbol = data$Media, color = data$Condition)
-    }
-    else{
-      pl <- plot_ly(x = data$Age, y = data$SizeMM, mode = 'lines', type = 'scatter',transforms = list(
-        list(
-          type = 'aggregate',
-          groups = data$Age,
-          aggregations = list(
-            list(
-              target = 'y', func = 'median', enabled = T
-            )
-          )
-        )
-      ), symbol = data$Condition, color = data$Media, colors = "Paired")
-    }
-    
-    
-    pl %>%
-      #add_trace(y = ~growthRate, name = 'Growth Rate', line = list(color = 'rgb(205, 12, 24)', width = 4, dash = 'dot')) %>%
-      layout(
-        xaxis = list(title = 'Age'),
-        yaxis = list(title = 'Size (mm diameter)'))
+    aggregated_output %>%
+      ggplot(aes(x=as.numeric(Age), y=as.numeric(SizeMM)))+
+      geom_line(aes(colour = Condition), alpha = 0.7, size = 1.2) + #put size outside aes brackets so you arent mapping it as a variable.
+      geom_point(aes(colour = Condition),alpha = 0.7, size = 2) +
+      #position = position_jitter(width=0.3, height = 0)))
+      facet_grid(Media~.) +
+      scale_colour_manual(values = colorChosen()) +
+      theme(axis.text.x = element_text(face = "bold", size = 12), axis.text.y = element_text(face = "bold", size = 12)) +
+      #scale_x_continuous(breaks = c(2,4,8,16, 32, 64))
+      scale_x_continuous(name = "\nFungus Age (days)", breaks = waiver()) +
+      scale_y_continuous(name = "Median Diameter Size (mm)\n", limits =  c(0,90)) +
+      theme_minimal()
     
     }, error = function(e) {
       
@@ -550,7 +543,7 @@ customServer <- function(input, output, session) {
         abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
         
         testAg <- twenty[(twenty$TestedAgainst == entry), ]
-        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("20% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("20% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = colorChosen())
         
       }
     }
@@ -564,7 +557,7 @@ customServer <- function(input, output, session) {
         abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
         
         testAg <- fifty[(fifty$TestedAgainst == entry), ]
-        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("50% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("50% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = colorChosen())
         
       }
       
@@ -579,7 +572,7 @@ customServer <- function(input, output, session) {
         abbr <- data.frame(ta[(ta$Long == as.character(entry)), ])
         
         testAg <- hundred[(hundred$TestedAgainst == entry), ]
-        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("100% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = input$colorPalette)
+        pl <- add_boxplot(pl, x = NULL, y = testAg$ZOISize, name = paste0("100% ", abbr$Short), type = "box", color = testAg$TestedAgainst, colors = colorChosen())
       }
       
     }
@@ -617,10 +610,10 @@ customServer <- function(input, output, session) {
     dark <- filter(data, Condition == "D")
     
     if(input$L3){
-      p <- add_boxplot(p, x = NULL, y = light$ZOISize, name = paste(light$Media, "Light", sep = " / "), color = light$Condition, colors = input$colorPalette, type = "box")
+      p <- add_boxplot(p, x = NULL, y = light$ZOISize, name = paste(light$Media, "Light", sep = " / "), color = light$Condition, colors = colorChosen(), type = "box")
     }
     if(input$D3){
-      p <- add_boxplot(p, x = NULL, y = dark$ZOISize, name = paste(dark$Media, "Dark", sep = " / "), color = dark$Condition, colors = input$colorPalette, type = "box")
+      p <- add_boxplot(p, x = NULL, y = dark$ZOISize, name = paste(dark$Media, "Dark", sep = " / "), color = dark$Condition, colors = colorChosen(), type = "box")
     }
     
     p
@@ -653,7 +646,7 @@ customServer <- function(input, output, session) {
     
     p <- plot_ly()
     
-    p <- add_boxplot(p, x = NULL, y = data$ZOISize, name = data$Condition, color = data$Condition, colors = input$colorPalette, type = "box")
+    p <- add_boxplot(p, x = NULL, y = data$ZOISize, name = data$Condition, color = data$Condition, colors = colorChosen(), type = "box")
     
     p %>%
       layout(
@@ -686,7 +679,7 @@ customServer <- function(input, output, session) {
     pl <-plot_ly()
     numCol <- length(unique(data$ZOISize))
     
-    pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = input$colorPalette)
+    pl <- plot_ly(x = ~data$Age, y = ~data$ZOISize, name = data$Media, color = ~data$Media, type = 'scatter', colors = colorChosen())
     
     
     pl %>%
