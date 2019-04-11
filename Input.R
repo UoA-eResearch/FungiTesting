@@ -1,6 +1,7 @@
 source('Reactive.R', local = TRUE)
 source('customServer.R', local = TRUE)
 
+TT <- popover(title = "?", content = "This could be any help text or information.", class ="btn btn-info", trigger = "hover")
 
 ColorPalette <- radioButtons("colorPalette", h5(tags$b("Colour Palette")),
                             choices = list( "High Contrast" = "Dark2", "Shara's Palette" = "Sharas"),
@@ -19,10 +20,6 @@ ICMPAlex <- selectizeInput("ICMPAlex", choices = NULL, h4(tags$b("ICMP")), multi
                        options = list( placeholder = 'Default (Showing All)'))
 
 Researcher <- selectizeInput("Researcher", choices = sort(unique(data_combined$Researcher)), h5(tags$b("Researcher")), multiple = TRUE)
-
-TT <- popover(title = "?", content = "This could be any help text or information.", class ="btn btn-info", trigger = "hover")
-
-#TT2 <- tooltip("tt2", "This is a text input field", placement = "right", trigger = "hover")
 
 Phylum <- selectizeInput("Phylum", choices = NULL, h5(tags$b("Phylum")), multiple = TRUE)
 
