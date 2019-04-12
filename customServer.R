@@ -525,7 +525,7 @@ customServer <- function(input, output, session) {
       scale_x_continuous(name = "\nFungus Age (days)", breaks = waiver()) +
       scale_y_continuous(name = "Median Diameter Size (mm)\n", limits =  c(0,90)) +
       theme_minimal() +
-      theme(plot.margin = margin(6, 80, 6, 6))
+      theme(plot.margin = margin(6, 80, 50, 6))
       
     
     # }, error = function(e) {
