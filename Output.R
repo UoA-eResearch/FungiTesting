@@ -53,7 +53,7 @@ DataTableMeasure <- wellPanel(
 
 PlotGrowthRate <- wellPanel(
   h4(tags$b(tags$p(class = "centered", "Growth Rate"))),
-  plotlyOutput("plotGrowthRate", height = "100%")
+  plotOutput("plotGrowthRate", height = 900)
 )
 
 DataTableIndivGrowth <- wellPanel(

@@ -8,6 +8,18 @@ library(plotly)
 data_combined <- read.csv("fungi_combined.csv", header = TRUE)
 dataSharaIndiv <- read.csv("fungi_individual_shara.csv", header = TRUE)
 
+hline <- function(y = 6, color = "red") {
+  list(
+    type = "line", 
+    x0 = 0, 
+    x1 = 1, 
+    xref = "paper",
+    y0 = y, 
+    y1 = y, 
+    line = list(color = color, dash = "dash")
+  )
+}
+
 ta <- read.csv("TA.csv", header = TRUE)
 
 customServer <- function(input, output, session) {
@@ -158,7 +170,8 @@ customServer <- function(input, output, session) {
       ),
       yaxis = list(
         title = titley
-      )) %>% hide_colorbar()
+      ),
+      shapes = list(hline(6))) %>% hide_colorbar()
  
     }, error = function(e) {
       
@@ -245,7 +258,8 @@ customServer <- function(input, output, session) {
         ),
         yaxis = list(
           title = titley
-        ))
+        ),
+        shapes = list(hline(6)))
     
   },error = function(e) {
     
@@ -325,7 +339,8 @@ customServer <- function(input, output, session) {
         ),
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
-        ))
+        ),
+        shapes = list(hline(6)))
     
     }, error = function(e) {
       
@@ -382,7 +397,8 @@ customServer <- function(input, output, session) {
         ),
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
-        ))
+        ),
+        shapes = list(hline(6)))
     
     }, error = function(e) {
       
@@ -438,7 +454,8 @@ customServer <- function(input, output, session) {
         ),
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
-        ))
+        ),
+        shapes = list(hline(6)))
     
     }, error = function(e) {
       
@@ -470,7 +487,8 @@ customServer <- function(input, output, session) {
       pl %>%
         layout(
           xaxis = list(title = 'Age'),
-          yaxis = list(title = 'Size (mm diameter)'))
+          yaxis = list(title = 'Size (mm diameter)'),
+          shapes = list(hline(6)))
       
     }, error = function(e) {
       
@@ -486,7 +504,7 @@ customServer <- function(input, output, session) {
   ############### plot individual growth rate
   ####################################################################################################
   
-  output$plotGrowthRate <- renderPlotly({
+  output$plotGrowthRate <- renderPlot({
     
     tryCatch({
     
@@ -495,9 +513,8 @@ customServer <- function(input, output, session) {
     aggregated_output = aggregate(SizeMM ~ ICMP * Media * Condition * Age,
                                   data=data, FUN=median)
     
-    
     aggregated_output %>%
-      ggplot(aes(x=as.numeric(Age), y=as.numeric(SizeMM)))+
+      ggplot(aes(x=as.numeric(Age), y=as.numeric(SizeMM))) +
       geom_line(aes(colour = Condition), alpha = 0.7, size = 1.2) + #put size outside aes brackets so you arent mapping it as a variable.
       geom_point(aes(colour = Condition),alpha = 0.7, size = 2) +
       #position = position_jitter(width=0.3, height = 0)))
@@ -585,7 +602,8 @@ customServer <- function(input, output, session) {
         ),
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
-        ))
+        ),
+        shapes = list(hline(6)))
     
     }, error = function(e) {
       
@@ -625,12 +643,13 @@ customServer <- function(input, output, session) {
         ),
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
-        ))
+        ),
+        shapes = list(hline(6)))
     
     },  error = function(e) {
-      
+
     }, finally = {
-      
+
     })
   })
   
@@ -656,7 +675,8 @@ customServer <- function(input, output, session) {
         ),
         yaxis = list(
           title = 'Zone of Inhibition Size (mm)'
-        ))
+        ),
+        shapes = list(hline(6)))
     
     }, error = function(e) {
       
@@ -685,7 +705,8 @@ customServer <- function(input, output, session) {
     pl %>%
       layout(
         xaxis = list(title = 'Age'),
-        yaxis = list(title = 'Size (mm diameter)'))
+        yaxis = list(title = 'Size (mm diameter)'),
+        shapes = list(hline(6)))
     
     }, error = function(e) {
       

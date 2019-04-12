@@ -14,8 +14,8 @@ IndividualDataTab <- navbarMenu("Individual Data",
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
                                                   wellPanel(
-                                                    ICMP1,
-                                                    ColourBy
+                                                    ICMP1#,
+                                                    #ColourBy
                                                   )
                                              )
                                            ),
