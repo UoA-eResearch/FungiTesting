@@ -504,9 +504,9 @@ customServer <- function(input, output, session) {
   ############### plot individual growth rate
   ####################################################################################################
   
-  output$plotGrowthRate <- renderPlot({
+  output$plotGrowthRate <- renderPlotly({
     
-    tryCatch({
+    # tryCatch({
     
     data <- reactiveDataIndividualGrowth()
     
@@ -524,13 +524,15 @@ customServer <- function(input, output, session) {
       #scale_x_continuous(breaks = c(2,4,8,16, 32, 64))
       scale_x_continuous(name = "\nFungus Age (days)", breaks = waiver()) +
       scale_y_continuous(name = "Median Diameter Size (mm)\n", limits =  c(0,90)) +
-      theme_minimal()
+      theme_minimal() +
+      theme(plot.margin = margin(6, 80, 6, 6))
+      
     
-    }, error = function(e) {
-      
-    }, finally = {
-      
-    })
+    # }, error = function(e) {
+    #   
+    # }, finally = {
+    #   
+    # })
     
   })
   

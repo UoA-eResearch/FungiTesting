@@ -23,7 +23,7 @@ Researcher <- selectizeInput("Researcher", choices = sort(unique(data_combined$R
 
 Phylum <- selectizeInput("Phylum", choices = NULL, h5(tags$b("Phylum")), multiple = TRUE)
 
-RemoveZero <- checkboxInput("RemoveZero","Remove 0 Values", FALSE)
+RemoveZero <- checkboxInput("RemoveZero","Remove 6mm Values", FALSE)
 
 ZeroToOne <- checkboxInput("ZeroToOne","Exchange 0 Values for 1", FALSE)
 
@@ -65,7 +65,7 @@ ICMPOther <- selectizeInput("ICMPOther", choices = NULL, h4(tags$b("ICMP")), mul
                        options = list( placeholder = 'Default (Showing All)' ))
 
 
-RemoveZeroOther <- checkboxInput("RemoveZeroOther","Remove 0 Values", FALSE)
+RemoveZeroOther <- checkboxInput("RemoveZeroOther","Remove 6mm Values", FALSE)
 
 ZeroToOneOther <- checkboxInput("ZeroToOneOther","Exchange 0 Values for 1", FALSE)
 
@@ -103,7 +103,7 @@ SizePercentOther <- wellPanel(
 ICMP1 <- selectizeInput("ICMP1", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
 
-RemoveZero1 <- checkboxInput("RemoveZero1","Remove 0 Values", FALSE)
+RemoveZero1 <- checkboxInput("RemoveZero1","Remove 6mm Values", FALSE)
 
 Condition1 <- wellPanel(h4(tags$b("Condition")),
                         fluidRow(
@@ -132,7 +132,7 @@ ColourBy <- radioButtons("colourBy", h4(tags$b("Colour by:")),
 ICMP2 <- selectizeInput("ICMP2", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
 
-RemoveZero2 <- checkboxInput("RemoveZero2","Remove 0 Values", TRUE)
+RemoveZero2 <- checkboxInput("RemoveZero2","Remove 6mm Values", TRUE)
 
 Condition2 <- wellPanel( h4(tags$b("Condition")),
                         fluidRow(
@@ -171,7 +171,7 @@ SizePercent2 <- wellPanel(
 ICMP3 <- selectizeInput("ICMP3", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
 
-RemoveZero3 <- checkboxInput("RemoveZero3","Remove 0 Values", FALSE)
+RemoveZero3 <- checkboxInput("RemoveZero3","Remove 6mm Values", FALSE)
 
 Condition3 <- wellPanel( h4(tags$b("Condition")),
                         fluidRow(
@@ -199,7 +199,7 @@ Media3 <- selectizeInput("Media3", h4(tags$b("Media")), choices = NULL, multiple
 ICMP4 <- selectizeInput("ICMP4", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
 
-RemoveZero4 <- checkboxInput("RemoveZero4","Remove 0 Values", FALSE)
+RemoveZero4 <- checkboxInput("RemoveZero4","Remove 6mm Values", FALSE)
 
 
 TestedAgainst4 <- selectizeInput("TestedAgainst4", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE)
@@ -212,7 +212,7 @@ TestedAgainst4 <- selectizeInput("TestedAgainst4", choices = NULL, h4(tags$b("Te
 ICMP5 <- selectizeInput("ICMP5", choices = NULL, h4(tags$b("ICMP")), multiple = TRUE, 
                        options = list( placeholder = 'Default (Showing All)' ))
 
-RemoveZero5 <- checkboxInput("RemoveZero5","Remove 0 Values", FALSE)
+RemoveZero5 <- checkboxInput("RemoveZero5","Remove 6mm Values", FALSE)
 
 
 TestedAgainst5 <- selectizeInput("TestedAgainst5", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,

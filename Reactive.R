@@ -92,7 +92,7 @@ reactiveDataSummary <- reactive({
   }
   
   if(input$RemoveZero){
-    data <- data %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(6)
   }
   
   if(input$sizePercent != "All"){
@@ -133,7 +133,7 @@ reactiveDataSummaryOther <- reactive({
   }
   
   if(input$RemoveZeroOther){
-    data <- data %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(6)
   }
   
   if(input$ZeroToOneOther){
@@ -170,7 +170,7 @@ reactiveDataIndividualGrowth <- reactive({
   
   
   #if(input$RemoveZero1){
-  #  dataSharaIndiv <- dataSharaIndiv %>% dplyr::na_if(0)
+  #  dataSharaIndiv <- dataSharaIndiv %>% dplyr::na_if(6)
   #}
   
   dataSharaIndiv <- filter(dataSharaIndiv, Condition == retL | Condition == retD)
@@ -214,7 +214,7 @@ reactiveDataIndividualPercentGrowth <- reactive({
   }
   
   if(input$RemoveZero2){
-    data <- data %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(6)
   }
   
   #data <- na.exclude(data)
@@ -253,7 +253,7 @@ reactiveDataIndividualMedia <- reactive({
   }
   
   if(input$RemoveZero3){
-    data <- data %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(6)
   }
   
   #data <- na.exclude(data)
@@ -280,7 +280,7 @@ reactiveDataIndividualLight <- reactive({
   }
   
   if(input$RemoveZero4){
-    data <- data %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(6)
   }
   
   #data <- na.exclude(data)
@@ -306,7 +306,7 @@ reactiveDataIndividualAge <- reactive({
   }
   
   if(input$RemoveZero5){
-    data <- data %>% dplyr::na_if(0)
+    data <- data %>% dplyr::na_if(6)
   }
   
   #data <- na.exclude(data)
