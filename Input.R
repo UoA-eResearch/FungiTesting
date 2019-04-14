@@ -218,3 +218,6 @@ RemoveZero5 <- checkboxInput("RemoveZero5","Remove 6mm Values", FALSE)
 TestedAgainst5 <- selectizeInput("TestedAgainst5", choices = NULL, h4(tags$b("Tested Against")), multiple = TRUE,
                                  options = list( placeholder = 'Default (Showing All)' ))
 
+Media5 <- selectizeInput("Media5", h4(tags$b("Media")), choices = NULL, multiple = TRUE)
+
+

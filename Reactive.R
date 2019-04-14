@@ -305,6 +305,10 @@ reactiveDataIndividualAge <- reactive({
     data <- filter(data, TestedAgainst %in% as.list(input$TestedAgainst5))
   }
   
+  if(!is.null(input$Media5)){
+    data <- filter(data, Media %in% as.list(input$Media5))
+  }
+  
   if(input$RemoveZero5){
     data <- data %>% dplyr::na_if(6)
   }

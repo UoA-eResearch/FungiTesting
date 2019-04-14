@@ -86,6 +86,7 @@ customServer <- function(input, output, session) {
     updateSelectizeInput(session, 'Media1', choices = MediaDataIndiv, selected = MediaDataIndiv, server = TRUE)
     updateSelectizeInput(session, 'Media2', choices = MediaData, selected = MediaData, server = TRUE)
     updateSelectizeInput(session, 'Media3', choices = MediaData, selected = MediaData, server = TRUE)
+    updateSelectizeInput(session, 'Media5', choices = MediaData, selected = MediaData, server = TRUE)
     
   }, ignoreInit = TRUE, ignoreNULL = TRUE)
   

@@ -215,7 +215,8 @@ IndividualDataTab <- navbarMenu("Individual Data",
                                            fluidRow(
                                              column(12, offset = 0, style='padding:0px;',
                                                     wellPanel(
-                                                      TestedAgainst5
+                                                      TestedAgainst5,
+                                                      Media5
                                                     )
                                              )
                                            )
