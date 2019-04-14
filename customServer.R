@@ -708,7 +708,7 @@ customServer <- function(input, output, session) {
     pl %>%
       layout(
         xaxis = list(title = 'Age'),
-        yaxis = list(title = 'Size (mm diameter)'),
+        yaxis = list(title = 'Zone of Inhibition Size (mm diameter)'),
         shapes = list(hline(6)))
     
     }, error = function(e) {
